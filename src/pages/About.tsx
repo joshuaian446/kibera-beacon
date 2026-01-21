@@ -4,10 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Target, Eye, Award, Users, Calendar, ArrowRight } from "lucide-react";
-import aboutImage from "@/assets/about-community.jpg";
-import heroImage from "@/assets/hero-children-learning.jpg";
+import { storageImages } from "@/lib/storage";
 
 const About = () => {
+  const aboutImage = storageImages.about;
+  const heroImage = storageImages.hero;
   return (
     <div className="min-h-screen">
       <Header />

@@ -4,11 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
-import heroImage from "@/assets/hero-children-learning.jpg";
-import feedingImage from "@/assets/feeding-program.jpg";
-import coCurricularImage from "@/assets/co-curricular.jpg";
-import communityImage from "@/assets/community-engagement.jpg";
-import vocationalImage from "@/assets/vocational-training.jpg";
+import { storageImages } from "@/lib/storage";
 
 const newsArticles = [
   {
@@ -16,7 +12,7 @@ const newsArticles = [
     title: "COPA Centre Celebrates 220 Students Milestone",
     excerpt: "Our community school has grown to serve 220 students, marking a significant achievement in our mission to empower Kibera's children through education.",
     content: "Full article content here...",
-    image: heroImage,
+    image: storageImages.hero,
     date: "January 15, 2026",
     author: "Clement Ombati",
     category: "Milestone",
@@ -27,7 +23,7 @@ const newsArticles = [
     title: "New Feeding Program Initiative Launches",
     excerpt: "We're expanding our daily nutrition program to ensure every child receives balanced, nutritious meals that support their learning and growth.",
     content: "Full article content here...",
-    image: feedingImage,
+    image: storageImages.feeding,
     date: "January 10, 2026",
     author: "COPA Team",
     category: "Programs",
@@ -38,7 +34,7 @@ const newsArticles = [
     title: "Chess Club Wins Regional Competition",
     excerpt: "Our talented chess club members brought home trophies from the regional youth competition, showcasing the power of co-curricular activities.",
     content: "Full article content here...",
-    image: coCurricularImage,
+    image: storageImages.coCurricular,
     date: "January 5, 2026",
     author: "COPA Team",
     category: "Achievement",
@@ -49,7 +45,7 @@ const newsArticles = [
     title: "Community Health Workshop Success",
     excerpt: "Over 100 families participated in our recent health awareness workshop, learning about nutrition, hygiene, and preventive care.",
     content: "Full article content here...",
-    image: communityImage,
+    image: storageImages.community,
     date: "December 28, 2025",
     author: "Community Team",
     category: "Events",
@@ -60,7 +56,7 @@ const newsArticles = [
     title: "Vocational Training Graduates Enter Workforce",
     excerpt: "Our first cohort of vocational training graduates are now employed or running their own small businesses in Kibera.",
     content: "Full article content here...",
-    image: vocationalImage,
+    image: storageImages.vocational,
     date: "December 20, 2025",
     author: "Clement Ombati",
     category: "Success Stories",
@@ -71,7 +67,7 @@ const newsArticles = [
     title: "Annual Sports Day Brings Joy to Students",
     excerpt: "Students, teachers, and parents gathered for our annual sports day celebration, fostering teamwork and community spirit.",
     content: "Full article content here...",
-    image: heroImage,
+    image: storageImages.gallery1,
     date: "December 15, 2025",
     author: "COPA Team",
     category: "Events",

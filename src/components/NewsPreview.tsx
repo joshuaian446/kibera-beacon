@@ -2,16 +2,14 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight, Clock } from "lucide-react";
-import heroImage from "@/assets/hero-children-learning.jpg";
-import feedingImage from "@/assets/feeding-program.jpg";
-import coCurricularImage from "@/assets/co-curricular.jpg";
+import { storageImages } from "@/lib/storage";
 
 const latestNews = [
   {
     id: "1",
     title: "COPA Centre Celebrates 220 Students Milestone",
     excerpt: "Our community school has grown to serve 220 students, marking a significant achievement in our mission.",
-    image: heroImage,
+    image: storageImages.hero,
     date: "January 15, 2026",
     category: "Milestone",
     readTime: "4 min",
@@ -20,7 +18,7 @@ const latestNews = [
     id: "2",
     title: "New Feeding Program Initiative Launches",
     excerpt: "We're expanding our daily nutrition program to ensure every child receives balanced, nutritious meals.",
-    image: feedingImage,
+    image: storageImages.feeding,
     date: "January 10, 2026",
     category: "Programs",
     readTime: "3 min",
@@ -29,7 +27,7 @@ const latestNews = [
     id: "3",
     title: "Chess Club Wins Regional Competition",
     excerpt: "Our talented chess club members brought home trophies from the regional youth competition.",
-    image: coCurricularImage,
+    image: storageImages.coCurricular,
     date: "January 5, 2026",
     category: "Achievement",
     readTime: "5 min",

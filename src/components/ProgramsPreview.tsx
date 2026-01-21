@@ -2,11 +2,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Utensils, Music, Users, Briefcase } from "lucide-react";
-import feedingImage from "@/assets/feeding-program.jpg";
-import coCurricularImage from "@/assets/co-curricular.jpg";
-import communityImage from "@/assets/community-engagement.jpg";
-import vocationalImage from "@/assets/vocational-training.jpg";
-import heroImage from "@/assets/hero-children-learning.jpg";
+import { storageImages } from "@/lib/storage";
 
 const programs = [
   {
@@ -14,7 +10,7 @@ const programs = [
     title: "Education",
     description: "Award-winning primary school from Play Group to Grade 6, following Kenya's CBC curriculum with tutoring support.",
     icon: BookOpen,
-    image: heroImage,
+    image: storageImages.education,
     color: "bg-primary",
   },
   {
@@ -22,7 +18,7 @@ const programs = [
     title: "Feeding Program",
     description: "Daily nutritious meals ensuring our students stay healthy, focused, and ready to learn.",
     icon: Utensils,
-    image: feedingImage,
+    image: storageImages.feeding,
     color: "bg-secondary",
   },
   {
@@ -30,7 +26,7 @@ const programs = [
     title: "Co-Curricular Activities",
     description: "Music, chess, sports, and arts programs nurturing creativity and holistic development.",
     icon: Music,
-    image: coCurricularImage,
+    image: storageImages.coCurricular,
     color: "bg-primary",
   },
   {
@@ -38,7 +34,7 @@ const programs = [
     title: "Community Engagement",
     description: "Workshops and events supporting families and strengthening community bonds.",
     icon: Users,
-    image: communityImage,
+    image: storageImages.community,
     color: "bg-secondary",
   },
   {
@@ -46,7 +42,7 @@ const programs = [
     title: "Vocational Training",
     description: "Life skills and entrepreneurship programs preparing youth for economic independence.",
     icon: Briefcase,
-    image: vocationalImage,
+    image: storageImages.vocational,
     color: "bg-primary",
   },
 ];

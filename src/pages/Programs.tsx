@@ -4,11 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { BookOpen, Utensils, Music, Users, Briefcase, Heart, CheckCircle, ArrowRight } from "lucide-react";
-import feedingImage from "@/assets/feeding-program.jpg";
-import coCurricularImage from "@/assets/co-curricular.jpg";
-import communityImage from "@/assets/community-engagement.jpg";
-import vocationalImage from "@/assets/vocational-training.jpg";
-import heroImage from "@/assets/hero-children-learning.jpg";
+import { storageImages } from "@/lib/storage";
 
 const programs = [
   {
@@ -24,7 +20,7 @@ const programs = [
       "Qualified dedicated teachers",
     ],
     icon: BookOpen,
-    image: heroImage,
+    image: storageImages.education,
     color: "bg-primary",
   },
   {
@@ -40,7 +36,7 @@ const programs = [
       "Food security for families",
     ],
     icon: Utensils,
-    image: feedingImage,
+    image: storageImages.feeding,
     color: "bg-secondary",
   },
   {
@@ -56,7 +52,7 @@ const programs = [
       "Drama and performance",
     ],
     icon: Music,
-    image: coCurricularImage,
+    image: storageImages.coCurricular,
     color: "bg-primary",
   },
   {
@@ -72,7 +68,7 @@ const programs = [
       "Support networks",
     ],
     icon: Users,
-    image: communityImage,
+    image: storageImages.community,
     color: "bg-secondary",
   },
   {
@@ -88,7 +84,7 @@ const programs = [
       "Mentorship programs",
     ],
     icon: Briefcase,
-    image: vocationalImage,
+    image: storageImages.vocational,
     color: "bg-primary",
   },
 ];

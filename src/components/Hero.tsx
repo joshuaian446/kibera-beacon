@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Heart, ChevronRight } from "lucide-react";
-import heroImage from "@/assets/hero-children-learning.jpg";
+import { storageImages } from "@/lib/storage";
 
 const Hero = () => {
+  const heroImage = storageImages.hero;
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
