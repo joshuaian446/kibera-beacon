@@ -12,7 +12,7 @@ const partners = [
 
 const PartnersMarquee = () => {
   return (
-    <section className="py-16 bg-muted/30 overflow-hidden">
+    <section className="py-16 bg-primary/5 overflow-hidden">
       <div className="container mx-auto px-4 mb-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto">
@@ -31,8 +31,8 @@ const PartnersMarquee = () => {
       {/* Marquee Container */}
       <div className="relative">
         {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-muted/30 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-muted/30 to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-primary/5 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-primary/5 to-transparent z-10 pointer-events-none" />
 
         {/* Scrolling Track */}
         <div className="flex animate-marquee">
