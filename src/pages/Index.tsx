@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import ProgramsPreview from "@/components/ProgramsPreview";
 import ImpactStats from "@/components/ImpactStats";
 import NewsPreview from "@/components/NewsPreview";
+import PartnersMarquee from "@/components/PartnersMarquee";
 import Testimonials from "@/components/Testimonials";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
@@ -16,6 +17,7 @@ const Index = () => {
         <ProgramsPreview />
         <ImpactStats />
         <NewsPreview />
+        <PartnersMarquee />
         <Testimonials />
         <CallToAction />
       </main>
