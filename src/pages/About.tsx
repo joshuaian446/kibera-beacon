@@ -33,7 +33,7 @@ const About = () => {
                 Our Story of Hope and Resilience
               </h1>
               <p className="text-xl text-primary-foreground/85">
-                Founded in 2018, COPA Centre emerged from a simple but powerful belief: every child in Kibera deserves access to quality education and a chance to thrive.
+                Founded in 2012, COPA Centre emerged from a simple but powerful belief: every child in Kibera deserves access to quality education and a chance to thrive.
               </p>
             </div>
           </div>
@@ -52,10 +52,10 @@ const About = () => {
                 </h2>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Community Pillars Alliance (COPA) Centre was established in 2018 by Clement Ombati, who witnessed firsthand the struggles of street children in Kibera, one of Africa's largest informal settlements.
+                    Community Pillars Alliance (COPA) Centre was established in 2012 by Clement Ombati, who witnessed firsthand the struggles of street children in Kibera, one of Africa's largest informal settlements.
                   </p>
                   <p>
-                    What started as a small effort to help a handful of vulnerable children has grown into a comprehensive community center serving over 220 students and their families.
+                    What started as a small effort to help a handful of vulnerable children has grown into a comprehensive community center serving over 330 students and their families.
                   </p>
                   <p>
                     Our unique approach integrates technology with traditional education, preparing our students not just for academic success, but for life in the modern world.
@@ -69,7 +69,7 @@ const About = () => {
                   className="rounded-2xl shadow-card w-full"
                 />
                 <div className="absolute -bottom-6 -left-6 bg-secondary rounded-xl p-6 shadow-hover">
-                  <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2018</div>
+                  <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2012</div>
                   <div className="text-secondary-foreground/80">Year Founded</div>
                 </div>
               </div>
@@ -165,9 +165,9 @@ const About = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
-                { number: "220+", label: "Students" },
-                { number: "15", label: "Teachers" },
-                { number: "6+", label: "Years" },
+                { number: "330+", label: "Students" },
+                { number: "25", label: "Staff" },
+                { number: "12+", label: "Years" },
                 { number: "7", label: "Grades" },
               ].map((stat) => (
                 <div key={stat.label}>

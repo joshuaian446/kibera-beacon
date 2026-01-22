@@ -9,8 +9,8 @@ import { storageImages } from "@/lib/storage";
 const newsArticles = [
   {
     id: "1",
-    title: "COPA Centre Celebrates 220 Students Milestone",
-    excerpt: "Our community school has grown to serve 220 students, marking a significant achievement in our mission to empower Kibera's children through education.",
+    title: "COPA Centre Celebrates 330 Students Milestone",
+    excerpt: "Our community school has grown to serve 330 students, marking a significant achievement in our mission to empower Kibera's children through education.",
     content: "Full article content here...",
     image: storageImages.hero,
     date: "January 15, 2026",

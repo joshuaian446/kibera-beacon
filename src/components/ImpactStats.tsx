@@ -3,14 +3,14 @@ import { GraduationCap, Utensils, Users, Trophy, Heart, Target } from "lucide-re
 
 const stats = [
   {
-    number: "220+",
+    number: "330+",
     label: "Students Enrolled",
     description: "From Play Group to Grade 6",
     icon: GraduationCap,
   },
   {
-    number: "15",
-    label: "Dedicated Teachers",
+    number: "25",
+    label: "Dedicated Staff",
     description: "Passionate educators",
     icon: Users,
   },
@@ -21,9 +21,9 @@ const stats = [
     icon: Utensils,
   },
   {
-    number: "6+",
+    number: "12+",
     label: "Years of Impact",
-    description: "Transforming lives since 2018",
+    description: "Transforming lives since 2012",
     icon: Trophy,
   },
 ];
@@ -45,7 +45,7 @@ const ImpactStats = () => {
             Making a Difference Every Day
           </h2>
           <p className="text-primary-foreground/80">
-            Since 2018, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
+            Since 2012, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
           </p>
         </div>
 

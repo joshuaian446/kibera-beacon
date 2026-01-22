@@ -43,7 +43,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm mb-4">
-              Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2018.
+              Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2012.
             </p>
             <div className="flex gap-3">
               <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Facebook">
