@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Heart, Mail, MapPin, Phone, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import copaLogo from "@/assets/copa-logo.png";
 
 const Footer = () => {
   return (
@@ -30,11 +31,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary-foreground flex items-center justify-center">
-                <span className="text-primary font-bold text-lg font-['Poppins',sans-serif]">C</span>
+            <div className="flex items-center gap-3 mb-4">
+              <img 
+                src={copaLogo} 
+                alt="COPA Centre Logo" 
+                className="w-14 h-14 object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="font-bold text-lg font-['Poppins',sans-serif]">COPA Centre</span>
+                <span className="text-xs text-primary-foreground/70">Nurturing Dreams</span>
               </div>
-              <span className="font-bold text-lg font-['Poppins',sans-serif]">COPA Centre</span>
             </div>
             <p className="text-primary-foreground/80 text-sm mb-4">
               Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2018.

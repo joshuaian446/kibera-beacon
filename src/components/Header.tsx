@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import copaLogo from "@/assets/copa-logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -38,10 +39,12 @@ const Header = () => {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-smooth group-hover:shadow-hover">
-              <span className="text-primary-foreground font-bold text-lg font-['Poppins',sans-serif]">C</span>
-            </div>
+          <Link to="/" className="flex items-center gap-3 group">
+            <img 
+              src={copaLogo} 
+              alt="COPA Centre Logo" 
+              className="w-12 h-12 object-contain transition-smooth group-hover:scale-105"
+            />
             <div className="flex flex-col">
               <span className={cn(
                 "font-bold text-lg font-['Poppins',sans-serif] transition-smooth",
@@ -53,7 +56,7 @@ const Header = () => {
                 "text-xs transition-smooth -mt-1",
                 isScrolled ? "text-muted-foreground" : "text-primary-foreground/80 lg:text-primary-foreground/80 text-muted-foreground"
               )}>
-                Community Pillars Alliance
+                Nurturing Dreams
               </span>
             </div>
           </Link>
