@@ -1,13 +1,13 @@
-import chezaChezaLogo from "@/assets/partners/cheza-cheza.png";
 import crossingThresholdsLogo from "@/assets/partners/crossing-thresholds.png";
 import kiberaKnightsLogo from "@/assets/partners/kibera-knights.jpg";
-import scoolSoundsLogo from "@/assets/partners/scool-sounds.webp";
+import scoolSoundsLogo from "@/assets/partners/scool-sounds.png";
+import chezaChezaLogo from "@/assets/partners/cheza-cheza.png";
 
 const partners = [
-  { name: "Cheza Cheza", logo: chezaChezaLogo },
   { name: "Crossing Thresholds", logo: crossingThresholdsLogo },
   { name: "Kibera Knights", logo: kiberaKnightsLogo },
   { name: "S'Cool Sounds", logo: scoolSoundsLogo },
+  { name: "Cheza Cheza", logo: chezaChezaLogo },
 ];
 
 const PartnersMarquee = () => {
@@ -36,44 +36,22 @@ const PartnersMarquee = () => {
 
         {/* Scrolling Track */}
         <div className="flex animate-marquee">
-          {/* First set of logos */}
-          {partners.map((partner, index) => (
-            <div
-              key={`first-${index}`}
-              className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center"
-            >
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                className="h-16 md:h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-              />
-            </div>
-          ))}
-          {/* Duplicate set for seamless loop */}
-          {partners.map((partner, index) => (
-            <div
-              key={`second-${index}`}
-              className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center"
-            >
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                className="h-16 md:h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-              />
-            </div>
-          ))}
-          {/* Third set for extra smoothness */}
-          {partners.map((partner, index) => (
-            <div
-              key={`third-${index}`}
-              className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center"
-            >
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                className="h-16 md:h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-              />
-            </div>
+          {/* Repeat logos 6 times for seamless continuous loop */}
+          {[...Array(6)].map((_, setIndex) => (
+            partners.map((partner, index) => (
+              <div
+                key={`set-${setIndex}-${index}`}
+                className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center"
+              >
+                <div className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                  />
+                </div>
+              </div>
+            ))
           ))}
         </div>
       </div>
