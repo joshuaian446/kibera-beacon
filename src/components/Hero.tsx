@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Heart, ChevronRight } from "lucide-react";
-import { storageImages } from "@/lib/storage";
+import heroImage from "@/assets/hero-students-recorders.jpg";
 
 const Hero = () => {
-  const heroImage = storageImages.hero;
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Children learning at COPA Centre"
+          alt="COPA Centre students with recorders"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Enhanced gradient overlay - warm bottom fade with subtle primary tint */}
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/40 to-transparent" />
+        <div className="absolute inset-0 bg-primary/20" />
       </div>
 
       {/* Decorative Elements */}
