@@ -13,7 +13,8 @@ const Hero = () => {
           alt="COPA Centre students with recorders"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
+        <div className="absolute inset-0 bg-primary/10" />
       </div>
 
       {/* Decorative Elements */}
