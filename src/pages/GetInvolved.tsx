@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, Users, Calendar, Gift, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import communityImage from "@/assets/about-community.jpg";
+import { storageImages } from "@/lib/storage";
 
 const donationOptions = [
   { amount: "500", label: "KSh 500", description: "Provides meals for a child for one week" },
@@ -59,8 +59,8 @@ const GetInvolved = () => {
         <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src={communityImage}
-              alt="Community"
+              src={storageImages.heroAlt}
+              alt="COPA Centre children"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
