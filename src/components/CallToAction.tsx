@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Heart, Users, Calendar, ArrowRight } from "lucide-react";
-import communityImage from "@/assets/about-community.jpg";
+import { storageImages } from "@/lib/storage";
 
 const CallToAction = () => {
   return (
@@ -9,8 +9,8 @@ const CallToAction = () => {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src={communityImage}
-          alt="Kibera community"
+          src={storageImages.heroAlt}
+          alt="COPA Centre children"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/80" />
