@@ -4,78 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
-import { storageImages } from "@/lib/storage";
-
-const newsArticles = [
-  {
-    id: "1",
-    title: "COPA Centre Celebrates 330 Students Milestone",
-    excerpt: "Our community school has grown to serve 330 students, marking a significant achievement in our mission to empower Kibera's children through education.",
-    content: "Full article content here...",
-    image: storageImages.hero,
-    date: "January 15, 2026",
-    author: "Clement Ombati",
-    category: "Milestone",
-    readTime: "4 min read",
-  },
-  {
-    id: "2",
-    title: "New Feeding Program Initiative Launches",
-    excerpt: "We're expanding our daily nutrition program to ensure every child receives balanced, nutritious meals that support their learning and growth.",
-    content: "Full article content here...",
-    image: storageImages.feeding,
-    date: "January 10, 2026",
-    author: "COPA Team",
-    category: "Programs",
-    readTime: "3 min read",
-  },
-  {
-    id: "3",
-    title: "Chess Club Wins Regional Competition",
-    excerpt: "Our talented chess club members brought home trophies from the regional youth competition, showcasing the power of co-curricular activities.",
-    content: "Full article content here...",
-    image: storageImages.coCurricular,
-    date: "January 5, 2026",
-    author: "COPA Team",
-    category: "Achievement",
-    readTime: "5 min read",
-  },
-  {
-    id: "4",
-    title: "Community Health Workshop Success",
-    excerpt: "Over 100 families participated in our recent health awareness workshop, learning about nutrition, hygiene, and preventive care.",
-    content: "Full article content here...",
-    image: storageImages.community,
-    date: "December 28, 2025",
-    author: "Community Team",
-    category: "Events",
-    readTime: "4 min read",
-  },
-  {
-    id: "5",
-    title: "Vocational Training Graduates Enter Workforce",
-    excerpt: "Our first cohort of vocational training graduates are now employed or running their own small businesses in Kibera.",
-    content: "Full article content here...",
-    image: storageImages.vocational,
-    date: "December 20, 2025",
-    author: "Clement Ombati",
-    category: "Success Stories",
-    readTime: "6 min read",
-  },
-  {
-    id: "6",
-    title: "Annual Sports Day Brings Joy to Students",
-    excerpt: "Students, teachers, and parents gathered for our annual sports day celebration, fostering teamwork and community spirit.",
-    content: "Full article content here...",
-    image: storageImages.gallery1,
-    date: "December 15, 2025",
-    author: "COPA Team",
-    category: "Events",
-    readTime: "3 min read",
-  },
-];
-
-const categories = ["All", "Milestone", "Programs", "Achievement", "Events", "Success Stories"];
+import { newsArticles, categories } from "@/lib/newsData";
 
 const News = () => {
   return (
@@ -128,7 +57,7 @@ const News = () => {
                   <img
                     src={newsArticles[0].image}
                     alt={newsArticles[0].title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium">
@@ -163,8 +92,10 @@ const News = () => {
                         {newsArticles[0].readTime}
                       </span>
                     </div>
-                    <Button variant="ghost" className="text-primary font-semibold">
-                      Read More <ArrowRight className="w-4 h-4 ml-2" />
+                    <Button variant="ghost" className="text-primary font-semibold" asChild>
+                      <Link to={`/news/${newsArticles[0].slug}`}>
+                        Read More <ArrowRight className="w-4 h-4 ml-2" />
+                      </Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -184,60 +115,58 @@ const News = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {newsArticles.slice(1).map((article, index) => (
-                <Card 
+                <Link 
                   key={article.id} 
-                  className="group overflow-hidden hover:shadow-hover transition-smooth animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  to={`/news/${article.slug}`}
+                  className="group"
                 >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                        {article.category}
-                      </span>
+                  <Card 
+                    className="overflow-hidden hover:shadow-hover transition-smooth animate-fade-in h-full"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                          {article.category}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {article.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {article.readTime}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground mb-2 font-['Poppins',sans-serif] group-hover:text-primary transition-colors line-clamp-2">
-                      {article.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                      {article.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <User className="w-3 h-3" />
-                        {article.author}
-                      </span>
-                      <span className="text-primary font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                        Read <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {article.date}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {article.readTime}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold text-foreground mb-2 font-['Poppins',sans-serif] group-hover:text-primary transition-colors line-clamp-2">
+                        {article.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                        {article.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <User className="w-3 h-3" />
+                          {article.author}
+                        </span>
+                        <span className="text-primary font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+                          Read <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
-            </div>
-
-            {/* Load More */}
-            <div className="text-center mt-12">
-              <Button variant="outline" size="lg">
-                Load More Articles
-              </Button>
             </div>
           </div>
         </section>
