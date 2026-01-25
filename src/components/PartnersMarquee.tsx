@@ -44,11 +44,11 @@ const PartnersMarquee = () => {
               key={`partner-${index}`}
               className="flex-shrink-0 px-4 md:px-8 lg:px-12 flex items-center justify-center"
             >
-              <div className="w-24 h-16 md:w-32 md:h-20 lg:w-40 lg:h-24 flex items-center justify-center">
+              <div className="w-24 h-16 md:w-32 md:h-20 lg:w-40 lg:h-24 flex items-center justify-center group">
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                  className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-110"
                 />
               </div>
             </div>
