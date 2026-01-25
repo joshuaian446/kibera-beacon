@@ -11,7 +11,7 @@ const CallToAction = () => {
         <img
           src={storageImages.heroAlt}
           alt="COPA Centre children"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top md:object-[center_30%]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/80" />
       </div>

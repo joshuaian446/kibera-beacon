@@ -19,7 +19,7 @@ const About = () => {
             <img
               src={aboutImage}
               alt="Kibera community"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top md:object-[center_25%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
