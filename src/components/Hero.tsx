@@ -11,7 +11,7 @@ const Hero = () => {
         <img
           src={heroImage}
           alt="COPA Centre students with recorders"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top md:object-[center_20%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
         <div className="absolute inset-0 bg-primary/10" />
