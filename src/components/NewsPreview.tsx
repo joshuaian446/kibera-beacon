@@ -39,7 +39,7 @@ const NewsPreview = () => {
                   <img
                     src={article.image}
                     alt={article.title}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
                   <div className="absolute top-4 left-4">

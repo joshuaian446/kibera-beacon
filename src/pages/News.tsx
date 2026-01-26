@@ -53,11 +53,11 @@ const News = () => {
           <div className="container mx-auto px-4">
             <Card className="overflow-hidden border-0 shadow-card">
               <div className="grid lg:grid-cols-2">
-                <div className="relative h-64 lg:h-auto">
+                <div className="relative h-64 lg:h-auto overflow-hidden">
                   <img
                     src={newsArticles[0].image}
                     alt={newsArticles[0].title}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-[center_35%]"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium">
@@ -128,7 +128,7 @@ const News = () => {
                       <img
                         src={article.image}
                         alt={article.title}
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
                       <div className="absolute top-4 left-4">

@@ -1,4 +1,5 @@
 import { storageImages } from "@/lib/storage";
+import paradeImage from "@/assets/parade-new-school-year.jpg";
 
 export interface NewsArticle {
   id: string;
@@ -51,7 +52,7 @@ As we embark on this new academic journey, our commitment remains unchanged: to 
 
 *Welcome back, COPA family. Here's to a year of growth, learning, and hope!*
     `,
-    image: storageImages.education,
+    image: paradeImage,
     date: "January 20, 2026",
     author: "Clement Ombati",
     category: "School News",

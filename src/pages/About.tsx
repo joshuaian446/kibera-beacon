@@ -5,10 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Target, Eye, Award, Users, Calendar, ArrowRight } from "lucide-react";
 import { storageImages } from "@/lib/storage";
+import aboutHeroImage from "@/assets/about-hero.jpg";
+import { useCountUp } from "@/hooks/useCountUp";
+
+const CountUpStat = ({ end, suffix = "", label }: { end: number; suffix?: string; label: string }) => {
+  const { count, ref } = useCountUp({ end, duration: 2000 });
+  return (
+    <div ref={ref}>
+      <div className="text-4xl md:text-5xl font-bold text-secondary font-['Poppins',sans-serif] mb-2">
+        {count}{suffix}
+      </div>
+      <div className="text-primary-foreground">{label}</div>
+    </div>
+  );
+};
 
 const About = () => {
-  const aboutImage = storageImages.about;
-  const heroImage = storageImages.hero;
+  const storyImage = storageImages.hero;
   return (
     <div className="min-h-screen">
       <Header />
@@ -17,9 +30,9 @@ const About = () => {
         <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src={aboutImage}
-              alt="Kibera community"
-              className="w-full h-full object-cover object-top md:object-[center_25%]"
+              src={aboutHeroImage}
+              alt="COPA Centre students playing sports"
+              className="w-full h-full object-cover object-[center_30%] md:object-[center_40%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
@@ -62,11 +75,11 @@ const About = () => {
                   </p>
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative aspect-[4/3]">
                 <img
-                  src={heroImage}
+                  src={storyImage}
                   alt="COPA Centre students"
-                  className="rounded-2xl shadow-card w-full"
+                  className="rounded-2xl shadow-card w-full h-full object-cover object-[center_30%]"
                 />
                 <div className="absolute -bottom-6 -left-6 bg-secondary rounded-xl p-6 shadow-hover">
                   <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2012</div>
@@ -164,19 +177,10 @@ const About = () => {
         <section className="py-20 bg-primary">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { number: "330+", label: "Students" },
-                { number: "25", label: "Staff" },
-                { number: "12+", label: "Years" },
-                { number: "7", label: "Grades" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="text-4xl md:text-5xl font-bold text-secondary font-['Poppins',sans-serif] mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-primary-foreground">{stat.label}</div>
-                </div>
-              ))}
+              <CountUpStat end={330} suffix="+" label="Students" />
+              <CountUpStat end={25} label="Staff" />
+              <CountUpStat end={12} suffix="+" label="Years" />
+              <CountUpStat end={7} label="Grades" />
             </div>
           </div>
         </section>
