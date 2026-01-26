@@ -29,7 +29,7 @@ const NewsArticle = () => {
             <img
               src={article.image}
               alt={article.title}
-              className="w-full h-full object-cover object-top md:object-[center_30%]"
+              className="w-full h-full object-cover object-[center_35%] md:object-[center_30%]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/50 to-foreground/20" />
           </div>
@@ -163,7 +163,7 @@ const NewsArticle = () => {
                             <img
                               src={related.image}
                               alt={related.title}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              className="w-full h-full object-cover object-[center_30%] transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
                           <CardContent className="p-4">

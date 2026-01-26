@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Heart, ChevronRight } from "lucide-react";
-import heroImage from "@/assets/hero-students-recorders.jpg";
+import { storageImages } from "@/lib/storage";
 
 const Hero = () => {
   return (
@@ -9,9 +9,9 @@ const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={heroImage}
-          alt="COPA Centre students with recorders"
-          className="w-full h-full object-cover object-top md:object-[center_20%]"
+          src={storageImages.hero}
+          alt="COPA Centre students"
+          className="w-full h-full object-cover object-[center_40%] md:object-[center_35%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
         <div className="absolute inset-0 bg-primary/10" />

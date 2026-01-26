@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { BookOpen, Utensils, Music, Users, Briefcase, Heart, CheckCircle, ArrowRight } from "lucide-react";
 import { storageImages } from "@/lib/storage";
+import educationImage from "@/assets/education-program.jpg";
 
 const programs = [
   {
@@ -20,7 +21,7 @@ const programs = [
       "Qualified dedicated teachers",
     ],
     icon: BookOpen,
-    image: storageImages.education,
+    image: educationImage,
     color: "bg-primary",
   },
   {
@@ -154,11 +155,11 @@ const Programs = () => {
                     </Button>
                   </div>
                   <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                    <div className="relative">
+                    <div className="relative aspect-[4/3]">
                       <img
                         src={program.image}
                         alt={program.title}
-                        className="rounded-2xl shadow-card w-full"
+                        className="rounded-2xl shadow-card w-full h-full object-cover object-[center_25%]"
                       />
                       <div className={`absolute -bottom-4 -right-4 w-24 h-24 ${program.color} rounded-xl shadow-hover`} />
                     </div>
