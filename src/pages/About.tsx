@@ -15,7 +15,7 @@ const CountUpStat = ({ end, suffix = "", label }: { end: number; suffix?: string
       <div className="text-4xl md:text-5xl font-bold text-secondary font-['Poppins',sans-serif] mb-2">
         {count}{suffix}
       </div>
-      <div className="text-secondary">{label}</div>
+      <div className="text-white">{label}</div>
     </div>
   );
 };
