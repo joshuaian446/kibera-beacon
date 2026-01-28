@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Utensils, Music, Users, Briefcase } from "lucide-react";
 import { storageImages } from "@/lib/storage";
+import educationStudentImage from "@/assets/education-student.jpg";
+import feedingProgramImage from "@/assets/feeding-program-new.jpg";
 
 const programs = [
   {
@@ -10,7 +12,8 @@ const programs = [
     title: "Education",
     description: "Award-winning primary school from Play Group to Grade 6, following Kenya's CBC curriculum with tutoring support.",
     icon: BookOpen,
-    image: storageImages.education,
+    image: educationStudentImage,
+    imagePosition: "object-[center_15%]", // Focus on face at top
     color: "bg-primary",
   },
   {
@@ -18,7 +21,8 @@ const programs = [
     title: "Feeding Program",
     description: "Daily nutritious meals ensuring our students stay healthy, focused, and ready to learn.",
     icon: Utensils,
-    image: storageImages.feeding,
+    image: feedingProgramImage,
+    imagePosition: "object-[center_35%]", // Focus on faces in group
     color: "bg-secondary",
   },
   {
@@ -27,6 +31,7 @@ const programs = [
     description: "Music, chess, sports, and arts programs nurturing creativity and holistic development.",
     icon: Music,
     image: storageImages.coCurricular,
+    imagePosition: "object-center",
     color: "bg-primary",
   },
   {
@@ -35,6 +40,7 @@ const programs = [
     description: "Workshops and events supporting families and strengthening community bonds.",
     icon: Users,
     image: storageImages.community,
+    imagePosition: "object-center",
     color: "bg-secondary",
   },
   {
@@ -43,6 +49,7 @@ const programs = [
     description: "Life skills and entrepreneurship programs preparing youth for economic independence.",
     icon: Briefcase,
     image: storageImages.vocational,
+    imagePosition: "object-center",
     color: "bg-primary",
   },
 ];
@@ -72,7 +79,7 @@ const ProgramsPreview = () => {
                 <img
                   src={program.image}
                   alt={program.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${program.imagePosition}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
                 <div className={`absolute top-4 left-4 w-12 h-12 ${program.color} rounded-lg flex items-center justify-center shadow-card`}>
@@ -106,7 +113,7 @@ const ProgramsPreview = () => {
                   <img
                     src={program.image}
                     alt={program.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${program.imagePosition}`}
                   />
                 </div>
                 <CardContent className="p-6 sm:w-2/3">

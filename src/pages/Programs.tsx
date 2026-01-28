@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { BookOpen, Utensils, Music, Users, Briefcase, Heart, CheckCircle, ArrowRight } from "lucide-react";
 import { storageImages } from "@/lib/storage";
-import educationImage from "@/assets/education-program.jpg";
+import educationStudentImage from "@/assets/education-student.jpg";
+import feedingProgramImage from "@/assets/feeding-program-new.jpg";
 
 const programs = [
   {
@@ -21,7 +22,8 @@ const programs = [
       "Qualified dedicated teachers",
     ],
     icon: BookOpen,
-    image: educationImage,
+    image: educationStudentImage,
+    imagePosition: "object-[center_15%]",
     color: "bg-primary",
   },
   {
@@ -37,7 +39,8 @@ const programs = [
       "Food security for families",
     ],
     icon: Utensils,
-    image: storageImages.feeding,
+    image: feedingProgramImage,
+    imagePosition: "object-[center_35%]",
     color: "bg-secondary",
   },
   {
@@ -54,6 +57,7 @@ const programs = [
     ],
     icon: Music,
     image: storageImages.coCurricular,
+    imagePosition: "object-center",
     color: "bg-primary",
   },
   {
@@ -70,6 +74,7 @@ const programs = [
     ],
     icon: Users,
     image: storageImages.community,
+    imagePosition: "object-center",
     color: "bg-secondary",
   },
   {
@@ -86,6 +91,7 @@ const programs = [
     ],
     icon: Briefcase,
     image: storageImages.vocational,
+    imagePosition: "object-center",
     color: "bg-primary",
   },
 ];
@@ -159,7 +165,7 @@ const Programs = () => {
                       <img
                         src={program.image}
                         alt={program.title}
-                        className="rounded-2xl shadow-card w-full h-full object-cover object-[center_25%]"
+                        className={`rounded-2xl shadow-card w-full h-full object-cover ${program.imagePosition}`}
                       />
                       <div className={`absolute -bottom-4 -right-4 w-24 h-24 ${program.color} rounded-xl shadow-hover`} />
                     </div>
