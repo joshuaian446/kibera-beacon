@@ -32,6 +32,7 @@ const GetInvolved = () => {
   const [donorName, setDonorName] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"paypal" | "mpesa" | "bank" | "">("paypal");
 
   const handleDonationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,11 +41,29 @@ const GetInvolved = () => {
       toast.error("Please select or enter a donation amount");
       return;
     }
-    if (!donorName || !donorEmail) {
-      toast.error("Please fill in your name and email");
+    if (!paymentMethod) {
+      toast.error("Please select a payment method");
       return;
     }
-    toast.success("Thank you for your interest in donating! We will contact you shortly with payment details.");
+
+    // For PayPal, redirect to PayPal donation page
+    if (paymentMethod === "paypal") {
+      // Open PayPal donation page in new tab
+      window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank");
+      toast.success("Redirecting to PayPal...");
+      return;
+    }
+
+    // For M-Pesa and Bank Transfer, show instructions
+    if (paymentMethod === "mpesa") {
+      toast.info("M-Pesa payment instructions will be displayed. (Coming soon)");
+      return;
+    }
+
+    if (paymentMethod === "bank") {
+      toast.info("Bank transfer details will be provided. (Coming soon)");
+      return;
+    }
   };
 
   const handleVolunteerSubmit = (e: React.FormEvent) => {
@@ -123,6 +142,46 @@ const GetInvolved = () => {
                 <Card variant="elevated">
                   <CardContent className="p-6">
                     <form onSubmit={handleDonationSubmit} className="space-y-6">
+                      {/* Payment Method Selection */}
+                      <div>
+                        <Label className="text-sm font-semibold mb-3 block">Select Payment Method</Label>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setPaymentMethod("paypal")}
+                            className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "paypal"
+                              ? "border-secondary bg-secondary/10"
+                              : "border-border hover:border-secondary/50"
+                              }`}
+                          >
+                            <div className="font-bold text-foreground mb-1">PayPal</div>
+                            <div className="text-xs text-muted-foreground">International</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPaymentMethod("mpesa")}
+                            className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "mpesa"
+                              ? "border-secondary bg-secondary/10"
+                              : "border-border hover:border-secondary/50"
+                              }`}
+                          >
+                            <div className="font-bold text-foreground mb-1">M-Pesa</div>
+                            <div className="text-xs text-muted-foreground">Kenya</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPaymentMethod("bank")}
+                            className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "bank"
+                              ? "border-secondary bg-secondary/10"
+                              : "border-border hover:border-secondary/50"
+                              }`}
+                          >
+                            <div className="font-bold text-foreground mb-1">Bank Transfer</div>
+                            <div className="text-xs text-muted-foreground">Direct</div>
+                          </button>
+                        </div>
+                      </div>
+
                       {/* Preset Amounts */}
                       <div>
                         <Label className="text-sm font-semibold mb-3 block">Select Amount</Label>
@@ -195,7 +254,10 @@ const GetInvolved = () => {
 
                       <Button variant="hope" size="xl" type="submit" className="w-full">
                         <Heart className="w-5 h-5" />
-                        Proceed to Donate
+                        {paymentMethod === "paypal" && "Proceed with PayPal"}
+                        {paymentMethod === "mpesa" && "Proceed with M-Pesa"}
+                        {paymentMethod === "bank" && "Get Bank Details"}
+                        {!paymentMethod && "Select Payment Method"}
                       </Button>
                     </form>
                   </CardContent>
