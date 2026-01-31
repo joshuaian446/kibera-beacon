@@ -13,12 +13,12 @@ const News = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-40 pb-32 overflow-hidden">
+        <section className="relative pt-48 pb-32 overflow-hidden">
           <div className="absolute inset-0">
             <img
               src={newsHeroNewImage}
               alt="COPA Centre student smiling"
-              className="w-full h-full object-cover object-[center_10%] md:object-[center_15%]"
+              className="w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
