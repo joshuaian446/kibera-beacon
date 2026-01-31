@@ -21,7 +21,7 @@ const needs = [
   { item: "Teacher Salaries", priority: "Immediate" },
   { item: "Feeding Program (Monthly)", priority: "Immediate" },
   { item: "Digital Classrooms", priority: "High" },
-  { item: "School Library", priority: "Medium" },
+  { item: "School Library", priority: "Immediate" },
   { item: "Sports Equipment", priority: "Medium" },
   { item: "Music Instruments", priority: "Medium" },
 ];
