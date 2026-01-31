@@ -103,12 +103,12 @@ const Programs = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section className="relative pt-40 pb-32 overflow-hidden">
           <div className="absolute inset-0">
             <img
               src={programsHeroImage}
               alt="COPA Centre children with balloons"
-              className="w-full h-full object-cover object-[center_20%] md:object-[center_25%]"
+              className="w-full h-full object-cover object-[center_45%] md:object-[center_50%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
