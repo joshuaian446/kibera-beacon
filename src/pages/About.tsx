@@ -195,7 +195,7 @@ const About = () => {
               <CountUpStat end={330} suffix="+" label="Students" />
               <CountUpStat end={25} label="Staff" />
               <CountUpStat end={8} suffix="+" label="Years" />
-              <CountUpStat end={7} label="Grades" />
+              <CountUpStat end={10} label="Levels" />
             </div>
           </div>
         </section>

@@ -14,9 +14,9 @@ const programs = [
     id: "education",
     title: "Education",
     subtitle: "CBC Curriculum Excellence",
-    description: "Our award-winning primary school provides quality education from Play Group to Grade 6, following Kenya's Competency-Based Curriculum (CBC). We offer tutoring support and personalized attention to ensure every child succeeds.",
+    description: "Our award-winning school provides quality education from Preschool through Grade 9, following Kenya's Competency-Based Curriculum (CBC). We offer tutoring support and personalized attention to ensure every child succeeds.",
     features: [
-      "Play Group to Grade 6 curriculum",
+      "Preschool, Primary (G1-6) & Junior (G7-9)",
       "CBC-aligned learning",
       "Individual tutoring support",
       "Tech-integrated classrooms",

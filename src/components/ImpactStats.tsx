@@ -6,7 +6,7 @@ const stats = [
   {
     number: "330+",
     label: "Students Enrolled",
-    description: "From Play Group to Grade 6",
+    description: "From Preschool to Grade 9",
     icon: GraduationCap,
   },
   {

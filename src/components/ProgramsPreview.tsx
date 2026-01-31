@@ -11,7 +11,7 @@ const programs = [
   {
     id: "education",
     title: "Education",
-    description: "Award-winning primary school from Play Group to Grade 6, following Kenya's CBC curriculum with tutoring support.",
+    description: "Award-winning school from Preschool through Junior Grade 9, following Kenya's CBC curriculum with tutoring support.",
     icon: BookOpen,
     image: educationStudentImage,
     imagePosition: "object-[center_15%]", // Focus on face at top
