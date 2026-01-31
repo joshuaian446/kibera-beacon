@@ -34,6 +34,11 @@ const GetInvolved = () => {
   const [message, setMessage] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"paypal" | "mpesa" | "bank" | "">("paypal");
   const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+  const [volunteerName, setVolunteerName] = useState("");
+  const [volunteerEmail, setVolunteerEmail] = useState("");
+  const [volunteerPhone, setVolunteerPhone] = useState("");
+  const [volunteerSkills, setVolunteerSkills] = useState("");
+  const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
 
   const handleDonationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +75,42 @@ const GetInvolved = () => {
     }
   };
 
-  const handleVolunteerSubmit = (e: React.FormEvent) => {
+  const handleVolunteerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you for your interest in volunteering! We will be in touch soon.");
+    if (!volunteerName || !volunteerEmail) {
+      toast.error("Please fill in name and email");
+      return;
+    }
+
+    setIsSubmittingVolunteer(true);
+    try {
+      const response = await fetch("https://formspree.io/f/mjgrdqye", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: volunteerName,
+          email: volunteerEmail,
+          phone: volunteerPhone,
+          skills: volunteerSkills,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Thank you for your interest in volunteering! We will be in touch soon.");
+        setVolunteerName("");
+        setVolunteerEmail("");
+        setVolunteerPhone("");
+        setVolunteerSkills("");
+      } else {
+        toast.error("Failed to submit application. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setIsSubmittingVolunteer(false);
+    }
   };
 
   return (
@@ -333,29 +371,50 @@ const GetInvolved = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="volunteerName">Full Name *</Label>
-                      <Input id="volunteerName" required className="mt-2" />
+                      <Input
+                        id="volunteerName"
+                        value={volunteerName}
+                        onChange={(e) => setVolunteerName(e.target.value)}
+                        required
+                        className="mt-2"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="volunteerEmail">Email *</Label>
-                      <Input id="volunteerEmail" type="email" required className="mt-2" />
+                      <Input
+                        id="volunteerEmail"
+                        type="email"
+                        value={volunteerEmail}
+                        onChange={(e) => setVolunteerEmail(e.target.value)}
+                        required
+                        className="mt-2"
+                      />
                     </div>
                   </div>
                   <div>
                     <Label htmlFor="volunteerPhone">Phone Number</Label>
-                    <Input id="volunteerPhone" type="tel" className="mt-2" />
+                    <Input
+                      id="volunteerPhone"
+                      type="tel"
+                      value={volunteerPhone}
+                      onChange={(e) => setVolunteerPhone(e.target.value)}
+                      className="mt-2"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="volunteerSkills">Your Skills & Interests</Label>
                     <Textarea
                       id="volunteerSkills"
+                      value={volunteerSkills}
+                      onChange={(e) => setVolunteerSkills(e.target.value)}
                       placeholder="Tell us about your background and how you'd like to help..."
                       className="mt-2"
                       rows={4}
                     />
                   </div>
-                  <Button variant="cta" size="lg" type="submit" className="w-full">
+                  <Button variant="cta" size="lg" type="submit" className="w-full" disabled={isSubmittingVolunteer}>
                     <Users className="w-5 h-5" />
-                    Submit Application
+                    {isSubmittingVolunteer ? "Submitting..." : "Submit Application"}
                   </Button>
                 </form>
               </CardContent>

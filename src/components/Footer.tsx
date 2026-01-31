@@ -13,12 +13,24 @@ const Footer = () => {
           <p className="text-primary-foreground/80 mb-6 max-w-md mx-auto">
             Subscribe to our newsletter for updates on our programs and impact stories.
           </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <form
+            action="https://gmail.us14.list-manage.com/subscribe/post?u=9e44f1a94c98e16e85fd9f66f&amp;id=b8159b8725&amp;f_id=002fb4e5f0"
+            method="POST"
+            target="_blank"
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          >
             <input
               type="email"
+              name="EMAIL"
+              id="mce-EMAIL"
+              required
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 rounded-lg bg-primary-foreground text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary"
             />
+            {/* hidden field to prevent bots */}
+            <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
+              <input type="text" name="b_9e44f1a94c98e16e85fd9f66f_b8159b8725" tabIndex={-1} value="" readOnly />
+            </div>
             <Button variant="hope" size="lg" type="submit">
               Subscribe
             </Button>

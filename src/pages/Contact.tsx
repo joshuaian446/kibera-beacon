@@ -22,16 +22,37 @@ const Contact = () => {
       toast.error("Please fill in all required fields");
       return;
     }
-    
+
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("Thank you for your message! We will get back to you soon.");
-    setName("");
-    setEmail("");
-    setSubject("");
-    setMessage("");
-    setIsSubmitting(false);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xdazvrkw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Thank you for your message! We will get back to you soon.");
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      } else {
+        toast.error("Something went wrong. Please try again or email us directly.");
+      }
+    } catch (error) {
+      toast.error("Failed to send message. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -226,7 +247,7 @@ const Contact = () => {
                 Located on James Nderi Road in Laini-Saba, Kibera — the heart of our community.
               </p>
             </div>
-            
+
             <Card variant="elevated" className="overflow-hidden">
               <div className="aspect-video bg-muted flex items-center justify-center">
                 <div className="text-center p-8">
