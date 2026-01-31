@@ -33,6 +33,7 @@ const GetInvolved = () => {
   const [donorEmail, setDonorEmail] = useState("");
   const [message, setMessage] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"paypal" | "mpesa" | "bank" | "">("paypal");
+  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
 
   const handleDonationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,26 +42,29 @@ const GetInvolved = () => {
       toast.error("Please select or enter a donation amount");
       return;
     }
-    if (!paymentMethod) {
-      toast.error("Please select a payment method");
-      return;
-    }
+
+    // Show payment methods instead of processing immediately
+    setShowPaymentMethods(true);
+    toast.success("Please select your payment method below");
+  };
+
+  const handlePaymentMethodClick = (method: "paypal" | "mpesa" | "bank") => {
+    setPaymentMethod(method);
 
     // For PayPal, redirect to PayPal donation page
-    if (paymentMethod === "paypal") {
-      // Open PayPal donation page in new tab
+    if (method === "paypal") {
       window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank");
       toast.success("Redirecting to PayPal...");
       return;
     }
 
     // For M-Pesa and Bank Transfer, show instructions
-    if (paymentMethod === "mpesa") {
+    if (method === "mpesa") {
       toast.info("M-Pesa payment instructions will be displayed. (Coming soon)");
       return;
     }
 
-    if (paymentMethod === "bank") {
+    if (method === "bank") {
       toast.info("Bank transfer details will be provided. (Coming soon)");
       return;
     }
@@ -218,45 +222,39 @@ const GetInvolved = () => {
                       </Button>
                     </form>
 
-                    {/* Payment Method Selection - Below Button */}
-                    <div className="mt-6 pt-6 border-t border-border">
-                      <Label className="text-sm font-semibold mb-3 block">Choose Your Payment Method</Label>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setPaymentMethod("paypal")}
-                          className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "paypal"
-                              ? "border-secondary bg-secondary/10"
-                              : "border-border hover:border-secondary/50"
-                            }`}
-                        >
-                          <div className="font-bold text-foreground mb-1">PayPal</div>
-                          <div className="text-xs text-muted-foreground">International</div>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPaymentMethod("mpesa")}
-                          className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "mpesa"
-                              ? "border-secondary bg-secondary/10"
-                              : "border-border hover:border-secondary/50"
-                            }`}
-                        >
-                          <div className="font-bold text-foreground mb-1">M-Pesa</div>
-                          <div className="text-xs text-muted-foreground">Kenya</div>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPaymentMethod("bank")}
-                          className={`p-4 rounded-lg border-2 text-center transition-smooth ${paymentMethod === "bank"
-                              ? "border-secondary bg-secondary/10"
-                              : "border-border hover:border-secondary/50"
-                            }`}
-                        >
-                          <div className="font-bold text-foreground mb-1">Bank Transfer</div>
-                          <div className="text-xs text-muted-foreground">Direct</div>
-                        </button>
+
+                    {/* Payment Method Selection - Below Button - Only shows after clicking Proceed */}
+                    {showPaymentMethods && (
+                      <div className="mt-6 pt-6 border-t border-border animate-fade-in-up">
+                        <Label className="text-sm font-semibold mb-3 block">Choose Your Payment Method</Label>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <button
+                            type="button"
+                            onClick={() => handlePaymentMethodClick("paypal")}
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                          >
+                            <div className="font-bold text-foreground mb-1">PayPal</div>
+                            <div className="text-xs text-muted-foreground">International</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handlePaymentMethodClick("mpesa")}
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                          >
+                            <div className="font-bold text-foreground mb-1">M-Pesa</div>
+                            <div className="text-xs text-muted-foreground">Kenya</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handlePaymentMethodClick("bank")}
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                          >
+                            <div className="font-bold text-foreground mb-1">Bank Transfer</div>
+                            <div className="text-xs text-muted-foreground">Direct</div>
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
