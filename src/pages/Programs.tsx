@@ -103,7 +103,7 @@ const Programs = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-64 pb-48 overflow-hidden min-h-[600px] flex items-center">
+        <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <img
               src={programsHeroImage}
