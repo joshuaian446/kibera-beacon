@@ -7,6 +7,7 @@ import { BookOpen, Utensils, Music, Users, Briefcase, Heart, CheckCircle, ArrowR
 import { storageImages } from "@/lib/storage";
 import educationStudentImage from "@/assets/education-student.jpg";
 import feedingProgramImage from "@/assets/feeding-program-new.jpg";
+import programsHeroImage from "@/assets/programs-hero.jpg";
 
 const programs = [
   {
@@ -102,9 +103,16 @@ const Programs = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 bg-primary">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-          
+        <section className="relative pt-32 pb-20 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src={programsHeroImage}
+              alt="COPA Centre children with balloons"
+              className="w-full h-full object-cover object-[center_35%] md:object-[center_40%]"
+            />
+            <div className="absolute inset-0 bg-gradient-hero" />
+          </div>
+
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl">
               <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
@@ -128,9 +136,8 @@ const Programs = () => {
                 <div
                   key={program.id}
                   id={program.id}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                    index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                  }`}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                    }`}
                 >
                   <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                     <div className={`w-14 h-14 ${program.color} rounded-xl flex items-center justify-center mb-6 shadow-card`}>

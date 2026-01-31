@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
 import { newsArticles, categories } from "@/lib/newsData";
+import newsHeroImage from "@/assets/news-hero.jpg";
 
 const News = () => {
   return (
@@ -12,8 +13,15 @@ const News = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 bg-primary">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+        <section className="relative pt-32 pb-20 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src={newsHeroImage}
+              alt="COPA Centre student smiling"
+              className="w-full h-full object-cover object-[center_20%] md:object-[center_25%]"
+            />
+            <div className="absolute inset-0 bg-gradient-hero" />
+          </div>
 
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl">
