@@ -1,0 +1,15 @@
+{
+  "executionArgs": {
+    "envs": {
+      "API_KEY": "sk-user-BxFLUW_q8v6nuxSjZhkJXsY8oG2D2dSNBG9ndrHlbw5qR7AJQ3_xrDSewTeUTkgrGShypes0LBTx4uFb9SEwZhvLUF7FYqW49HqOQu35dcEFUHjhyDBXU2m1ZxbvWyp0HxQ"
+    },
+    "projectPath": "C:\\Users\\admin\\.gemini\\antigravity\\scratch\\kibera-beacon"
+  },
+  "type": "frontend",
+  "localEndpoint": "http://localhost:5173/",
+  "projectPath": "C:\\Users\\admin\\.gemini\\antigravity\\scratch\\kibera-beacon",
+  "projectName": "kibera-beacon",
+  "status": "init",
+  "scope": "codebase",
+  "serverPort": 61724
+}
