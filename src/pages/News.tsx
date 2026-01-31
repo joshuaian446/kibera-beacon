@@ -14,7 +14,7 @@ const News = () => {
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 bg-primary">
           <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-          
+
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl">
               <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
@@ -53,11 +53,11 @@ const News = () => {
           <div className="container mx-auto px-4">
             <Card className="overflow-hidden border-0 shadow-card">
               <div className="grid lg:grid-cols-2">
-                <div className="relative h-64 lg:h-auto overflow-hidden">
+                <div className="relative h-64 lg:h-full overflow-hidden">
                   <img
                     src={newsArticles[0].image}
                     alt={newsArticles[0].title}
-                    className="w-full h-full object-cover object-[center_35%]"
+                    className="w-full h-full object-cover object-[center_25%]"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium">
@@ -115,12 +115,12 @@ const News = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {newsArticles.slice(1).map((article, index) => (
-                <Link 
-                  key={article.id} 
+                <Link
+                  key={article.id}
                   to={`/news/${article.slug}`}
                   className="group"
                 >
-                  <Card 
+                  <Card
                     className="overflow-hidden hover:shadow-hover transition-smooth animate-fade-in h-full"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
@@ -128,7 +128,7 @@ const News = () => {
                       <img
                         src={article.image}
                         alt={article.title}
-                        className="w-full h-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
                       <div className="absolute top-4 left-4">
