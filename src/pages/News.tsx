@@ -18,7 +18,7 @@ const News = () => {
             <img
               src={newsHeroNewImage}
               alt="COPA Centre student smiling"
-              className="w-full h-full object-cover object-[center_20%] md:object-[center_25%]"
+              className="w-full h-full object-cover object-[center_10%] md:object-[center_15%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
