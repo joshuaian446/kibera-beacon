@@ -7,6 +7,7 @@ import { Heart, Target, Eye, Award, Users, Calendar, ArrowRight } from "lucide-r
 import { storageImages } from "@/lib/storage";
 import aboutHeroImage from "@/assets/about-hero.jpg";
 import { useCountUp } from "@/hooks/useCountUp";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const CountUpStat = ({ end, suffix = "", label }: { end: number; suffix?: string; label: string }) => {
   const { count, ref } = useCountUp({ end, duration: 2000 });
@@ -38,17 +39,19 @@ const About = () => {
           </div>
 
           <div className="container mx-auto px-4 relative">
-            <div className="max-w-3xl">
-              <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                About Us
-              </span>
-              <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
-                Our Story of Hope and Resilience
-              </h1>
-              <p className="text-xl text-primary-foreground/85">
-                Founded in 2018, COPA Centre emerged from a simple but powerful belief: every child in Kibera deserves access to quality education and a chance to thrive.
-              </p>
-            </div>
+            <ScrollReveal animation="fade-up">
+              <div className="max-w-3xl">
+                <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+                  About Us
+                </span>
+                <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
+                  Our Story of Hope and Resilience
+                </h1>
+                <p className="text-xl text-primary-foreground/85">
+                  Founded in 2018, COPA Centre emerged from a simple but powerful belief: every child in Kibera deserves access to quality education and a chance to thrive.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -56,36 +59,40 @@ const About = () => {
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                  Our Beginning
-                </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">
-                  From Street Children to Future Leaders
-                </h2>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    Community Pillars Alliance (COPA) Centre was established in 2018 by Clement Ombati, who witnessed firsthand the struggles of street children in Kibera, one of Africa's largest informal settlements.
-                  </p>
-                  <p>
-                    What started as a small effort to help a handful of vulnerable children has grown into a comprehensive community center serving over 330 students and their families.
-                  </p>
-                  <p>
-                    Our unique approach integrates technology with traditional education, preparing our students not just for academic success, but for life in the modern world.
-                  </p>
+              <ScrollReveal animation="slide-left">
+                <div>
+                  <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+                    Our Beginning
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">
+                    From Street Children to Future Leaders
+                  </h2>
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      Community Pillars Alliance (COPA) Centre was established in 2018 by Clement Ombati, who witnessed firsthand the struggles of street children in Kibera, one of Africa's largest informal settlements.
+                    </p>
+                    <p>
+                      What started as a small effort to help a handful of vulnerable children has grown into a comprehensive community center serving over 330 students and their families.
+                    </p>
+                    <p>
+                      Our unique approach integrates technology with traditional education, preparing our students not just for academic success, but for life in the modern world.
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="relative aspect-[4/3]">
-                <img
-                  src={storyImage}
-                  alt="COPA Centre students"
-                  className="rounded-2xl shadow-card w-full h-full object-cover object-[center_30%]"
-                />
-                <div className="absolute -bottom-6 -left-6 bg-secondary rounded-xl p-6 shadow-hover">
-                  <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2018</div>
-                  <div className="text-secondary-foreground/80">Year Founded</div>
+              </ScrollReveal>
+              <ScrollReveal animation="slide-right">
+                <div className="relative aspect-[4/3]">
+                  <img
+                    src={storyImage}
+                    alt="COPA Centre students"
+                    className="rounded-2xl shadow-card w-full h-full object-cover object-[center_30%]"
+                  />
+                  <div className="absolute -bottom-6 -left-6 bg-secondary rounded-xl p-6 shadow-hover">
+                    <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2018</div>
+                    <div className="text-secondary-foreground/80">Year Founded</div>
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             </div>
           </div>
         </section>
@@ -93,51 +100,59 @@ const About = () => {
         {/* Mission, Vision, Values */}
         <section className="py-20 bg-gradient-warm">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                What Drives Us
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
-                Mission, Vision & Values
-              </h2>
-            </div>
+            <ScrollReveal animation="fade-up">
+              <div className="text-center max-w-2xl mx-auto mb-16">
+                <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+                  What Drives Us
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
+                  Mission, Vision & Values
+                </h2>
+              </div>
+            </ScrollReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card variant="elevated" className="text-center">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Target className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Mission</h3>
-                  <p className="text-muted-foreground">
-                    To empower vulnerable children through education, nutrition, and community support, creating pathways to a brighter future.
-                  </p>
-                </CardContent>
-              </Card>
+              <ScrollReveal animation="fade-up" delay={0}>
+                <Card variant="elevated" className="text-center h-full">
+                  <CardContent className="p-8">
+                    <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Target className="w-8 h-8 text-primary-foreground" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Mission</h3>
+                    <p className="text-muted-foreground">
+                      To empower vulnerable children through education, nutrition, and community support, creating pathways to a brighter future.
+                    </p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
 
-              <Card variant="elevated" className="text-center">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Eye className="w-8 h-8 text-secondary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Vision</h3>
-                  <p className="text-muted-foreground">
-                    A resilient community where every child has access to quality education, proper nutrition, and the opportunity to thrive.
-                  </p>
-                </CardContent>
-              </Card>
+              <ScrollReveal animation="fade-up" delay={100}>
+                <Card variant="elevated" className="text-center h-full">
+                  <CardContent className="p-8">
+                    <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Eye className="w-8 h-8 text-secondary-foreground" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Vision</h3>
+                    <p className="text-muted-foreground">
+                      A resilient community where every child has access to quality education, proper nutrition, and the opportunity to thrive.
+                    </p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
 
-              <Card variant="elevated" className="text-center">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Heart className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Values</h3>
-                  <p className="text-muted-foreground">
-                    Compassion, integrity, excellence, community, and innovation guide everything we do at COPA Centre.
-                  </p>
-                </CardContent>
-              </Card>
+              <ScrollReveal animation="fade-up" delay={200}>
+                <Card variant="elevated" className="text-center h-full">
+                  <CardContent className="p-8">
+                    <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Heart className="w-8 h-8 text-primary-foreground" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Our Values</h3>
+                    <p className="text-muted-foreground">
+                      Compassion, integrity, excellence, community, and innovation guide everything we do at COPA Centre.
+                    </p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
             </div>
           </div>
         </section>

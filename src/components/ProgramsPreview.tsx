@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, Utensils, Music, Users, Briefcase } from "lucide-
 import { storageImages } from "@/lib/storage";
 import educationStudentImage from "@/assets/education-student.jpg";
 import feedingProgramImage from "@/assets/feeding-program-new.jpg";
+import ScrollReveal from "./ScrollReveal";
 
 const programs = [
   {
@@ -59,17 +60,19 @@ const ProgramsPreview = () => {
     <section className="py-20 bg-gradient-warm">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-            What We Do
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
-            Our Programs
-          </h2>
-          <p className="text-muted-foreground">
-            Comprehensive programs designed to nurture, educate, and empower every child in our community.
-          </p>
-        </div>
+        <ScrollReveal animation="fade-up">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+              What We Do
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
+              Our Programs
+            </h2>
+            <p className="text-muted-foreground">
+              Comprehensive programs designed to nurture, educate, and empower every child in our community.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Programs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,14 +136,14 @@ const ProgramsPreview = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
+        <ScrollReveal animation="fade-in" delay={400} className="text-center mt-12">
           <Button variant="cta" size="lg" asChild>
             <Link to="/programs">
               View All Programs
               <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

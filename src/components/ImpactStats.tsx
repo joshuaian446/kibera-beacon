@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, Utensils, Users, Trophy, Heart, Target } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const stats = [
   {
@@ -37,17 +38,19 @@ const ImpactStats = () => {
 
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-            Our Impact
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4 font-['Poppins',sans-serif]">
-            Making a Difference Every Day
-          </h2>
-          <p className="text-primary-foreground/80">
-            Since 2018, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
-          </p>
-        </div>
+        <ScrollReveal animation="fade-up">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+              Our Impact
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4 font-['Poppins',sans-serif]">
+              Making a Difference Every Day
+            </h2>
+            <p className="text-primary-foreground/80">
+              Since 2018, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -76,7 +79,7 @@ const ImpactStats = () => {
         </div>
 
         {/* Mission Statement */}
-        <div className="mt-16 text-center max-w-3xl mx-auto">
+        <ScrollReveal animation="fade-in" delay={400} className="mt-16 text-center max-w-3xl mx-auto">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Heart className="w-6 h-6 text-secondary" />
             <Target className="w-6 h-6 text-secondary" />
@@ -87,7 +90,7 @@ const ImpactStats = () => {
           <div className="mt-4 text-secondary font-semibold">
             — COPA Centre Vision
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

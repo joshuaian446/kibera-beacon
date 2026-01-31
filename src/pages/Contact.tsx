@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Mail, Phone, Clock, Send, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { toast } from "sonner";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -62,17 +63,19 @@ const Contact = () => {
         {/* Hero Section */}
         <section className="pt-32 pb-20 bg-primary">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl">
-              <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                Contact Us
-              </span>
-              <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
-                Get in Touch
-              </h1>
-              <p className="text-xl text-primary-foreground/85">
-                Have questions? Want to visit? We'd love to hear from you. Reach out to us through any of the channels below.
-              </p>
-            </div>
+            <ScrollReveal animation="fade-up">
+              <div className="max-w-3xl">
+                <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
+                  Contact Us
+                </span>
+                <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
+                  Get in Touch
+                </h1>
+                <p className="text-xl text-primary-foreground/85">
+                  Have questions? Want to visit? We'd love to hear from you. Reach out to us through any of the channels below.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -81,93 +84,95 @@ const Contact = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Information */}
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-8 font-['Poppins',sans-serif]">
-                  Contact Information
-                </h2>
+              <ScrollReveal animation="slide-left">
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground mb-8 font-['Poppins',sans-serif]">
+                    Contact Information
+                  </h2>
 
-                <div className="space-y-6">
-                  <Card variant="elevated">
-                    <CardContent className="p-6 flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
-                        <MapPin className="w-6 h-6 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Our Location</h3>
-                        <p className="text-muted-foreground">
-                          James Nderi Road, Laini-Saba<br />
-                          Kibera, Nairobi, Kenya
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="space-y-6">
+                    <Card variant="elevated">
+                      <CardContent className="p-6 flex items-start gap-4">
+                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
+                          <MapPin className="w-6 h-6 text-primary-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Our Location</h3>
+                          <p className="text-muted-foreground">
+                            James Nderi Road, Laini-Saba<br />
+                            Kibera, Nairobi, Kenya
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
 
-                  <Card variant="elevated">
-                    <CardContent className="p-6 flex items-start gap-4">
-                      <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
-                        <Mail className="w-6 h-6 text-secondary-foreground" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Email Us</h3>
-                        <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">
-                          copacenter21@gmail.com
+                    <Card variant="elevated">
+                      <CardContent className="p-6 flex items-start gap-4">
+                        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
+                          <Mail className="w-6 h-6 text-secondary-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Email Us</h3>
+                          <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">
+                            copacenter21@gmail.com
+                          </a>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="elevated">
+                      <CardContent className="p-6 flex items-start gap-4">
+                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
+                          <Phone className="w-6 h-6 text-primary-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Call Us</h3>
+                          <p className="text-muted-foreground">
+                            +254 7 18720630
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="elevated">
+                      <CardContent className="p-6 flex items-start gap-4">
+                        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
+                          <Clock className="w-6 h-6 text-secondary-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Visiting Hours</h3>
+                          <p className="text-muted-foreground">
+                            Monday - Friday: 8:00 AM - 5:00 PM<br />
+                            Saturday: 9:00 AM - 1:00 PM
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="mt-8">
+                    <h3 className="font-semibold text-foreground mb-4 font-['Poppins',sans-serif]">Follow Us</h3>
+                    <div className="flex gap-3">
+                      {[
+                        { icon: Facebook, label: "Facebook" },
+                        { icon: Twitter, label: "Twitter" },
+                        { icon: Instagram, label: "Instagram" },
+                        { icon: Youtube, label: "Youtube" },
+                      ].map((social) => (
+                        <a
+                          key={social.label}
+                          href="#"
+                          className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-smooth"
+                          aria-label={social.label}
+                        >
+                          <social.icon className="w-5 h-5" />
                         </a>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="elevated">
-                    <CardContent className="p-6 flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
-                        <Phone className="w-6 h-6 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Call Us</h3>
-                        <p className="text-muted-foreground">
-                          +254 7 18720630
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="elevated">
-                    <CardContent className="p-6 flex items-start gap-4">
-                      <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
-                        <Clock className="w-6 h-6 text-secondary-foreground" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Visiting Hours</h3>
-                        <p className="text-muted-foreground">
-                          Monday - Friday: 8:00 AM - 5:00 PM<br />
-                          Saturday: 9:00 AM - 1:00 PM
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Social Links */}
-                <div className="mt-8">
-                  <h3 className="font-semibold text-foreground mb-4 font-['Poppins',sans-serif]">Follow Us</h3>
-                  <div className="flex gap-3">
-                    {[
-                      { icon: Facebook, label: "Facebook" },
-                      { icon: Twitter, label: "Twitter" },
-                      { icon: Instagram, label: "Instagram" },
-                      { icon: Youtube, label: "Youtube" },
-                    ].map((social) => (
-                      <a
-                        key={social.label}
-                        href="#"
-                        className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-smooth"
-                        aria-label={social.label}
-                      >
-                        <social.icon className="w-5 h-5" />
-                      </a>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Contact Form */}
               <div>
