@@ -11,18 +11,19 @@ import { toast } from "sonner";
 import { storageImages } from "@/lib/storage";
 
 const donationOptions = [
-  { amount: "500", label: "KSh 500", description: "Provides meals for a child for one week" },
-  { amount: "2000", label: "KSh 2,000", description: "School supplies for a month" },
+  { amount: "1000", label: "KSh 1,000", description: "Provides meals for a child for one week" },
+  { amount: "30000", label: "KSh 30,000", description: "School supplies for one month" },
   { amount: "5000", label: "KSh 5,000", description: "Sponsor a child for one month" },
-  { amount: "42000", label: "KSh 42,000", description: "Teacher salary for one year" },
+  { amount: "50000", label: "KSh 50,000", description: "Covers the school's utilities for one month" },
 ];
 
 const needs = [
-  { item: "Teacher Salaries", amount: "KSh 42,000/year per teacher", priority: "Immediate" },
-  { item: "Digital Classrooms", amount: "KSh 6,000 per setup", priority: "High" },
-  { item: "School Library", amount: "KSh 20,000", priority: "Medium" },
-  { item: "Sports Equipment", amount: "KSh 15,000", priority: "Medium" },
-  { item: "Feeding Program (Monthly)", amount: "KSh 50,000", priority: "Immediate" },
+  { item: "Teacher Salaries", priority: "Immediate" },
+  { item: "Feeding Program (Monthly)", priority: "Immediate" },
+  { item: "Digital Classrooms", priority: "High" },
+  { item: "School Library", priority: "Medium" },
+  { item: "Sports Equipment", priority: "Medium" },
+  { item: "Music Instruments", priority: "Medium" },
 ];
 
 const GetInvolved = () => {
@@ -65,7 +66,7 @@ const GetInvolved = () => {
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl">
               <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
@@ -131,11 +132,10 @@ const GetInvolved = () => {
                               key={option.amount}
                               type="button"
                               onClick={() => { setSelectedAmount(option.amount); setCustomAmount(""); }}
-                              className={`p-4 rounded-lg border-2 text-left transition-smooth ${
-                                selectedAmount === option.amount
-                                  ? "border-secondary bg-secondary/10"
-                                  : "border-border hover:border-secondary/50"
-                              }`}
+                              className={`p-4 rounded-lg border-2 text-left transition-smooth ${selectedAmount === option.amount
+                                ? "border-secondary bg-secondary/10"
+                                : "border-border hover:border-secondary/50"
+                                }`}
                             >
                               <div className="font-bold text-foreground">{option.label}</div>
                               <div className="text-xs text-muted-foreground">{option.description}</div>
@@ -210,25 +210,22 @@ const GetInvolved = () => {
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">
                   Where Your Money Goes
                 </h2>
-                
+
                 <div className="space-y-4">
                   {needs.map((need) => (
                     <Card key={need.item} variant="elevated">
                       <CardContent className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className={`w-3 h-3 rounded-full ${
-                            need.priority === "Immediate" ? "bg-destructive" : "bg-secondary"
-                          }`} />
+                          <div className={`w-3 h-3 rounded-full ${need.priority === "Immediate" ? "bg-destructive" : "bg-secondary"
+                            }`} />
                           <div>
                             <div className="font-semibold text-foreground">{need.item}</div>
-                            <div className="text-sm text-muted-foreground">{need.amount}</div>
                           </div>
                         </div>
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                          need.priority === "Immediate" 
-                            ? "bg-destructive/10 text-destructive" 
-                            : "bg-secondary/10 text-secondary"
-                        }`}>
+                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${need.priority === "Immediate"
+                          ? "bg-destructive/10 text-destructive"
+                          : "bg-secondary/10 text-secondary"
+                          }`}>
                           {need.priority}
                         </span>
                       </CardContent>
