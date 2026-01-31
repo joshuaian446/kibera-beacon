@@ -108,7 +108,7 @@ const Programs = () => {
             <img
               src={programsHeroImage}
               alt="COPA Centre children with balloons"
-              className="w-full h-full object-cover object-[center_45%] md:object-[center_50%]"
+              className="w-full h-full object-cover object-[center_10%] md:object-[center_15%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>

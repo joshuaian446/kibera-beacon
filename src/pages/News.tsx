@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
 import { newsArticles, categories } from "@/lib/newsData";
-import newsHeroImage from "@/assets/news-hero.jpg";
+import newsHeroNewImage from "@/assets/news-hero-new.jpg";
 
 const News = () => {
   return (
@@ -16,9 +16,9 @@ const News = () => {
         <section className="relative pt-40 pb-32 overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src={newsHeroImage}
-              alt="COPA Centre student smiling"
-              className="w-full h-full object-cover object-[center_25%] md:object-[center_30%]"
+              src={newsHeroNewImage}
+              alt="COPA Centre student student smiling"
+              className="w-full h-full object-cover object-[center_20%] md:object-[center_25%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
