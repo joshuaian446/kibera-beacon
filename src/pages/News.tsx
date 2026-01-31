@@ -57,11 +57,11 @@ const News = () => {
         </section>
 
         {/* Featured Article */}
-        <section className="py-16 bg-background">
+        <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
-            <Card className="overflow-hidden border-0 shadow-card">
-              <div className="grid lg:grid-cols-2">
-                <div className="relative h-64 lg:h-full overflow-hidden">
+            <Card className="overflow-hidden border-0 shadow-card max-w-5xl mx-auto">
+              <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
+                <div className="relative h-64 lg:h-[400px] overflow-hidden">
                   <img
                     src={newsArticles[0].image}
                     alt={newsArticles[0].title}
@@ -73,7 +73,7 @@ const News = () => {
                     </span>
                   </div>
                 </div>
-                <CardContent className="p-8 lg:p-12 flex flex-col justify-center">
+                <CardContent className="p-8 lg:p-10 flex flex-col justify-center">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                     <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
                       {newsArticles[0].category}
@@ -86,10 +86,10 @@ const News = () => {
                   <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
                     {newsArticles[0].title}
                   </h2>
-                  <p className="text-muted-foreground mb-6">
+                  <p className="text-muted-foreground mb-6 line-clamp-3">
                     {newsArticles[0].excerpt}
                   </p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <User className="w-4 h-4" />
