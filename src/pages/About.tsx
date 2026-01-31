@@ -32,7 +32,7 @@ const About = () => {
             <img
               src={aboutHeroImage}
               alt="COPA Centre students playing sports"
-              className="w-full h-full object-cover object-[center_30%] md:object-[center_25%]"
+              className="w-full h-full object-cover object-[center_30%] md:object-[center_50%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
