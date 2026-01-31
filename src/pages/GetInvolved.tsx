@@ -231,7 +231,7 @@ const GetInvolved = () => {
                           <button
                             type="button"
                             onClick={() => handlePaymentMethodClick("paypal")}
-                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-[#0070ba] hover:bg-[#0070ba]/10"
                           >
                             <div className="font-bold text-foreground mb-1">PayPal</div>
                             <div className="text-xs text-muted-foreground">International</div>
@@ -239,7 +239,7 @@ const GetInvolved = () => {
                           <button
                             type="button"
                             onClick={() => handlePaymentMethodClick("mpesa")}
-                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-[#00a651] hover:bg-[#00a651]/10"
                           >
                             <div className="font-bold text-foreground mb-1">M-Pesa</div>
                             <div className="text-xs text-muted-foreground">Kenya</div>
@@ -247,7 +247,7 @@ const GetInvolved = () => {
                           <button
                             type="button"
                             onClick={() => handlePaymentMethodClick("bank")}
-                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary/50 hover:bg-secondary/10"
+                            className="p-4 rounded-lg border-2 text-center transition-smooth border-border hover:border-secondary hover:bg-secondary/10"
                           >
                             <div className="font-bold text-foreground mb-1">Bank Transfer</div>
                             <div className="text-xs text-muted-foreground">Direct</div>
