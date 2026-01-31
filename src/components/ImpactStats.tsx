@@ -21,9 +21,9 @@ const stats = [
     icon: Utensils,
   },
   {
-    number: "12+",
+    number: "8+",
     label: "Years of Impact",
-    description: "Transforming lives since 2012",
+    description: "Transforming lives since 2018",
     icon: Trophy,
   },
 ];
@@ -45,7 +45,7 @@ const ImpactStats = () => {
             Making a Difference Every Day
           </h2>
           <p className="text-primary-foreground/80">
-            Since 2012, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
+            Since 2018, COPA Centre has been committed to transforming lives in Kibera through education, nutrition, and community support.
           </p>
         </div>
 

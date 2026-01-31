@@ -32,9 +32,9 @@ const Footer = () => {
           {/* About */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img 
-                src={copaLogo} 
-                alt="COPA Centre Logo" 
+              <img
+                src={copaLogo}
+                alt="COPA Centre Logo"
                 className="w-14 h-14 object-contain"
               />
               <div className="flex flex-col">
@@ -43,7 +43,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm mb-4">
-              Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2012.
+              Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2018.
             </p>
             <div className="flex gap-3">
               <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Facebook">

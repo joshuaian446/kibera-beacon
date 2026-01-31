@@ -27,7 +27,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-fade-in-up">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             <span className="text-primary-foreground/90 text-sm font-medium">
-              Transforming Lives in Kibera Since 2012
+              Transforming Lives in Kibera Since 2018
             </span>
           </div>
 
@@ -71,7 +71,7 @@ const Hero = () => {
               <div className="text-primary-foreground/70 text-sm">Dedicated Staff</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-secondary font-['Poppins',sans-serif]">12+</div>
+              <div className="text-3xl md:text-4xl font-bold text-secondary font-['Poppins',sans-serif]">8+</div>
               <div className="text-primary-foreground/70 text-sm">Years of Impact</div>
             </div>
           </div>
