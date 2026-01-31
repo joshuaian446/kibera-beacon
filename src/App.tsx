@@ -12,6 +12,7 @@ import GetInvolved from "./pages/GetInvolved";
 import Contact from "./pages/Contact";
 import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <HashRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
