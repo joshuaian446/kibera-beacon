@@ -125,7 +125,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="w-5 h-5 shrink-0" />
-                <span className="text-primary-foreground/80">+254 XXX XXX XXX</span>
+                <span className="text-primary-foreground/80">+254 7 18720630</span>
               </li>
             </ul>
             <Button variant="hero" className="mt-4 w-full" asChild>

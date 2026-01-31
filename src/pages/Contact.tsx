@@ -124,7 +124,7 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Call Us</h3>
                         <p className="text-muted-foreground">
-                          +254 XXX XXX XXX
+                          +254 7 18720630
                         </p>
                       </div>
                     </CardContent>
@@ -248,28 +248,17 @@ const Contact = () => {
               </p>
             </div>
 
-            <Card variant="elevated" className="overflow-hidden">
-              <div className="aspect-video bg-muted flex items-center justify-center">
-                <div className="text-center p-8">
-                  <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-foreground mb-2 font-['Poppins',sans-serif]">
-                    COPA Centre
-                  </h3>
-                  <p className="text-muted-foreground">
-                    James Nderi Road, Laini-Saba, Kibera<br />
-                    Nairobi, Kenya
-                  </p>
-                  <Button variant="outline" className="mt-4" asChild>
-                    <a
-                      href="https://www.google.com/maps/search/Laini+Saba+Kibera+Nairobi+Kenya"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Open in Google Maps
-                    </a>
-                  </Button>
-                </div>
-              </div>
+            <Card variant="elevated" className="overflow-hidden p-0 h-[450px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7610!2d36.7950!3d-1.3146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11712918699b%3A0xbfdc29e50d5d7c2d!2zQ29tbXVuaXR5IFBpbGxhcnMgQWxsaWFuY2UgQ2VudHJlIChDT1BBKQ!5e0!3m2!1sen!2ske!4v1706786000000!5m2!1sen!2ske"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps - COPA Centre Location"
+              ></iframe>
             </Card>
           </div>
         </section>
