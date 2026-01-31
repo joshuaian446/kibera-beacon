@@ -15,9 +15,10 @@ const News = () => {
         {/* Hero Section */}
         <section className="relative pt-64 pb-48 overflow-hidden min-h-[600px] flex items-center">
           <div className="absolute inset-0">
-            src={newsHeroNewImage}
-            alt="COPA Centre student smiling"
-            className="w-full h-full absolute inset-0 object-cover object-[center_5%]"
+            <img
+              src={newsHeroNewImage}
+              alt="COPA Centre student smiling"
+              className="w-full h-full absolute inset-0 object-cover object-[center_10%] lg:object-[center_35%]"
             />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
