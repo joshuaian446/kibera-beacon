@@ -113,38 +113,38 @@ const Header = () => {
         {/* Mobile Menu */}
         <div
           className={cn(
-            "lg:hidden fixed inset-x-4 top-24 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "lg:hidden fixed inset-x-4 top-20 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
             isMobileMenuOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
-              : "opacity-0 -translate-y-8 pointer-events-none"
+              : "opacity-0 -translate-y-4 pointer-events-none"
           )}
         >
-          <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] border border-white/20 shadow-2xl p-8 space-y-4 relative overflow-hidden">
+          <div className="bg-white/95 backdrop-blur-xl rounded-[1.5rem] border border-white/20 shadow-xl p-5 space-y-3 relative overflow-hidden">
             {/* Background Decorative Blob */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 blur-xl" />
 
-            <div className="flex flex-col gap-2 relative">
+            <div className="flex flex-col gap-1 relative">
               {navLinks.map((link, index) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  style={{ transitionDelay: `${index * 50}ms` }}
+                  style={{ transitionDelay: `${index * 40}ms` }}
                   className={cn(
-                    "flex items-center justify-between px-6 py-4 rounded-2xl font-black text-lg transition-all duration-300 font-['Poppins',sans-serif]",
+                    "flex items-center justify-between px-5 py-3 rounded-xl font-bold text-base transition-all duration-300 font-['Poppins',sans-serif]",
                     location.pathname === link.path
-                      ? "bg-primary text-white shadow-glow"
-                      : "text-foreground hover:bg-primary/5 hover:translate-x-2"
+                      ? "bg-primary text-white shadow-md"
+                      : "text-foreground hover:bg-primary/5"
                   )}
                 >
                   {link.name}
-                  {location.pathname === link.path && <Heart className="w-5 h-5 fill-white" />}
+                  {location.pathname === link.path && <Heart className="w-4 h-4 fill-white" />}
                 </Link>
               ))}
-              <div className="pt-4 border-t border-border/50 mt-2">
-                <Button variant="hope" size="xl" className="w-full shadow-glow py-8 rounded-2xl" asChild>
+              <div className="pt-3 border-t border-border/50 mt-1">
+                <Button variant="hope" size="lg" className="w-full shadow-glow py-6 rounded-xl text-base" asChild>
                   <Link to="/get-involved" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Heart className="w-5 h-5 mr-2" />
+                    <Heart className="w-4 h-4 mr-2" />
                     Donate Now
                   </Link>
                 </Button>
