@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Heart, Target, Eye, Award, Users, Calendar, ArrowRight, ChevronDown, ChevronUp, BookOpen, Utensils, Zap, Lightbulb, ShieldAlert, GraduationCap, Activity, Users2, Landmark, Rocket, TrendingUp } from "lucide-react";
 import { storageImages } from "@/lib/storage";
 import aboutHeroImage from "@/assets/about-hero.jpg";
+import clementImage from "@/assets/clement-ombati.jpg";
 import { useCountUp } from "@/hooks/useCountUp";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useState } from "react";
@@ -24,6 +25,7 @@ const CountUpStat = ({ end, suffix = "", label }: { end: number; suffix?: string
 
 const About = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
   const storyImage = storageImages.hero;
   return (
     <div className="min-h-screen">
@@ -362,18 +364,52 @@ const About = () => {
               </h2>
             </div>
 
-            <Card variant="elevated" className="max-w-3xl mx-auto">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row gap-8 items-center">
-                  <div className="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-4xl font-bold text-primary font-['Poppins',sans-serif]">CO</span>
+            <Card variant="elevated" className="max-w-4xl mx-auto overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex flex-col md:flex-row">
+                  <div className="md:w-1/3 aspect-square md:aspect-auto">
+                    <img
+                      src={clementImage}
+                      alt="Clement Ombati"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2 font-['Poppins',sans-serif]">Clement Ombati</h3>
-                    <p className="text-secondary font-semibold mb-4">Founder & Director</p>
-                    <p className="text-muted-foreground">
-                      Clement founded COPA Centre with a vision to transform the lives of vulnerable children in Kibera. His dedication and leadership have built the organization from the ground up, creating a beacon of hope for hundreds of children and their families.
+                  <div className="md:w-2/3 p-8 md:p-10 flex flex-col justify-center">
+                    <h3 className="text-2xl font-bold text-foreground mb-1 font-['Poppins',sans-serif]">Clement Ombati</h3>
+                    <p className="text-secondary font-semibold text-sm uppercase tracking-wider mb-6">
+                      Founder and Director of the Community Pillars Primary School (COPA)
                     </p>
+
+                    <div className="space-y-4 text-muted-foreground">
+                      <p>
+                        Born in Western Kenya, Clement Ombati founded COPA in 2018 after witnessing the heartbreaking reality of children in the Kibera Slum unable to attend school due to poverty.
+                      </p>
+
+                      <div className={`overflow-hidden transition-all duration-700 ease-in-out ${isBioExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="space-y-4 pt-4 border-t border-border mt-4">
+                          <p>
+                            "Growing up in a humble background, I worked hard to excel in my studies. After high school, I moved to Nairobi searching for greener pastures. Since then, I have been a husband, a father, and a Chief with the government of Kenya."
+                          </p>
+                          <p>
+                            "Witnessing children's struggles in Kibera left a deep impression on me, and I resolved to take action. This led to the opening of COPA. Today, I am incredibly proud of the impact we've had. Over 330 children now benefit from our programs, including education, feeding, mentorship, and life skills."
+                          </p>
+                          <p>
+                            "Through the generous partnership of Crossing Thresholds, we are growing stronger and making a dramatic difference. I am truly blessed to continue working towards a better future for the vulnerable children of Kibera."
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => setIsBioExpanded(!isBioExpanded)}
+                        className="flex items-center gap-2 text-primary font-bold hover:underline transition-all mt-4"
+                      >
+                        {isBioExpanded ? (
+                          <>Close Bio <ChevronUp className="w-4 h-4" /></>
+                        ) : (
+                          <>Read Bio <ChevronDown className="w-4 h-4" /></>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
