@@ -10,6 +10,16 @@ import { newsArticles, categories } from "@/lib/newsData";
 import newsHeroV4Image from "../assets/news-hero-v4.jpg";
 
 const News = () => {
+  const navigate = useNavigate();
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredArticles = activeCategory === "All"
+    ? newsArticles
+    : newsArticles.filter(article => article.category === activeCategory);
+
+  const featuredArticle = filteredArticles[0];
+  const gridArticles = filteredArticles.slice(1);
+
   return (
     <div className="min-h-screen">
       <Header />
