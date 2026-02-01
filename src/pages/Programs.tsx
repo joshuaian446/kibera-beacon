@@ -205,7 +205,7 @@ const Programs = () => {
           <div className="container mx-auto px-4 text-center relative">
             <ScrollReveal animation="fade-up">
               <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-8 font-['Poppins',sans-serif] tracking-tight">
-                Help Us Expand Our <span className="text-secondary italic">Reach</span>
+                Help Us Expand Our <span className="text-white italic">Reach</span>
               </h2>
               <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-12 leading-relaxed font-['Open_Sans',sans-serif]">
                 Your support enables us to reach more children and strengthen our vocational, educational and nutritional programs. Every contribution makes a tangible difference.

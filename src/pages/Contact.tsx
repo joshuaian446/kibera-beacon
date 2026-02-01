@@ -61,215 +61,230 @@ const Contact = () => {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-20 bg-primary">
-          <div className="container mx-auto px-4">
+        <section className="relative pt-32 pb-24 overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-primary" />
+            <div className="absolute inset-0 bg-gradient-hero" />
+          </div>
+
+          <div className="container mx-auto px-4 relative">
             <ScrollReveal animation="fade-up">
               <div className="max-w-3xl">
-                <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                  Contact Us
-                </span>
-                <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
-                  Get in Touch
+                <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+                  <span className="text-primary-foreground/90 text-sm font-medium uppercase tracking-wider">
+                    Connect With Us
+                  </span>
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground mb-6 font-['Poppins',sans-serif] leading-tight tracking-tight">
+                  Let's Start a <br className="hidden md:block" /> <span className="text-secondary italic">Conversation</span>
                 </h1>
-                <p className="text-xl text-primary-foreground/85">
-                  Have questions? Want to visit? We'd love to hear from you. Reach out to us through any of the channels below.
+                <p className="text-xl text-primary-foreground/90 leading-relaxed max-w-2xl font-['Open_Sans',sans-serif]">
+                  Whether you want to visit, volunteer, or simply learn more about our work — we're here to listen and welcome you to the COPA family.
                 </p>
               </div>
             </ScrollReveal>
           </div>
+
+          {/* Decorative Floaties */}
+          <div className="absolute top-1/4 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-float" />
         </section>
 
         {/* Contact Info & Form */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50 -z-10" />
+          <div className="container mx-auto px-4 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
               {/* Contact Information */}
-              <ScrollReveal animation="slide-left">
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-8 font-['Poppins',sans-serif]">
-                    Contact Information
+              <div>
+                <ScrollReveal animation="slide-right">
+                  <span className="inline-block text-secondary font-black text-xs uppercase tracking-[0.3em] mb-4">
+                    Direct Lines
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-black text-foreground mb-12 font-['Poppins',sans-serif] tracking-tight">
+                    Find Us <span className="text-primary italic">Nearby</span>
                   </h2>
 
-                  <div className="space-y-6">
-                    <Card variant="elevated">
-                      <CardContent className="p-6 flex items-start gap-4">
-                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
-                          <MapPin className="w-6 h-6 text-primary-foreground" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Our Location</h3>
-                          <p className="text-muted-foreground">
-                            James Nderi Road, Laini-Saba<br />
-                            Kibera, Nairobi, Kenya
-                          </p>
-                        </div>
-                      </CardContent>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <Card className="p-8 border-none bg-primary/5 rounded-[2rem] hover:bg-primary hover:text-white transition-all duration-500 group shadow-soft hover:shadow-glow hover:-translate-y-2">
+                      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <MapPin className="w-7 h-7 text-primary" />
+                      </div>
+                      <h3 className="font-black text-xl mb-3 font-['Poppins',sans-serif]">Our Location</h3>
+                      <p className="text-muted-foreground group-hover:text-white/90 font-medium">
+                        James Nderi Road, Laini-Saba<br />
+                        Kibera, Nairobi, Kenya
+                      </p>
                     </Card>
 
-                    <Card variant="elevated">
-                      <CardContent className="p-6 flex items-start gap-4">
-                        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
-                          <Mail className="w-6 h-6 text-secondary-foreground" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Email Us</h3>
-                          <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">
-                            copacenter21@gmail.com
-                          </a>
-                        </div>
-                      </CardContent>
+                    <Card className="p-8 border-none bg-secondary/5 rounded-[2rem] hover:bg-secondary hover:text-white transition-all duration-500 group shadow-soft hover:shadow-glow-secondary hover:-translate-y-2">
+                      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <Mail className="w-7 h-7 text-secondary" />
+                      </div>
+                      <h3 className="font-black text-xl mb-3 font-['Poppins',sans-serif]">Email Us</h3>
+                      <a href="mailto:copacenter21@gmail.com" className="text-primary group-hover:text-white font-black underline decoration-2 underline-offset-4 decoration-primary/30 group-hover:decoration-white/50 transition-colors">
+                        copacenter21@gmail.com
+                      </a>
                     </Card>
 
-                    <Card variant="elevated">
-                      <CardContent className="p-6 flex items-start gap-4">
-                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shrink-0">
-                          <Phone className="w-6 h-6 text-primary-foreground" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Call Us</h3>
-                          <p className="text-muted-foreground">
-                            +254 7 18720630
-                          </p>
-                        </div>
-                      </CardContent>
+                    <Card className="p-8 border-none bg-primary/5 rounded-[2rem] hover:bg-primary hover:text-white transition-all duration-500 group shadow-soft hover:shadow-glow hover:-translate-y-2">
+                      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <Phone className="w-7 h-7 text-primary" />
+                      </div>
+                      <h3 className="font-black text-xl mb-3 font-['Poppins',sans-serif]">Call Us</h3>
+                      <p className="text-muted-foreground group-hover:text-white/90 font-black text-lg">
+                        +254 7 18720630
+                      </p>
                     </Card>
 
-                    <Card variant="elevated">
-                      <CardContent className="p-6 flex items-start gap-4">
-                        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
-                          <Clock className="w-6 h-6 text-secondary-foreground" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-foreground mb-1 font-['Poppins',sans-serif]">Visiting Hours</h3>
-                          <p className="text-muted-foreground">
-                            Monday - Friday: 8:00 AM - 5:00 PM<br />
-                            Saturday: 9:00 AM - 1:00 PM
-                          </p>
-                        </div>
-                      </CardContent>
+                    <Card className="p-8 border-none bg-secondary/5 rounded-[2rem] hover:bg-secondary hover:text-white transition-all duration-500 group shadow-soft hover:shadow-glow-secondary hover:-translate-y-2">
+                      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <Clock className="w-7 h-7 text-secondary" />
+                      </div>
+                      <h3 className="font-black text-xl mb-3 font-['Poppins',sans-serif]">Visiting Hours</h3>
+                      <p className="text-muted-foreground group-hover:text-white/90 font-medium">
+                        Mon - Fri: 8 AM - 5 PM<br />
+                        Sat: 9 AM - 1 PM
+                      </p>
                     </Card>
                   </div>
 
                   {/* Social Links */}
-                  <div className="mt-8">
-                    <h3 className="font-semibold text-foreground mb-4 font-['Poppins',sans-serif]">Follow Us</h3>
-                    <div className="flex gap-3">
+                  <div className="mt-12">
+                    <h3 className="font-black text-xl text-foreground mb-6 font-['Poppins',sans-serif]">Community Hubs</h3>
+                    <div className="flex flex-wrap gap-4">
                       {[
-                        { icon: Facebook, label: "Facebook" },
-                        { icon: Twitter, label: "Twitter" },
-                        { icon: Instagram, label: "Instagram" },
-                        { icon: Youtube, label: "Youtube" },
+                        { icon: Facebook, label: "Facebook", bg: "hover:bg-blue-600" },
+                        { icon: Twitter, label: "Twitter", bg: "hover:bg-sky-500" },
+                        { icon: Instagram, label: "Instagram", bg: "hover:bg-pink-600" },
+                        { icon: Youtube, label: "Youtube", bg: "hover:bg-red-600" },
                       ].map((social) => (
                         <a
                           key={social.label}
                           href="#"
-                          className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-smooth"
+                          className={`w-14 h-14 bg-muted rounded-2xl flex items-center justify-center text-muted-foreground hover:text-white transition-all duration-300 ${social.bg} hover:shadow-lg hover:-translate-y-1`}
                           aria-label={social.label}
                         >
-                          <social.icon className="w-5 h-5" />
+                          <social.icon className="w-6 h-6" />
                         </a>
                       ))}
                     </div>
                   </div>
-                </div>
-              </ScrollReveal>
+                </ScrollReveal>
+              </div>
 
               {/* Contact Form */}
-              <div>
-                <Card variant="elevated">
-                  <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">
-                      Send Us a Message
+              <ScrollReveal animation="slide-left">
+                <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden group/form bg-white">
+                  <div className="h-4 bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient-x" />
+                  <CardContent className="p-10 lg:p-16">
+                    <h2 className="text-3xl font-black text-foreground mb-8 font-['Poppins',sans-serif] tracking-tight">
+                      Send a <span className="text-primary italic">Message</span>
                     </h2>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="name">Full Name *</Label>
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="space-y-3">
+                          <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Full Name *</Label>
                           <Input
                             id="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="mt-2"
+                            className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="John Doe"
                           />
                         </div>
-                        <div>
-                          <Label htmlFor="email">Email Address *</Label>
+                        <div className="space-y-3">
+                          <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Email Address *</Label>
                           <Input
                             id="email"
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="mt-2"
+                            className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="john@example.com"
                           />
                         </div>
                       </div>
-                      <div>
-                        <Label htmlFor="subject">Subject</Label>
+                      <div className="space-y-3">
+                        <Label htmlFor="subject" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Subject</Label>
                         <Input
                           id="subject"
                           value={subject}
                           onChange={(e) => setSubject(e.target.value)}
-                          className="mt-2"
+                          className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                           placeholder="How can we help?"
                         />
                       </div>
-                      <div>
-                        <Label htmlFor="message">Message *</Label>
+                      <div className="space-y-3">
+                        <Label htmlFor="message" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Message *</Label>
                         <Textarea
                           id="message"
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
                           required
-                          className="mt-2"
-                          placeholder="Write your message here..."
-                          rows={6}
+                          className="rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium p-6 resize-none"
+                          placeholder="Write your heart out..."
+                          rows={5}
                         />
                       </div>
-                      <Button variant="cta" size="lg" type="submit" className="w-full" disabled={isSubmitting}>
-                        <Send className="w-5 h-5" />
-                        {isSubmitting ? "Sending..." : "Send Message"}
+                      <Button variant="cta" size="xl" type="submit" className="w-full shadow-glow-primary rounded-2xl h-16 text-lg font-black group/btn" disabled={isSubmitting}>
+                        {isSubmitting ? (
+                          "Sending Message..."
+                        ) : (
+                          <>
+                            Direct Dispatch
+                            <Send className="w-5 h-5 ml-2 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                          </>
+                        )}
                       </Button>
                     </form>
                   </CardContent>
                 </Card>
-              </div>
+              </ScrollReveal>
             </div>
           </div>
         </section>
 
         {/* Map Section */}
-        <section className="py-20 bg-gradient-warm">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
-                Find Us in Kibera
-              </h2>
-              <p className="text-muted-foreground">
-                Located on James Nderi Road in Laini-Saba, Kibera — the heart of our community.
-              </p>
-            </div>
+        <section className="py-24 md:py-32 bg-primary/5 relative overflow-hidden">
+          <div className="absolute top-1/2 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -translate-x-1/2 -z-10" />
+          <div className="container mx-auto px-4 relative">
+            <ScrollReveal animation="fade-up">
+              <div className="text-center mb-16">
+                <span className="inline-block text-secondary font-black text-sm uppercase tracking-[0.3em] mb-4">
+                  Open Doors
+                </span>
+                <h2 className="text-3xl md:text-6xl font-black text-foreground mb-6 font-['Poppins',sans-serif] tracking-tight">
+                  Kibera is our <span className="text-primary italic">Canvas</span>
+                </h2>
+                <p className="text-xl text-muted-foreground/90 max-w-2xl mx-auto italic font-['Open_Sans',sans-serif]">
+                  Located on James Nderi Road in Laini-Saba — the beating heart of our community.
+                  <span className="block font-black mt-2 text-foreground not-italic">Drop by for a coffee and a tour!</span>
+                </p>
+              </div>
 
-            <Card variant="elevated" className="overflow-hidden p-0 h-[450px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7610!2d36.7950!3d-1.3146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11712918699b%3A0xbfdc29e50d5d7c2d!2zQ29tbXVuaXR5IFBpbGxhcnMgQWxsaWFuY2UgQ2VudHJlIChDT1BBKQ!5e0!3m2!1sen!2ske!4v1706786000000!5m2!1sen!2ske"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps - COPA Centre Location"
-              ></iframe>
-            </Card>
+              <Card className="overflow-hidden p-0 h-[500px] border-none shadow-soft rounded-[3rem] relative group/map">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7610!2d36.7950!3d-1.3146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11712918699b%3A0xbfdc29e50d5d7c2d!2zQ29tbXVuaXR5IFBpbGxhcnMgQWxsaWFuY2UgQ2VudHJlIChDT1BBKQ!5e0!3m2!1sen!2ske!4v1706786000000!5m2!1sen!2ske"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Google Maps - COPA Centre Location"
+                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                ></iframe>
+                <div className="absolute inset-0 pointer-events-none border-[12px] border-white/10 group-hover/map:border-white/0 transition-all duration-500 rounded-[3rem]" />
+              </Card>
+            </ScrollReveal>
           </div>
         </section>
       </main>
       <Footer />
-    </div>
+    </div >
   );
 };
 
