@@ -65,8 +65,9 @@ const News = () => {
               {categories.map((category) => (
                 <Button
                   key={category}
-                  variant={category === "All" ? "hope" : "outline"}
-                  className={`rounded-full px-8 py-6 h-auto text-sm font-bold uppercase tracking-widest transition-all duration-300 ${category === "All" ? "shadow-glow" : "hover:border-primary/50 hover:bg-primary/5"
+                  variant={activeCategory === category ? "hope" : "outline"}
+                  onClick={() => setActiveCategory(category)}
+                  className={`rounded-full px-6 py-3 h-auto text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeCategory === category ? "shadow-glow" : "hover:border-primary/50 hover:bg-primary/5"
                     }`}
                 >
                   {category}
