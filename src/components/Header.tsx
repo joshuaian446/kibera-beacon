@@ -40,9 +40,9 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <img 
-              src={copaLogo} 
-              alt="COPA Centre Logo" 
+            <img
+              src={copaLogo}
+              alt="COPA Centre Logo"
               className="w-12 h-12 object-contain transition-smooth group-hover:scale-105"
             />
             <div className="flex flex-col">
@@ -74,8 +74,8 @@ const Header = () => {
                       ? "text-primary"
                       : "text-secondary"
                     : isScrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-primary-foreground/90 hover:text-primary-foreground",
+                      ? "text-foreground hover:text-primary"
+                      : "text-primary-foreground/90 hover:text-primary-foreground",
                   "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-secondary after:transition-all hover:after:w-full",
                   location.pathname === link.path && "after:w-full"
                 )}
@@ -113,34 +113,53 @@ const Header = () => {
         {/* Mobile Menu */}
         <div
           className={cn(
-            "lg:hidden overflow-hidden transition-all duration-300",
-            isMobileMenuOpen ? "max-h-96 mt-4" : "max-h-0"
+            "lg:hidden fixed inset-x-4 top-24 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            isMobileMenuOpen
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-8 pointer-events-none"
           )}
         >
-          <div className="bg-card rounded-lg shadow-card p-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  "block px-4 py-3 rounded-lg font-medium transition-smooth font-['Poppins',sans-serif]",
-                  location.pathname === link.path
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground hover:bg-muted"
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
-            <Button variant="hope" className="w-full mt-4" asChild>
-              <Link to="/get-involved" onClick={() => setIsMobileMenuOpen(false)}>
-                <Heart className="w-4 h-4" />
-                Donate Now
-              </Link>
-            </Button>
+          <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] border border-white/20 shadow-2xl p-8 space-y-4 relative overflow-hidden">
+            {/* Background Decorative Blob */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+
+            <div className="flex flex-col gap-2 relative">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{ transitionDelay: `${index * 50}ms` }}
+                  className={cn(
+                    "flex items-center justify-between px-6 py-4 rounded-2xl font-black text-lg transition-all duration-300 font-['Poppins',sans-serif]",
+                    location.pathname === link.path
+                      ? "bg-primary text-white shadow-glow"
+                      : "text-foreground hover:bg-primary/5 hover:translate-x-2"
+                  )}
+                >
+                  {link.name}
+                  {location.pathname === link.path && <Heart className="w-5 h-5 fill-white" />}
+                </Link>
+              ))}
+              <div className="pt-4 border-t border-border/50 mt-2">
+                <Button variant="hope" size="xl" className="w-full shadow-glow py-8 rounded-2xl" asChild>
+                  <Link to="/get-involved" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Heart className="w-5 h-5 mr-2" />
+                    Donate Now
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Backdrop for Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </nav>
     </header>
   );

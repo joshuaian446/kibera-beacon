@@ -264,115 +264,117 @@ const GetInvolved = () => {
                               Proceed to Donation
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="sm:max-w-2xl rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl">
-                            <DialogHeader className="bg-primary p-10 text-white relative overflow-hidden">
+                          <DialogContent className="w-[95vw] sm:max-w-2xl rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl max-h-[90vh] flex flex-col">
+                            <DialogHeader className="bg-primary p-6 md:p-10 text-white relative overflow-hidden flex-shrink-0">
                               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
-                              <DialogTitle className="text-3xl font-black font-['Poppins',sans-serif] mb-2">Choose Payment Method</DialogTitle>
-                              <DialogDescription className="text-primary-foreground/80 text-lg italic">
+                              <DialogTitle className="text-2xl md:text-3xl font-black font-['Poppins',sans-serif] mb-1 md:mb-2">Choose Payment Method</DialogTitle>
+                              <DialogDescription className="text-primary-foreground/80 text-sm md:text-lg italic">
                                 Thank you, {donorName.split(' ')[0]}! Your donation of KSh {(customAmount || selectedAmount).toLocaleString()} will make a massive impact.
                               </DialogDescription>
                             </DialogHeader>
 
-                            <div className="p-8">
+                            <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar">
                               <Tabs defaultValue="paypal" className="w-full">
-                                <TabsList className="grid grid-cols-3 h-14 bg-muted/50 rounded-xl p-1 mb-8">
-                                  <TabsTrigger value="paypal" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">PayPal</TabsTrigger>
-                                  <TabsTrigger value="bank" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bank</TabsTrigger>
-                                  <TabsTrigger value="mpesa" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">M-Pesa</TabsTrigger>
+                                <TabsList className="grid grid-cols-3 h-12 md:h-14 bg-muted/50 rounded-xl p-1 mb-6 md:mb-8">
+                                  <TabsTrigger value="paypal" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">PayPal</TabsTrigger>
+                                  <TabsTrigger value="bank" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bank</TabsTrigger>
+                                  <TabsTrigger value="mpesa" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">M-Pesa</TabsTrigger>
                                 </TabsList>
 
-                                <TabsContent value="paypal" className="animate-fade-in-up">
-                                  <div className="group relative bg-[#0070ba]/5 border-2 border-[#0070ba]/10 hover:border-[#0070ba]/30 p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070ba]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                    <div className="relative text-center">
-                                      <div className="w-16 h-16 bg-[#0070ba] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_10px_30px_rgba(0,112,186,0.3)]">
-                                        <ArrowRight className="w-8 h-8 text-white" />
-                                      </div>
-                                      <h3 className="text-[#0070ba] font-black text-2xl mb-4 font-['Poppins',sans-serif]">International Support</h3>
-                                      <p className="text-muted-foreground mb-8 leading-relaxed">
-                                        Fast, secure, and supports all major credit cards globally. Best for donors outside Kenya.
-                                      </p>
-                                      <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-16 rounded-2xl font-black text-lg shadow-xl hover:shadow-[#0070ba]/20 hover:-translate-y-1 transition-all" onClick={() => window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank")}>
-                                        Donate via PayPal
-                                        <ArrowRight className="h-5 h-5 ml-2" />
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-
-                                <TabsContent value="bank" className="animate-fade-in-up">
-                                  <div className="group relative bg-secondary/5 border-2 border-secondary/10 hover:border-secondary/30 p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                    <h3 className="text-secondary font-black text-2xl mb-8 font-['Poppins',sans-serif] text-center">Equity Bank Wire</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
-                                      <div className="space-y-6">
-                                        <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Name</div>
-                                          <div className="font-bold text-foreground">Community Pillars Alliance</div>
+                                <div className="min-h-[400px] md:min-h-[450px]">
+                                  <TabsContent value="paypal" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-[#0070ba]/5 border-2 border-[#0070ba]/10 hover:border-[#0070ba]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070ba]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <div className="relative text-center">
+                                        <div className="w-16 h-16 bg-[#0070ba] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_10px_30px_rgba(0,112,186,0.3)]">
+                                          <ArrowRight className="w-8 h-8 text-white" />
                                         </div>
-                                        <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10 group/item">
-                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
-                                          <div className="font-black text-xl text-foreground flex items-center justify-between">
-                                            1280185473337
-                                            <Button variant="ghost" size="icon" className="h-10 w-10 text-secondary hover:bg-secondary/10 rounded-xl" onClick={() => copyToClipboard("1280185473337", "Account Number")}>
-                                              <Copy className="h-5 w-5" />
+                                        <h3 className="text-[#0070ba] font-black text-xl md:text-2xl mb-4 font-['Poppins',sans-serif]">International Support</h3>
+                                        <p className="text-sm md:text-base text-muted-foreground mb-8 leading-relaxed">
+                                          Fast, secure, and supports all major credit cards globally. Best for donors outside Kenya.
+                                        </p>
+                                        <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-14 md:h-16 rounded-2xl font-black text-base md:text-lg shadow-xl hover:shadow-[#0070ba]/20 hover:-translate-y-1 transition-all" onClick={() => window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank")}>
+                                          Donate via PayPal
+                                          <ArrowRight className="h-5 h-5 ml-2" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  </TabsContent>
+
+                                  <TabsContent value="bank" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-secondary/5 border-2 border-secondary/10 hover:border-secondary/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <h3 className="text-secondary font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Equity Bank Wire</h3>
+                                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 relative">
+                                        <div className="space-y-4 md:space-y-6">
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Name</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">Community Pillars Alliance</div>
+                                          </div>
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10 group/item">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
+                                            <div className="font-black text-lg md:text-xl text-foreground flex items-center justify-between gap-2">
+                                              1280185473337
+                                              <Button variant="ghost" size="icon" className="h-9 w-9 text-secondary hover:bg-secondary/10 rounded-xl flex-shrink-0" onClick={() => copyToClipboard("1280185473337", "Account Number")}>
+                                                <Copy className="h-4 w-4" />
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="space-y-4 md:space-y-6">
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">SWIFT Code</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">EQBLKENA</div>
+                                          </div>
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Branch</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">Nairobi West (128)</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <p className="mt-6 md:mt-8 text-center text-[10px] md:text-xs text-muted-foreground font-medium italic">
+                                        Include <span className="text-secondary font-bold">COPA Donation</span> in the transfer description.
+                                      </p>
+                                    </div>
+                                  </TabsContent>
+
+                                  <TabsContent value="mpesa" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-[#00a651]/5 border-2 border-[#00a651]/10 hover:border-[#00a651]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00a651]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <div className="relative">
+                                        <div className="text-[#00a651] font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Lipa na M-Pesa</div>
+                                        <div className="flex flex-col gap-4 md:gap-6">
+                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/paybill">
+                                            <div>
+                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Business Number</div>
+                                              <div className="text-2xl md:text-3xl font-black text-foreground">247247</div>
+                                            </div>
+                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("247247", "Paybill Number")}>
+                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
+                                            </Button>
+                                          </div>
+
+                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/acc">
+                                            <div>
+                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
+                                              <div className="text-2xl md:text-3xl font-black text-foreground">473337</div>
+                                            </div>
+                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("473337", "Account Number")}>
+                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
                                             </Button>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="space-y-6">
-                                        <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">SWIFT Code</div>
-                                          <div className="font-bold text-foreground">EQBLKENA</div>
-                                        </div>
-                                        <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Branch</div>
-                                          <div className="font-bold text-foreground">Nairobi West (Code: 128)</div>
+                                        <div className="mt-6 md:mt-8 text-center">
+                                          <div className="text-xs md:text-sm font-bold text-foreground">Name: <span className="text-[#00a651] italic">COPA</span></div>
+                                          <p className="mt-3 md:mt-4 text-[10px] md:text-xs text-muted-foreground leading-relaxed">
+                                            1. Paybill &gt; Business No. 247247<br />
+                                            2. Account No. 473337
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
-                                    <p className="mt-8 text-center text-xs text-muted-foreground font-medium italic">
-                                      Don't forget to include <span className="text-secondary font-bold">COPA Donation</span> in the transfer description.
-                                    </p>
-                                  </div>
-                                </TabsContent>
-
-                                <TabsContent value="mpesa" className="animate-fade-in-up">
-                                  <div className="group relative bg-[#00a651]/5 border-2 border-[#00a651]/10 hover:border-[#00a651]/30 p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#00a651]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                    <div className="relative">
-                                      <div className="text-[#00a651] font-black text-2xl mb-8 font-['Poppins',sans-serif] text-center">Lipa na M-Pesa</div>
-                                      <div className="flex flex-col gap-6">
-                                        <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/paybill">
-                                          <div>
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Business Number (Paybill)</div>
-                                            <div className="text-3xl font-black text-foreground">247247</div>
-                                          </div>
-                                          <Button variant="ghost" size="icon" className="h-12 w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("247247", "Paybill Number")}>
-                                            <Copy className="h-6 w-6" />
-                                          </Button>
-                                        </div>
-
-                                        <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/acc">
-                                          <div>
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
-                                            <div className="text-3xl font-black text-foreground">473337</div>
-                                          </div>
-                                          <Button variant="ghost" size="icon" className="h-12 w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("473337", "Account Number")}>
-                                            <Copy className="h-6 w-6" />
-                                          </Button>
-                                        </div>
-                                      </div>
-                                      <div className="mt-8 text-center">
-                                        <div className="text-sm font-bold text-foreground">Account Name: <span className="text-[#00a651] italic">Community Pillars Alliance (COPA)</span></div>
-                                        <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
-                                          1. Go to M-Pesa Menu &gt; Lipa na M-Pesa &gt; Paybill<br />
-                                          2. Enter Business No. 247247 &amp; Acc No. 473337
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </TabsContent>
+                                  </TabsContent>
+                                </div>
                               </Tabs>
                             </div>
                           </DialogContent>
