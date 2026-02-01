@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +11,10 @@ import { Heart, Users, Calendar, Gift, CheckCircle, ArrowRight } from "lucide-re
 import { toast } from "sonner";
 import { storageImages } from "@/lib/storage";
 import ScrollReveal from "@/components/ScrollReveal";
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Copy } from "lucide-react";
 
 const donationOptions = [
   { amount: "1000", label: "KSh 1,000", description: "Provides meals for a child for one week" },
@@ -28,18 +33,24 @@ const needs = [
 ];
 
 const GetInvolved = () => {
+  const navigate = useNavigate();
   const [selectedAmount, setSelectedAmount] = useState("");
   const [customAmount, setCustomAmount] = useState("");
   const [donorName, setDonorName] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState<"paypal" | "mpesa" | "bank" | "">("paypal");
-  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [volunteerName, setVolunteerName] = useState("");
   const [volunteerEmail, setVolunteerEmail] = useState("");
   const [volunteerPhone, setVolunteerPhone] = useState("");
   const [volunteerSkills, setVolunteerSkills] = useState("");
   const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
+  };
 
   const handleDonationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,32 +59,7 @@ const GetInvolved = () => {
       toast.error("Please select or enter a donation amount");
       return;
     }
-
-    // Show payment methods instead of processing immediately
-    setShowPaymentMethods(true);
-    toast.success("Please select your payment method below");
-  };
-
-  const handlePaymentMethodClick = (method: "paypal" | "mpesa" | "bank") => {
-    setPaymentMethod(method);
-
-    // For PayPal, redirect to PayPal donation page
-    if (method === "paypal") {
-      window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank");
-      toast.success("Redirecting to PayPal...");
-      return;
-    }
-
-    // For M-Pesa and Bank Transfer, show instructions
-    if (method === "mpesa") {
-      toast.info("M-Pesa payment instructions will be displayed. (Coming soon)");
-      return;
-    }
-
-    if (method === "bank") {
-      toast.info("Bank transfer details will be provided. (Coming soon)");
-      return;
-    }
+    setIsModalOpen(true);
   };
 
   const handleVolunteerSubmit = async (e: React.FormEvent) => {
@@ -271,35 +257,106 @@ const GetInvolved = () => {
                           />
                         </div>
 
-                        <Button variant="hope" size="xl" type="submit" className="w-full shadow-glow py-8 text-lg">
-                          <Heart className="w-6 h-6 mr-2 animate-pulse" />
-                          Proceed to Donation
-                        </Button>
-                      </form>
+                        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                          <DialogTrigger asChild>
+                            <Button variant="hope" size="xl" type="submit" className="w-full shadow-glow py-8 text-lg">
+                              <Heart className="w-6 h-6 mr-2 animate-pulse" />
+                              Proceed to Donation
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-2xl rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl">
+                            <DialogHeader className="bg-primary p-10 text-white relative overflow-hidden">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
+                              <DialogTitle className="text-3xl font-black font-['Poppins',sans-serif] mb-2">Choose Payment Method</DialogTitle>
+                              <DialogDescription className="text-primary-foreground/80 text-lg italic">
+                                Thank you, {donorName.split(' ')[0]}! Your donation of KSh {(customAmount || selectedAmount).toLocaleString()} will make a massive impact.
+                              </DialogDescription>
+                            </DialogHeader>
 
-                      {/* Payment Method Selection */}
-                      {showPaymentMethods && (
-                        <div className="mt-10 pt-10 border-t border-border animate-fade-in-up">
-                          <Label className="text-sm font-black text-foreground uppercase tracking-widest mb-6 block">Choose Your Payment Method</Label>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            {[
-                              { id: "paypal", label: "PayPal", sub: "International", color: "hover:border-[#0070ba] hover:bg-[#0070ba]/10" },
-                              { id: "mpesa", label: "M-Pesa", sub: "Kenya", color: "hover:border-[#00a651] hover:bg-[#00a651]/10" },
-                              { id: "bank", label: "Bank Transfer", sub: "Direct", color: "hover:border-secondary hover:bg-secondary/10" }
-                            ].map((method) => (
-                              <button
-                                key={method.id}
-                                type="button"
-                                onClick={() => handlePaymentMethodClick(method.id as any)}
-                                className={`p-6 rounded-2xl border-2 text-center transition-all duration-300 border-border ${method.color} group`}
-                              >
-                                <div className="font-bold text-foreground mb-1 group-hover:scale-105 transition-transform">{method.label}</div>
-                                <div className="text-[10px] font-bold uppercase tracking-tighter text-muted-foreground">{method.sub}</div>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                            <div className="p-8">
+                              <Tabs defaultValue="mpesa" className="w-full">
+                                <TabsList className="grid grid-cols-3 h-14 bg-muted/50 rounded-xl p-1 mb-8">
+                                  <TabsTrigger value="mpesa" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">M-Pesa</TabsTrigger>
+                                  <TabsTrigger value="paypal" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">PayPal</TabsTrigger>
+                                  <TabsTrigger value="bank" className="rounded-lg font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bank</TabsTrigger>
+                                </TabsList>
+
+                                <TabsContent value="mpesa" className="space-y-6 animate-fade-in">
+                                  <div className="bg-[#00a651]/5 border border-[#00a651]/20 p-8 rounded-2xl text-center">
+                                    <div className="text-[#00a651] font-black text-xl mb-4">Send via M-Pesa</div>
+                                    <div className="space-y-4">
+                                      <div className="flex flex-col items-center">
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Direct Number</span>
+                                        <div className="text-2xl font-black text-foreground flex items-center gap-2">
+                                          +254 718 720 630
+                                          <Button variant="ghost" size="icon" className="h-8 w-8 text-primary" onClick={() => copyToClipboard("+254718720630", "M-Pesa Number")}>
+                                            <Copy className="h-4 w-4" />
+                                          </Button>
+                                        </div>
+                                      </div>
+                                      <div className="text-sm text-muted-foreground italic">
+                                        Account Name: <span className="font-bold text-foreground">Clement Ombati</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </TabsContent>
+
+                                <TabsContent value="paypal" className="animate-fade-in">
+                                  <div className="bg-[#0070ba]/5 border border-[#0070ba]/20 p-8 rounded-2xl text-center">
+                                    <div className="text-[#0070ba] font-black text-xl mb-4">International Support</div>
+                                    <p className="text-sm text-muted-foreground mb-8">Fast, secure, and supports all major credit cards globally.</p>
+                                    <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-14 rounded-xl font-bold shadow-lg" onClick={() => window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank")}>
+                                      Donate via PayPal
+                                      <ArrowRight className="h-4 w-4 ml-2" />
+                                    </Button>
+                                  </div>
+                                </TabsContent>
+
+                                <TabsContent value="bank" className="animate-fade-in">
+                                  <div className="bg-secondary/5 border border-secondary/20 p-8 rounded-2xl">
+                                    <div className="text-secondary font-black text-xl mb-6 text-center">Direct Bank Transfer</div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                      <div className="space-y-4">
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Bank</div>
+                                          <div className="font-bold text-foreground">Equity Bank Kenya</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Account Name</div>
+                                          <div className="font-bold text-foreground">Community Pillars Alliance</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Account Number</div>
+                                          <div className="font-bold text-foreground flex items-center gap-2">
+                                            1280185473337
+                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard("1280185473337", "Account Number")}>
+                                              <Copy className="h-3 w-3" />
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="space-y-4">
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">SWIFT Code</div>
+                                          <div className="font-bold text-foreground">EQBLKENA</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Branch</div>
+                                          <div className="font-bold text-foreground">Nairobi West (Code: 128)</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Bank Code</div>
+                                          <div className="font-bold text-foreground">68</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </TabsContent>
+                              </Tabs>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </form>
                     </CardContent>
                   </Card>
                 </div>
@@ -344,10 +401,10 @@ const GetInvolved = () => {
                         "We also accept in-kind donations such as books, school supplies, sports equipment, and food items to directly support the children's daily needs."
                       </p>
                       <Button variant="hero" className="bg-white text-primary hover:bg-white/90" asChild>
-                        <a href="mailto:copacenter21@gmail.com" className="font-bold">
+                        <Link to="/contact" className="font-bold">
                           Contact Us to Arrange
                           <ArrowRight className="w-5 h-5 ml-2" />
-                        </a>
+                        </Link>
                       </Button>
                     </CardContent>
                   </Card>

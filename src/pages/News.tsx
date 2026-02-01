@@ -2,7 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { newsArticles, categories } from "@/lib/newsData";
@@ -69,58 +70,62 @@ const News = () => {
         <section className="py-24 md:py-32 bg-background relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50" />
           <div className="container mx-auto px-4 relative">
-            <ScrollReveal animation="fade-up">
-              <Card className="overflow-hidden border-none shadow-2xl max-w-6xl mx-auto rounded-[3rem] group">
-                <div className="grid lg:grid-cols-2">
-                  <div className="relative aspect-video lg:aspect-auto overflow-hidden">
-                    <img
-                      src={newsArticles[0].image}
-                      alt={newsArticles[0].title}
-                      className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute top-6 left-6">
-                      <span className="bg-secondary text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-glow">
-                        Featured Story
-                      </span>
-                    </div>
-                  </div>
-                  <CardContent className="p-10 lg:p-16 flex flex-col justify-center bg-white">
-                    <div className="flex items-center gap-4 text-sm font-bold mb-6">
-                      <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full uppercase tracking-tighter">
-                        {newsArticles[0].category}
-                      </span>
-                      <span className="flex items-center gap-2 text-muted-foreground/80">
-                        <Calendar className="w-4 h-4 text-secondary" />
-                        {newsArticles[0].date}
-                      </span>
-                    </div>
-                    <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-6 font-['Poppins',sans-serif] leading-tight group-hover:text-primary transition-colors">
-                      {newsArticles[0].title}
-                    </h2>
-                    <p className="text-lg text-muted-foreground/90 mb-10 leading-relaxed font-['Open_Sans',sans-serif] italic">
-                      {newsArticles[0].excerpt}
-                    </p>
-                    <div className="flex flex-wrap items-center justify-between gap-6 pt-8 border-t border-border mt-auto">
-                      <div className="flex items-center gap-6 text-sm font-bold text-muted-foreground">
-                        <span className="flex items-center gap-2">
-                          <User className="w-4 h-4 text-primary" />
-                          {newsArticles[0].author}
-                        </span>
-                        <span className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-secondary" />
-                          {newsArticles[0].readTime}
+            <ScrollReveal animation="fade-up" key={activeCategory + "-featured"}>
+              {featuredArticle ? (
+                <Card className="overflow-hidden border-none shadow-2xl max-w-6xl mx-auto rounded-[3rem] group">
+                  <div className="grid lg:grid-cols-2">
+                    <div className="relative aspect-video lg:aspect-auto overflow-hidden">
+                      <img
+                        src={featuredArticle.image}
+                        alt={featuredArticle.title}
+                        className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute top-6 left-6">
+                        <span className="bg-secondary text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-glow">
+                          Featured Story
                         </span>
                       </div>
-                      <Button variant="cta" size="xl" className="group/btn shadow-soft" asChild>
-                        <Link to={`/news/${newsArticles[0].slug}`} className="flex items-center gap-3">
+                    </div>
+                    <CardContent className="p-10 lg:p-16 flex flex-col justify-center bg-white">
+                      <div className="flex items-center gap-4 text-sm font-bold mb-6">
+                        <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full uppercase tracking-tighter">
+                          {featuredArticle.category}
+                        </span>
+                        <span className="flex items-center gap-2 text-muted-foreground/80">
+                          <Calendar className="w-4 h-4 text-secondary" />
+                          {featuredArticle.date}
+                        </span>
+                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-6 font-['Poppins',sans-serif] leading-tight group-hover:text-primary transition-colors">
+                        {featuredArticle.title}
+                      </h2>
+                      <p className="text-lg text-muted-foreground/90 mb-10 leading-relaxed font-['Open_Sans',sans-serif] italic">
+                        {featuredArticle.excerpt}
+                      </p>
+                      <div className="flex flex-wrap items-center justify-between gap-6 pt-8 border-t border-border mt-auto">
+                        <div className="flex items-center gap-6 text-sm font-bold text-muted-foreground">
+                          <span className="flex items-center gap-2">
+                            <User className="w-4 h-4 text-primary" />
+                            {featuredArticle.author}
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-secondary" />
+                            {featuredArticle.readTime}
+                          </span>
+                        </div>
+                        <Button variant="cta" size="xl" className="group/btn shadow-soft" onClick={() => navigate(`/news/${featuredArticle.slug}`)}>
                           Read The Full Story
                           <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+              ) : (
+                <div className="text-center py-20">
+                  <h3 className="text-2xl font-bold text-muted-foreground">No articles found in this category.</h3>
                 </div>
-              </Card>
+              )}
             </ScrollReveal>
           </div>
         </section>
@@ -142,11 +147,11 @@ const News = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
-              {newsArticles.slice(1).map((article, index) => (
-                <ScrollReveal key={article.id} animation="fade-up" delay={index * 100}>
-                  <Link
-                    to={`/news/${article.slug}`}
-                    className="group h-full block"
+              {gridArticles.map((article, index) => (
+                <ScrollReveal key={article.id + "-" + activeCategory} animation="fade-up" delay={index * 100}>
+                  <div
+                    onClick={() => navigate(`/news/${article.slug}`)}
+                    className="group h-full block cursor-pointer"
                   >
                     <Card
                       className="overflow-hidden border-none shadow-soft hover:shadow-glow transition-all duration-500 h-full bg-white rounded-[2rem] flex flex-col"
@@ -192,7 +197,7 @@ const News = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </Link>
+                  </div>
                 </ScrollReveal>
               ))}
             </div>
