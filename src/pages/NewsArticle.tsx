@@ -83,6 +83,17 @@ const NewsArticle = () => {
 
                   <div className="text-foreground space-y-4">
                     {article.content.split('\n').map((paragraph, index) => {
+                      // Helper to render inline markdown (like bold)
+                      const renderInline = (text: string) => {
+                        const parts = text.split(/(\*\*[^*]+\*\*)/g);
+                        return parts.map((part, i) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={i} className="font-black text-foreground">{part.slice(2, -2)}</strong>;
+                          }
+                          return part;
+                        });
+                      };
+
                       if (paragraph.startsWith('## ')) {
                         return (
                           <h2 key={index} className="text-2xl font-bold text-foreground mt-8 mb-4 font-['Poppins',sans-serif]">
@@ -97,17 +108,10 @@ const NewsArticle = () => {
                           </h3>
                         );
                       }
-                      if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                        return (
-                          <p key={index} className="font-semibold text-foreground mt-4">
-                            {paragraph.replace(/\*\*/g, '')}
-                          </p>
-                        );
-                      }
                       if (paragraph.startsWith('- ')) {
                         return (
-                          <li key={index} className="text-muted-foreground ml-4">
-                            {paragraph.replace('- ', '')}
+                          <li key={index} className="text-muted-foreground ml-4 mb-2">
+                            {renderInline(paragraph.replace('- ', ''))}
                           </li>
                         );
                       }
@@ -135,7 +139,7 @@ const NewsArticle = () => {
                       if (paragraph.trim()) {
                         return (
                           <p key={index} className="text-muted-foreground leading-relaxed">
-                            {paragraph}
+                            {renderInline(paragraph)}
                           </p>
                         );
                       }
