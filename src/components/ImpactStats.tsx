@@ -13,7 +13,7 @@ const CountUpStat = ({ end, suffix = "", label, icon: Icon, color }: { end: numb
       <div className="text-5xl md:text-6xl font-black text-white font-['Poppins',sans-serif] mb-2 tracking-tighter">
         {count}{suffix}
       </div>
-      <div className="text-primary-foreground/90 font-bold uppercase tracking-widest text-xs">
+      <div className="text-white/80 font-bold uppercase tracking-widest text-[10px] md:text-xs">
         {label}
       </div>
     </div>

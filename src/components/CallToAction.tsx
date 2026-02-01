@@ -26,14 +26,14 @@ const CallToAction = () => {
           {/* Content */}
           <ScrollReveal animation="slide-left">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-secondary text-xs font-black uppercase tracking-widest mb-6 border border-white/10">
-                <Sparkles className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-md rounded-full text-white text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
+                <Sparkles className="w-4 h-4 text-secondary" />
                 Get Involved
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 font-['Poppins',sans-serif] tracking-tight leading-[1.1]">
                 Help Us Build a <span className="text-secondary italic">Brighter</span> Future
               </h2>
-              <p className="text-primary-foreground/90 mb-10 text-xl leading-relaxed font-medium">
+              <p className="text-white/90 mb-10 text-lg md:text-xl leading-relaxed font-medium">
                 Every contribution transforms a life. Whether you donate your time or resources, you're helping us provide the education and nutrition Kibera's children deserve.
               </p>
 
