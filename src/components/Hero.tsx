@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, ChevronRight } from "lucide-react";
+import { Heart, ChevronRight, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-grad-portrait.jpg";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const Hero = () => {
   return (
@@ -13,52 +14,62 @@ const Hero = () => {
           alt="COPA Centre graduate"
           className="w-full h-full object-cover object-[center_25%] md:object-[center_20%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
         <div className="absolute inset-0 bg-primary/10" />
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-20 left-10 w-48 h-48 bg-secondary/10 rounded-full blur-3xl animate-float animation-delay-400" />
+      <div className="absolute top-20 right-10 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-float" />
+      <div className="absolute bottom-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float animation-delay-400" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-radial from-secondary/5 to-transparent blur-2xl -z-10" />
 
       {/* Content */}
       <div className="relative container mx-auto px-4 py-20 pt-32">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-fade-in-up">
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            <span className="text-primary-foreground/90 text-sm font-medium">
-              Transforming Lives in Kibera Since 2018
-            </span>
-          </div>
+        <div className="max-w-4xl">
+          <ScrollReveal animation="fade-up">
+            <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-md rounded-full px-5 py-2.5 mb-8 border border-primary-foreground/20">
+              <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
+              <span className="text-primary-foreground/90 text-sm font-bold uppercase tracking-widest">
+                Empowering Kibera Since 2018
+              </span>
+            </div>
+          </ScrollReveal>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 font-['Poppins',sans-serif] animate-fade-in-up animation-delay-200">
-            Empowering Kibera's{" "}
-            <span className="text-secondary">Future Leaders</span>
-          </h1>
+          <ScrollReveal animation="fade-up" delay={200}>
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-primary-foreground leading-[1.1] mb-8 font-['Poppins',sans-serif] tracking-tight">
+              Building a <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-secondary/80 to-secondary/60 italic">Resilient</span> Community
+            </h1>
+          </ScrollReveal>
 
-          <p className="text-lg md:text-xl text-primary-foreground/85 mb-8 max-w-2xl animate-fade-in-up animation-delay-400">
-            Education, Nutrition, Hope — Building a resilient community where every child has the opportunity to thrive and reach their full potential.
-          </p>
+          <ScrollReveal animation="fade-up" delay={400}>
+            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-10 max-w-2xl leading-relaxed font-medium">
+              Education, Nutrition, and Hope. We believe every child deserves a dignified future, starting with a quality education in the heart of Kibera.
+            </p>
+          </ScrollReveal>
 
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-600">
-            <Button variant="heroSolid" size="xl" asChild>
-              <Link to="/programs">
-                Our Programs
-                <ChevronRight className="w-5 h-5" />
-              </Link>
-            </Button>
-            <Button variant="hero" size="xl" className="animate-pulse-glow" asChild>
-              <Link to="/get-involved">
-                <Heart className="w-5 h-5" />
-                Donate Now
-              </Link>
-            </Button>
-            <Button variant="hero" size="xl" asChild>
-              <Link to="/contact">
-                Contact Us
-              </Link>
-            </Button>
-          </div>
+          <ScrollReveal animation="fade-up" delay={600}>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <Button variant="heroSolid" size="xl" className="shadow-glow px-8 group" asChild>
+                <Link to="/about">
+                  Our Story
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button variant="hero" size="xl" className="px-8 bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10" asChild>
+                <Link to="/get-involved">
+                  <Heart className="w-5 h-5 text-secondary" />
+                  Support Us
+                </Link>
+              </Button>
+              <Button variant="hero" size="xl" className="px-8 bg-transparent border-white/10 hover:border-secondary/50 group" asChild>
+                <Link to="/programs" className="flex items-center gap-2">
+                  Our Programs
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform opacity-50 group-hover:opacity-100" />
+                </Link>
+              </Button>
+            </div>
+          </ScrollReveal>
 
           {/* Stats Preview */}
           <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-primary-foreground/20 animate-fade-in-up animation-delay-600">

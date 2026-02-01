@@ -1,92 +1,105 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Users, Calendar, ArrowRight } from "lucide-react";
+import { Heart, Users, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import { storageImages } from "@/lib/storage";
+import ScrollReveal from "./ScrollReveal";
 
 const CallToAction = () => {
   return (
-    <section className="py-20 relative overflow-hidden">
-      {/* Background */}
+    <section className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background with multiple layers */}
       <div className="absolute inset-0">
         <img
           src={storageImages.heroAlt}
           alt="COPA Centre children"
           className="w-full h-full object-cover object-top md:object-[center_30%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary/80" />
+        <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px]" />
       </div>
 
-      <div className="container mx-auto px-4 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div>
-            <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-              Join Our Mission
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
-              Help Us Build a Brighter Future for Kibera's Children
-            </h2>
-            <p className="text-primary-foreground/85 mb-8 text-lg">
-              Every contribution makes a difference. Whether through donations, volunteering, or spreading awareness, you can be part of the change that transforms lives.
-            </p>
+      {/* Decorative pulse circles */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] bg-gradient-radial from-secondary/10 to-transparent blur-3xl -z-10 animate-pulse" />
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="heroSolid" size="xl" asChild>
-                <Link to="/get-involved">
-                  <Heart className="w-5 h-5" />
-                  Donate Now
-                </Link>
-              </Button>
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/get-involved">
-                  <Users className="w-5 h-5" />
-                  Volunteer
-                </Link>
-              </Button>
+      <div className="container mx-auto px-4 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Content */}
+          <ScrollReveal animation="slide-left">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-secondary text-xs font-black uppercase tracking-widest mb-6 border border-white/10">
+                <Sparkles className="w-4 h-4" />
+                Get Involved
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 font-['Poppins',sans-serif] tracking-tight leading-[1.1]">
+                Help Us Build a <span className="text-secondary italic">Brighter</span> Future
+              </h2>
+              <p className="text-primary-foreground/90 mb-10 text-xl leading-relaxed font-medium">
+                Every contribution transforms a life. Whether you donate your time or resources, you're helping us provide the education and nutrition Kibera's children deserve.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-6">
+                <Button variant="heroSolid" size="xl" className="shadow-glow px-10 group" asChild>
+                  <Link to="/get-involved">
+                    <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    Support Our Mission
+                  </Link>
+                </Button>
+                <Button variant="hero" size="xl" className="px-10 bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20" asChild>
+                  <Link to="/contact">
+                    Partner With Us
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Ways to Help Cards */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {[
               {
                 icon: Heart,
                 title: "Make a Donation",
                 description: "Support our programs with a one-time or recurring gift.",
                 link: "/get-involved",
+                delay: 200,
               },
               {
                 icon: Users,
                 title: "Become a Volunteer",
                 description: "Share your skills and time to make a direct impact.",
                 link: "/get-involved",
+                delay: 400,
               },
               {
                 icon: Calendar,
                 title: "Sponsor a Child",
                 description: "Provide education and meals for a child for a full year.",
                 link: "/get-involved",
+                delay: 600,
               },
             ].map((item, index) => (
-              <Link
-                key={item.title}
-                to={item.link}
-                className="flex items-center gap-4 bg-primary-foreground/10 backdrop-blur-sm rounded-xl p-5 hover:bg-primary-foreground/20 transition-smooth group animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
-                  <item.icon className="w-6 h-6 text-secondary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-primary-foreground font-['Poppins',sans-serif]">
-                    {item.title}
-                  </h3>
-                  <p className="text-primary-foreground/70 text-sm">
-                    {item.description}
-                  </p>
-                </div>
-                <ArrowRight className="w-5 h-5 text-primary-foreground/50 group-hover:text-secondary group-hover:translate-x-1 transition-all" />
-              </Link>
+              <ScrollReveal key={item.title} animation="slide-right" delay={item.delay}>
+                <Link
+                  to={item.link}
+                  className="flex items-center gap-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 hover:bg-white/15 transition-all duration-300 group shadow-lg"
+                >
+                  <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center shrink-0 shadow-glow transform group-hover:rotate-6 transition-transform">
+                    <item.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-black text-white font-['Poppins',sans-serif] mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-primary-foreground/70 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-secondary group-hover:text-white transition-all">
+                    <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
         </div>
