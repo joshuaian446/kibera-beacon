@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Mail, Phone, Clock, Send, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { toast } from "sonner";
 import ScrollReveal from "@/components/ScrollReveal";
+import contactHeroImage from "../assets/contact-hero.jpg";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -63,7 +64,11 @@ const Contact = () => {
         {/* Hero Section */}
         <section className="relative pt-32 pb-24 overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-primary" />
+            <img
+              src={contactHeroImage}
+              alt="Happy children at COPA Centre"
+              className="w-full h-full object-cover object-[center_25%]"
+            />
             <div className="absolute inset-0 bg-gradient-hero" />
           </div>
 
@@ -284,7 +289,7 @@ const Contact = () => {
         </section>
       </main>
       <Footer />
-    </div >
+    </div>
   );
 };
 

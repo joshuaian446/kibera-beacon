@@ -205,7 +205,7 @@ const News = () => {
           <div className="container mx-auto px-4 text-center relative">
             <ScrollReveal animation="fade-up">
               <h2 className="text-4xl md:text-5xl font-black text-primary-foreground mb-6 font-['Poppins',sans-serif] tracking-tight">
-                Never Miss a <span className="text-secondary italic">Step Forward</span>
+                Never Miss a <span className="text-white italic">Step Forward</span>
               </h2>
               <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-12 leading-relaxed font-['Open_Sans',sans-serif]">
                 Subscribe to our newsletter to receive the latest impact stories and community updates directly in your inbox.
