@@ -200,7 +200,7 @@ const News = () => {
         </section>
 
         {/* Newsletter CTA */}
-        <section className="py-24 md:py-32 bg-primary relative overflow-hidden">
+        <section className="py-24 md:py-32 bg-slate-950 relative overflow-hidden">
           <div className="absolute inset-0 bg-primary-foreground/5 skew-y-3 transform origin-bottom-left" />
           <div className="container mx-auto px-4 text-center relative">
             <ScrollReveal animation="fade-up">
