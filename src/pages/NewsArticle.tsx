@@ -33,25 +33,25 @@ const NewsArticle = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/50 to-foreground/20" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl">
-              <Link 
-                to="/news" 
+              <Link
+                to="/news"
                 className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground mb-6 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to News
               </Link>
-              
+
               <span className="inline-block bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4">
                 {article.category}
               </span>
-              
+
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
                 {article.title}
               </h1>
-              
+
               <div className="flex flex-wrap items-center gap-4 text-primary-foreground/80">
                 <span className="flex items-center gap-2">
                   <User className="w-4 h-4" />
@@ -80,7 +80,7 @@ const NewsArticle = () => {
                   <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
                     {article.excerpt}
                   </p>
-                  
+
                   <div className="text-foreground space-y-4">
                     {article.content.split('\n').map((paragraph, index) => {
                       if (paragraph.startsWith('## ')) {
@@ -117,6 +117,20 @@ const NewsArticle = () => {
                             {paragraph.replace(/\*/g, '')}
                           </p>
                         );
+                      }
+                      if (paragraph.startsWith('**CTA**:')) {
+                        const match = paragraph.match(/\[([^\]]+)\]\(([^)]+)\)/);
+                        if (match) {
+                          const [_, label, link] = match;
+                          return (
+                            <div key={index} className="mt-12 p-8 bg-primary/5 border border-primary/10 rounded-3xl text-center">
+                              <h4 className="text-lg font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Take Action</h4>
+                              <Button size="lg" className="shadow-glow" asChild>
+                                <Link to={link}>{label}</Link>
+                              </Button>
+                            </div>
+                          );
+                        }
                       }
                       if (paragraph.trim()) {
                         return (
