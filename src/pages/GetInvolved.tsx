@@ -366,8 +366,8 @@ const GetInvolved = () => {
                                       <div className="mt-8 text-center">
                                         <div className="text-sm font-bold text-foreground">Account Name: <span className="text-[#00a651] italic">Community Pillars Alliance (COPA)</span></div>
                                         <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
-                                          1. Go to M-Pesa Menu > Lipa na M-Pesa > Paybill<br />
-                                          2. Enter Business No. 247247 & Acc No. 473337
+                                          1. Go to M-Pesa Menu &gt; Lipa na M-Pesa &gt; Paybill<br />
+                                          2. Enter Business No. 247247 &amp; Acc No. 473337
                                         </p>
                                       </div>
                                     </div>
