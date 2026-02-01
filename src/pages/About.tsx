@@ -7,6 +7,7 @@ import { Heart, Target, Eye, Award, Users, Calendar, ArrowRight, ChevronDown, Ch
 import { storageImages } from "@/lib/storage";
 import aboutHeroImage from "@/assets/about-hero.jpg";
 import clementImage from "@/assets/clement-ombati.jpg";
+import childrenEatingImage from "@/assets/children-eating.png";
 import { useCountUp } from "@/hooks/useCountUp";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useState } from "react";
@@ -66,63 +67,93 @@ const About = () => {
         </section>
 
         {/* Our Story */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50" />
+          <div className="container mx-auto px-4 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
               <ScrollReveal animation="slide-left">
                 <div>
-                  <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-3 font-['Poppins',sans-serif]">
-                    Our Beginning
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">
-                    From Street Children to Future Leaders
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-widest mb-4">
+                    <Calendar className="w-3 h-3" />
+                    Our Timeline
+                  </div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-8 font-['Poppins',sans-serif] leading-tight tracking-tight">
+                    From the Streets to <span className="text-primary italic">Future Leaders</span>
                   </h2>
-                  <div className="space-y-4 text-muted-foreground">
+                  <div className="space-y-6 text-muted-foreground/90 leading-relaxed text-lg font-['Open_Sans',sans-serif]">
                     <p>
-                      Community Pillars Alliance (COPA) Centre was established in January 2018 by Clement Ombati, a dedicated community officer deeply concerned about the plight of street children in the Kibera slums.
+                      In 2018, Clement Ombati was moved to action after witnessing vulnerable children scavenging for food in the Kibera slums. He founded COPA with a simple yet powerful goal: to provide a safe haven where these children could find food, safety, and the education they were being denied.
                     </p>
                     <p>
-                      Recognizing the urgent need for support and stability, Ombati rented a structure to provide children with a safe place to stay and access to quality education. What started as a small effort to help a handful of vulnerable children has grown into a comprehensive community center serving over 330 students.
+                      What began as a grassroots effort to save lives has evolved into a transformative journey of resilience, overcoming immense odds to build a future for Kibera's youth.
                     </p>
 
-                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="space-y-4 pt-4 border-t border-border mt-4">
-                        <p>
-                          Founded as a Community-Based Organization (CBO), COPA aimed to address the significant challenges faced by children from disadvantaged backgrounds. Over the years, we have grown substantially, expanding our initiatives to include a range of educational and socio-economic programs.
-                        </p>
-                        <p>
-                          Currently, COPA serves approximately 330 students from Play Group to Grade Six. Our dedicated team of 25 staff members ensures a low student-to-teacher ratio, allowing for personalized attention and tailored instruction.
-                        </p>
-                        <p>
-                          The school operates an award-winning primary school within the slums, which follows the Kenyan Competence-Based Curriculum (C.B.C). Our unique approach integrates technology with traditional education, preparing our students not just for academic success, but for life in the modern world.
-                        </p>
+                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${isExpanded ? 'max-h-[1400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="space-y-8 pt-8 border-t border-border mt-8">
+                        <div className="flex gap-6 group">
+                          <div className="shrink-0 w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center font-black text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">2020</div>
+                          <div className="space-y-2">
+                            <h4 className="font-bold text-foreground">The Pandemic Challenge</h4>
+                            <p className="text-base">
+                              The dream faced a critical setback in 2020. As the COVID-19 pandemic swept across the globe, the lack of resources and strict public health restrictions caused the program to temporarily collapse, leaving many children without their primary support system.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-6 group">
+                          <div className="shrink-0 w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center font-black text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-300">2021</div>
+                          <div className="space-y-2">
+                            <h4 className="font-bold text-foreground">Makeshift Resilience</h4>
+                            <p className="text-base">
+                              Resilient and undeterred, the center was revived in late 2021. COPA rented a local social hall in Kibera, where dedicated teachers used simple cardboard partitions to create separate classrooms—a makeshift but vital space for learning to resume.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-6 group">
+                          <div className="shrink-0 w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center font-black text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">2022</div>
+                          <div className="space-y-2">
+                            <h4 className="font-bold text-foreground">Building for the Future</h4>
+                            <p className="text-base">
+                              A turning point arrived in 2022 through a transformative partnership with **Crossing Thresholds**. Their support allowed for the construction of a permanent, modern school structure, finally providing the children with the stable and dignified learning environment they deserved.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="p-6 bg-primary/5 rounded-2xl border-l-4 border-primary">
+                          <p className="font-bold text-foreground italic">
+                            "Today, COPA stands as a beacon of hope in the heart of Kibera, serving over 330 students from Preschool to Grade 6 with a dedicated staff of 25 professionals."
+                          </p>
+                        </div>
                       </div>
                     </div>
 
                     <button
                       onClick={() => setIsExpanded(!isExpanded)}
-                      className="flex items-center gap-2 text-primary font-bold hover:underline transition-all mt-6"
+                      className="group flex items-center gap-2 text-primary font-black uppercase text-sm tracking-widest hover:text-secondary transition-all mt-8"
                     >
                       {isExpanded ? (
-                        <>Show Less <ChevronUp className="w-4 h-4" /></>
+                        <>Show Less <ChevronUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform" /></>
                       ) : (
-                        <>Read Our Whole History <ChevronDown className="w-4 h-4" /></>
+                        <>Read Our Journey Story <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" /></>
                       )}
                     </button>
                   </div>
                 </div>
               </ScrollReveal>
               <ScrollReveal animation="slide-right">
-                <div className="relative aspect-[4/3]">
-                  <img
-                    src={storyImage}
-                    alt="COPA Centre students"
-                    className="rounded-2xl shadow-card w-full h-full object-cover object-[center_30%]"
-                  />
-                  <div className="absolute -bottom-6 -right-6 bg-secondary rounded-xl p-6 shadow-hover">
-                    <div className="text-3xl font-bold text-secondary-foreground font-['Poppins',sans-serif]">2018</div>
-                    <div className="text-secondary-foreground/80">Year Founded</div>
+                <div className="relative">
+                  <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl transform rotate-1 transition-transform hover:rotate-0 duration-500">
+                    <img
+                      src={childrenEatingImage}
+                      alt="COPA Centre students eating lunch"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                  <div className="absolute -bottom-8 -left-8 bg-secondary rounded-2xl p-6 shadow-glow transform -rotate-3 animate-float">
+                    <div className="text-4xl font-extrabold text-white font-['Poppins',sans-serif]">2018</div>
+                    <div className="text-white/90 font-medium tracking-wide">Year Founded</div>
+                  </div>
+                  {/* Decorative elements */}
+                  <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl -z-10" />
+                  <div className="absolute top-1/2 -right-4 w-8 h-8 bg-secondary/20 rounded-lg rotate-12 -z-10 animate-pulse" />
                 </div>
               </ScrollReveal>
             </div>
@@ -422,7 +453,7 @@ const About = () => {
                       <div className={`overflow-hidden transition-all duration-700 ease-in-out ${isBioExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                         <div className="space-y-6 pt-8 border-t border-border mt-8">
                           <p className="italic bg-primary/5 p-6 rounded-2xl border-l-4 border-primary italic">
-                            "Growing up in a humble background, I worked hard to excel in my studies. After high school, I moved to Nairobi searching for greener pastures. Since then, I have been a husband, a father, and a Chief with the government of Kenya."
+                            "Growing up in a humble background, I worked hard to excel in my studies. After high school, I moved to Nairobi searching for greener pastures. Since then, I have been a husband, a father, and a local administrator with the government of Kenya."
                           </p>
                           <p>
                             "Witnessing children's struggles in Kibera left a deep impression on me, and I resolved to take action. This led to the opening of COPA. Today, I am incredibly proud of the impact we've had. Over 330 children now benefit from our programs, including education, feeding, mentorship, and life skills."
