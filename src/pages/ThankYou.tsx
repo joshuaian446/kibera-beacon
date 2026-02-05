@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,10 @@ const ThankYou = () => {
 
     return (
         <div className="min-h-screen">
+            <SEO
+                title="Thank You | COPA Centre"
+                description="Thank you for your generous donation to COPA Centre. Your support helps us transform lives in Kibera through education."
+            />
             <Header />
             <main className="py-20 bg-gradient-warm min-h-[80vh] flex items-center">
                 <div className="container mx-auto px-4">

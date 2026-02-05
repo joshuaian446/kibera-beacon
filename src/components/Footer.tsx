@@ -58,16 +58,16 @@ const Footer = () => {
               Community Pillars Alliance Centre – Empowering Kibera's future leaders through education, nutrition, and community support since 2018.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Facebook">
+              <a href="#top" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Twitter">
+              <a href="#top" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Twitter">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Instagram">
+              <a href="#top" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Youtube">
+              <a href="#top" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-smooth" aria-label="Youtube">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
@@ -143,8 +143,8 @@ const Footer = () => {
             © 2026 COPA Centre. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/60">
-            <a href="#" className="hover:text-primary-foreground transition-smooth">Privacy Policy</a>
-            <a href="#" className="hover:text-primary-foreground transition-smooth">Terms of Service</a>
+            <Link to="/contact" className="hover:text-primary-foreground transition-smooth">Privacy Policy</Link>
+            <Link to="/contact" className="hover:text-primary-foreground transition-smooth">Terms of Service</Link>
           </div>
         </div>
       </div>

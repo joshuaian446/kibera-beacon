@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Hero from "@/components/Hero";
 import ProgramsPreview from "@/components/ProgramsPreview";
 import ImpactStats from "@/components/ImpactStats";
@@ -11,6 +12,7 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <SEO />
       <Header />
       <main>
         <Hero />

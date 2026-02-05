@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,10 @@ const About = () => {
   const storyImage = storageImages.hero;
   return (
     <div className="min-h-screen">
+      <SEO
+        title="About Us | COPA Centre"
+        description="Learn about the history, mission, and vision of Community Pillars Alliance (COPA) Centre in Kibera. Founded in 2018 by Clement Ombati."
+      />
       <Header />
       <main>
         {/* Hero Section */}

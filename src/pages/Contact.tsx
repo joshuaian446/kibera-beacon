@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,10 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Contact Us | COPA Centre"
+        description="Get in touch with COPA Centre in Kibera. Whether you want to visit, volunteer, or partner with us, we'd love to hear from you."
+      />
       <Header />
       <main>
         {/* Hero Section */}

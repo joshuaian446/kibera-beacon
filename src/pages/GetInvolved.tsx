@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -99,9 +100,12 @@ const GetInvolved = () => {
       setIsSubmittingVolunteer(false);
     }
   };
-
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Get Involved | COPA Centre"
+        description="Join us in making a difference in Kibera. Donate, volunteer, or sponsor a child today and help transform lives through education."
+      />
       <Header />
       <main>
         {/* Hero Section */}

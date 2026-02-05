@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, Clock, ArrowLeft, Share2, Facebook, Twitter } from "lucide-react";
@@ -21,6 +22,11 @@ const NewsArticle = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title={`${article.title} | COPA Centre`}
+        description={article.excerpt}
+        type="article"
+      />
       <Header />
       <main>
         {/* Hero Section */}

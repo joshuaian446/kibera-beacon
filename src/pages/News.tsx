@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,10 @@ const News = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="News & Stories | COPA Centre"
+        description="Stay updated with the latest news, success stories, and impact updates from the heart of Kibera, Nairobi."
+      />
       <Header />
       <main>
         {/* Hero Section */}

@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -101,6 +102,10 @@ const programs = [
 const Programs = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Our Programs | COPA Centre"
+        description="Explore the comprehensive programs at COPA Centre, including CBC-aligned education, nutrition initiatives, co-curricular activities, and community engagement."
+      />
       <Header />
       <main>
         {/* Hero Section */}

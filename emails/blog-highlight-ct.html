@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforming Lives Together: Crossing Thresholds Visit</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: 'Open Sans', Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1a1a1a;
+        }
+
+        table {
+            border-spacing: 0;
+            width: 100%;
+        }
+
+        td {
+            padding: 0;
+        }
+
+        img {
+            border: 0;
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        /* Header */
+        .header {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .logo {
+            width: 80px;
+            margin: 0 auto 15px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #F16D22;
+            /* Primary Orange */
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #666666;
+            margin-top: 5px;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Content */
+        .content-padding {
+            padding: 40px 30px;
+        }
+
+        .category {
+            display: inline-block;
+            background-color: #F16D22;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .headline {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .excerpt {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+        }
+
+        /* Feature List */
+        .feature-item {
+            margin-bottom: 20px;
+        }
+
+        .feature-item td {
+            vertical-align: top;
+        }
+
+        .bullet {
+            font-size: 20px;
+            color: #F16D22;
+            padding-right: 15px;
+            line-height: 1;
+        }
+
+        .feature-text {
+            font-size: 15px;
+            color: #4a4a4a;
+            line-height: 1.5;
+        }
+
+        /* CTA Button */
+        .cta-container {
+            text-align: center;
+            padding: 20px 0 40px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #F16D22;
+            color: #ffffff !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(241, 109, 34, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        /* Quote Section */
+        .quote-box {
+            background-color: #fdf2ed;
+            border-left: 4px solid #F16D22;
+            padding: 25px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .quote-text {
+            font-size: 16px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .quote-author {
+            font-size: 14px;
+            color: #F16D22;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a1a1a;
+            color: #888888;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .footer-logo {
+            width: 40px;
+            filter: grayscale(100%) brightness(2);
+            margin: 0 auto 20px;
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .unsubscribe {
+            color: #F16D22;
+            text-decoration: underline;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 600px) {
+            .content-padding {
+                padding: 30px 20px;
+            }
+
+            .headline {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center">
+                <!-- Main Container -->
+                <table class="container" role="presentation" cellspacing="0" cellpadding="0" border="0">
+
+                    <!-- Header -->
+                    <tr>
+                        <td class="header">
+                            <img src="https://copacentre.org/assets/copa-logo-B2fBBv8x.png" alt="COPA Logo"
+                                class="logo">
+                            <div class="brand-name">COPA Centre</div>
+                            <div class="tagline">Nurturing Dreams, Rescuing Futures</div>
+                        </td>
+                    </tr>
+
+                    <!-- Hero Image -->
+                    <tr>
+                        <td class="hero">
+                            <img src="https://copacentre.org/assets/partner-visit-featured-CapffXyi.jpg"
+                                alt="Crossing Thresholds Visit" class="hero-image">
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td class="content-padding">
+                            <span class="category">Partnerships</span>
+                            <h1 class="headline">Building Bridges, Strengthening Bonds</h1>
+                            <p class="excerpt">
+                                Last week, COPA Centre was filled with an extraordinary sense of joy as we hosted a
+                                delegation from <strong>Crossing Thresholds</strong>. The week-long visit was a
+                                beautiful reminder of the power of global connection and the tangible impact of shared
+                                vision.
+                            </p>
+
+                            <h2 style="font-size: 20px; margin-bottom: 15px; color: #1a1a1a;">A Week of Transformation
+                            </h2>
+                            <table class="feature-item" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td class="bullet">&bull;</td>
+                                    <td class="feature-text"><strong>New Play Area</strong>: A vibrant, safe space where
+                                        our youngest learners can develop physical skills and friendships.</td>
+                                </tr>
+                            </table>
+                            <table class="feature-item" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td class="bullet">&bull;</td>
+                                    <td class="feature-text"><strong>School Refresh</strong>: Classrooms received a
+                                        fresh coat of paint, brightening the learning environment with colors of hope.
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="feature-item" role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td class="bullet">&bull;</td>
+                                    <td class="feature-text"><strong>Community Sports Day</strong>: A massive gala where
+                                        students and volunteers bonded through football and sack races.</td>
+                                </tr>
+                            </table>
+
+                            <!-- Quote Section -->
+                            <div class="quote-box">
+                                <p class="quote-text">"Walking into COPA Centre, you immediately feel the love and
+                                    dedication that goes into every aspect of this school. We are honored to walk this
+                                    path with Clement and his team."</p>
+                                <p class="quote-author">— Carter Via, Director of Crossing Thresholds</p>
+                            </div>
+
+                            <p class="excerpt" style="margin-bottom: 0;">
+                                We are deeply grateful for this partnership that continues to push the boundaries of
+                                what's possible in Kibera. Read the full story on our website.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- CTA Button -->
+                    <tr>
+                        <td class="cta-container">
+                            <a href="https://copacentre.org/news/crossing-thresholds-partner-visit"
+                                class="button">Continue Reading</a>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td class="footer">
+                            <img src="https://copacentre.org/assets/copa-logo-B2fBBv8x.png" alt="COPA Logo"
+                                class="footer-logo">
+                            <div class="social-links">
+                                <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a>
+                            </div>
+                            <div class="footer-text">
+                                &copy; 2026 COPA Centre. All rights reserved.<br>
+                                Kibera, Nairobi, Kenya<br>
+                                <br>
+                                You're receiving this because you signed up for updates from COPA Centre.
+                            </div>
+                            <div class="footer-text">
+                                <a href="#" class="unsubscribe">Unsubscribe from this list</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
