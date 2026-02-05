@@ -57,8 +57,8 @@ const About = () => {
                     Our Story
                   </span>
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif] leading-tight tracking-tight">
-                  A Journey of Hope <br className="hidden md:block" /> and Resilience
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground mb-6 font-['Poppins',sans-serif] leading-tight tracking-tight">
+                  A Journey of <span className="text-secondary italic">Hope and Resilience</span>
                 </h1>
                 <p className="text-xl text-primary-foreground/90 leading-relaxed max-w-2xl font-['Open_Sans',sans-serif]">
                   Founded in 2018, COPA Centre emerged from a simple but powerful belief: every child in Kibera deserves access to quality education and a chance to thrive.
