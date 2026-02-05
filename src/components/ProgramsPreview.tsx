@@ -10,8 +10,8 @@ import ScrollReveal from "./ScrollReveal";
 const programs = [
   {
     id: "education",
-    title: "Primary Education",
-    description: "Quality CBC curriculum from Preschool to Grade 6, providing a solid foundation for Kibera's future leaders.",
+    title: "Education Program",
+    description: "Quality CBC curriculum from Preschool through Grade 9, encompassing Primary and Junior Secondary education for Kibera's future leaders.",
     icon: GraduationCap,
     image: educationStudentImage,
     imagePosition: "object-[center_15%]",
