@@ -1,9 +1,8 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, Utensils, Users, Trophy, Heart, Target, Star, ShieldCheck } from "lucide-react";
+import { LucideIcon, GraduationCap, Utensils, Users, Trophy, Heart, Target, Star, ShieldCheck } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { useCountUp } from "@/hooks/useCountUp";
 
-const CountUpStat = ({ end, suffix = "", label, icon: Icon, variant = "secondary" }: { end: number; suffix?: string; label: string; icon: any; variant?: "white" | "secondary" }) => {
+const CountUpStat = ({ end, suffix = "", label, icon: Icon, variant = "secondary" }: { end: number; suffix?: string; label: string; icon: LucideIcon; variant?: "white" | "secondary" }) => {
   const { count, ref } = useCountUp({ end, duration: 2500 });
   const containerClasses = variant === "white"
     ? "bg-white text-primary"
