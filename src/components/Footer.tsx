@@ -143,8 +143,8 @@ const Footer = () => {
             © 2026 COPA Centre. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/60">
-            <Link to="/contact" className="hover:text-primary-foreground transition-smooth">Privacy Policy</Link>
-            <Link to="/contact" className="hover:text-primary-foreground transition-smooth">Terms of Service</Link>
+            <Link to="/privacy-policy" className="hover:text-primary-foreground transition-smooth">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-primary-foreground transition-smooth">Terms of Service</Link>
           </div>
         </div>
       </div>
