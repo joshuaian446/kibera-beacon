@@ -102,7 +102,7 @@ const News = () => {
                         </span>
                       </div>
                     </div>
-                    <CardContent className="p-10 lg:p-16 flex flex-col justify-center bg-white">
+                    <CardContent className="p-6 md:p-10 lg:p-16 flex flex-col justify-center bg-white">
                       <div className="flex items-center gap-4 text-sm font-bold mb-6">
                         <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full uppercase tracking-tighter">
                           {featuredArticle.category}
@@ -112,13 +112,13 @@ const News = () => {
                           {featuredArticle.date}
                         </span>
                       </div>
-                      <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-6 font-['Poppins',sans-serif] leading-tight group-hover:text-primary transition-colors">
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-foreground mb-6 font-['Poppins',sans-serif] leading-tight group-hover:text-primary transition-colors">
                         {featuredArticle.title}
                       </h2>
                       <p className="text-lg text-muted-foreground/90 mb-10 leading-relaxed font-['Open_Sans',sans-serif] italic">
                         {featuredArticle.excerpt}
                       </p>
-                      <div className="flex flex-wrap items-center justify-between gap-6 pt-8 border-t border-border mt-auto">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8 border-t border-border mt-auto">
                         <div className="flex items-center gap-6 text-sm font-bold text-muted-foreground">
                           <span className="flex items-center gap-2">
                             <User className="w-4 h-4 text-primary" />
@@ -129,7 +129,7 @@ const News = () => {
                             {featuredArticle.readTime}
                           </span>
                         </div>
-                        <Button variant="cta" size="xl" className="group/btn shadow-soft" onClick={() => navigate(`/news/${featuredArticle.slug}`)}>
+                        <Button variant="cta" size="lg" className="sm:size-xl group/btn shadow-soft w-full sm:w-auto" onClick={() => navigate(`/news/${featuredArticle.slug}`)}>
                           Read The Full Story
                           <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
                         </Button>

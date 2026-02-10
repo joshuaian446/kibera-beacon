@@ -54,7 +54,7 @@ const NewsArticle = () => {
                 {article.category}
               </span>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
+              <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-primary-foreground mb-6 font-['Poppins',sans-serif]">
                 {article.title}
               </h1>
 
@@ -133,7 +133,7 @@ const NewsArticle = () => {
                         if (match) {
                           const [_, label, link] = match;
                           return (
-                            <div key={index} className="mt-12 p-8 bg-primary/5 border border-primary/10 rounded-3xl text-center">
+                            <div key={index} className="mt-12 p-6 md:p-8 bg-primary/5 border border-primary/10 rounded-3xl text-center">
                               <h4 className="text-lg font-bold text-foreground mb-4 font-['Poppins',sans-serif]">Take Action</h4>
                               <Button size="lg" className="shadow-glow" asChild>
                                 <Link to={link}>{label}</Link>

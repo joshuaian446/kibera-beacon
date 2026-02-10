@@ -54,8 +54,8 @@ const NewsPreview = () => {
                       </span>
                     </div>
                   </div>
-                  <CardContent className="p-10 flex-grow flex flex-col">
-                    <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground/60 mb-6 uppercase tracking-wider">
+                  <CardContent className="p-6 md:p-10 flex-grow flex flex-col">
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-muted-foreground/60 mb-6 uppercase tracking-wider">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-primary" />
                         {article.date}
