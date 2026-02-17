@@ -1,21 +1,43 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, CheckCircle, Home, ArrowRight } from "lucide-react";
+import { Heart, CheckCircle, Home, ArrowRight, Loader2 } from "lucide-react";
 import { storageImages } from "@/lib/storage";
+import { supabase } from "@/integrations/supabase/client";
 
 const ThankYou = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const merchantReference = searchParams.get("merchant_reference");
     const [showContent, setShowContent] = useState(false);
+    const [donationStatus, setDonationStatus] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(!!merchantReference);
 
     useEffect(() => {
         // Trigger animation after component mounts
         setTimeout(() => setShowContent(true), 100);
-    }, []);
+
+        if (merchantReference) {
+            const checkStatus = async () => {
+                // Use 'any' type cast to skip strictly typed table check as the DB migration
+                // might not have been reflected in the generated types yet.
+                const { data, error } = await (supabase.from("donations") as any)
+                    .select("status")
+                    .eq("pesapal_merchant_reference", merchantReference)
+                    .single();
+
+                if (data) {
+                    setDonationStatus(data.status);
+                }
+                setIsLoading(false);
+            };
+            checkStatus();
+        }
+    }, [merchantReference]);
 
     return (
         <div className="min-h-screen">
@@ -44,11 +66,22 @@ const ThankYou = () => {
                                 <Heart className="w-16 h-16 text-destructive mx-auto mb-6 animate-pulse" />
 
                                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-['Poppins',sans-serif]">
-                                    Thank You for Your Generosity!
+                                    {donationStatus === 'completed' ? "Payment Successful!" : "Thank You for Your Generosity!"}
                                 </h1>
 
                                 <p className="text-lg text-muted-foreground mb-6">
-                                    Your donation will make a real difference in the lives of children at COPA Centre.
+                                    {isLoading ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                            Verifying your donation status...
+                                        </span>
+                                    ) : donationStatus === 'completed' ? (
+                                        "Your donation has been successfully processed. Thank you for making a difference!"
+                                    ) : merchantReference ? (
+                                        "We've received your donation request. It will be processed shortly."
+                                    ) : (
+                                        "Your contribution will make a real difference in the lives of children at COPA Centre."
+                                    )}
                                 </p>
 
                                 {/* Impact Message */}
@@ -63,15 +96,6 @@ const ThankYou = () => {
                                     </p>
                                 </div>
 
-                                {/* Image */}
-                                <div className="rounded-lg overflow-hidden mb-8">
-                                    <img
-                                        src={storageImages.heroAlt}
-                                        alt="Happy COPA Centre students"
-                                        className="w-full h-64 object-cover object-[center_30%]"
-                                    />
-                                </div>
-
                                 {/* Next Steps */}
                                 <div className="bg-background/50 rounded-lg p-6 mb-8 text-left">
                                     <h3 className="text-lg font-semibold text-foreground mb-3 font-['Poppins',sans-serif]">
@@ -80,7 +104,7 @@ const ThankYou = () => {
                                     <ul className="space-y-2 text-muted-foreground">
                                         <li className="flex items-start gap-2">
                                             <CheckCircle className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
-                                            <span>You'll receive a confirmation email shortly with your donation receipt</span>
+                                            <span>{donationStatus === 'completed' ? "Your receipt has been generated and sent to your email" : "You'll receive a confirmation email once your donation is processed"}</span>
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <CheckCircle className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
