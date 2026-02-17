@@ -59,7 +59,7 @@ async function runMcpSequence() {
                 projectPath: projectPath,
                 testScope: "codebase"
             }
-        });
+        }, { timeout: 300000 });
         console.log("Bootstrap Result:", JSON.stringify(bootstrapResult, null, 2));
 
         // Step 2: Generate Test Plan
@@ -70,7 +70,7 @@ async function runMcpSequence() {
                 projectPath: projectPath,
                 needLogin: false
             }
-        });
+        }, { timeout: 300000 });
         console.log("Plan Generation Result:", JSON.stringify(planResult, null, 2));
 
         // Step 3: Execute Tests
@@ -83,7 +83,7 @@ async function runMcpSequence() {
                 testIds: [],
                 additionalInstruction: "Focus on verifying visual elements and navigation links."
             }
-        });
+        }, { timeout: 300000 });
         console.log("Execution Result:", JSON.stringify(executeResult, null, 2));
 
         await client.close();
