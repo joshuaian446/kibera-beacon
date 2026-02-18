@@ -20,85 +20,99 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).end();
     }
 
-    // Initialize Supabase lazily inside handler to prevent top-level module crash
-    const supabase = createClient(
-        process.env.SUPABASE_URL || "",
-        process.env.SUPABASE_SERVICE_ROLE_KEY || ""
-    );
-
-    if (req.method === 'GET') {
-        return res.status(200).json({
-            status: 'ok',
-            message: 'Pesapal API is reachable',
-            diagnostics: {
-                hasConsumerKey: !!process.env.PESAPAL_CONSUMER_KEY,
-                hasConsumerSecret: !!process.env.PESAPAL_CONSUMER_SECRET,
-                hasBaseUrl: !!process.env.PESAPAL_BASE_URL,
-                hasSiteUrl: !!process.env.SITE_URL,
-                hasSupabaseUrl: !!process.env.SUPABASE_URL,
-                hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-            }
-        });
-    }
-
-    const { body, query } = req;
-    const action = body?.path || query?.path;
-
-    // --- Helpers ---
-
-    async function getPesapalAuth() {
-        const consumerKey = process.env.PESAPAL_CONSUMER_KEY;
-        const consumerSecret = process.env.PESAPAL_CONSUMER_SECRET;
-        const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
-
-        if (!consumerKey || !consumerSecret || !baseUrl) {
-            throw new Error('Missing Pesapal configuration in Environment Variables');
-        }
-
-        const response = await fetch(`${baseUrl}/api/Auth/RequestToken`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ consumer_key: consumerKey, consumer_secret: consumerSecret })
-        });
-
-        const data = await response.json();
-        if (data.error || !data.token) {
-            console.error('Pesapal Auth Response:', data);
-            throw new Error(data.message || data.error?.message || 'Pesapal Auth Failed: Check if keys match the environment (Sandbox vs Live)');
-        }
-        return data.token;
-    }
-
-    async function registerIpn(token: string) {
-        const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
-        const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, ''); // Remove trailing slash
-        const ipnUrl = `${siteUrl}/api/pesapal?path=ipn`;
-
-        const response = await fetch(`${baseUrl}/api/URLRegister/RegisterIPN`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                url: ipnUrl,
-                ipn_notification_type: 'POST'
-            })
-        });
-
-        const data = await response.json();
-        if (data.error) {
-            console.error('IPN Registration Response:', data);
-            throw new Error(data.message || 'IPN Registration Failed');
-        }
-        return data.ipn_id;
-    }
-
-    // --- Handlers ---
-
     try {
+        // --- Diagnostics & Basic Routing ---
+        const { body, query, method } = req;
+        const action = body?.path || query?.path;
+
+        if (method === 'GET') {
+            return res.status(200).json({
+                status: 'ok',
+                message: 'Pesapal API is reachable',
+                diagnostics: {
+                    hasConsumerKey: !!process.env.PESAPAL_CONSUMER_KEY,
+                    hasConsumerSecret: !!process.env.PESAPAL_CONSUMER_SECRET,
+                    hasBaseUrl: !!process.env.PESAPAL_BASE_URL,
+                    hasSiteUrl: !!process.env.SITE_URL,
+                    hasSupabaseUrl: !!process.env.SUPABASE_URL,
+                    hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+                    nodeVersion: process.version,
+                    method: method
+                }
+            });
+        }
+
+        // Initialize Supabase inside the try-catch
+        const supabaseUrl = process.env.SUPABASE_URL || "";
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+        if (!supabaseUrl || !supabaseKey) {
+            throw new Error('Missing Supabase configuration (URL or Service Role Key)');
+        }
+
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // --- Helpers ---
+
+        const getPesapalAuth = async () => {
+            const consumerKey = process.env.PESAPAL_CONSUMER_KEY;
+            const consumerSecret = process.env.PESAPAL_CONSUMER_SECRET;
+            const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
+
+            if (!consumerKey || !consumerSecret || !baseUrl) {
+                throw new Error('Missing Pesapal configuration (Key, Secret, or Base URL)');
+            }
+
+            const response = await fetch(`${baseUrl}/api/Auth/RequestToken`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ consumer_key: consumerKey, consumer_secret: consumerSecret })
+            });
+
+            const data = await response.json();
+            if (data.error || !data.token) {
+                console.error('Pesapal Auth Response:', data);
+                throw new Error(data.message || data.error?.message || 'Pesapal Auth Failed. Check your keys and base URL.');
+            }
+            return data.token;
+        };
+
+        const registerIpn = async (token: string) => {
+            const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
+            const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, '');
+            if (!siteUrl) throw new Error('Missing SITE_URL environment variable');
+
+            const ipnUrl = `${siteUrl}/api/pesapal?path=ipn`;
+
+            const response = await fetch(`${baseUrl}/api/URLRegister/RegisterIPN`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    url: ipnUrl,
+                    ipn_notification_type: 'POST'
+                })
+            });
+
+            const data = await response.json();
+            if (data.error) {
+                console.error('IPN Registration Response:', data);
+                throw new Error(data.message || 'IPN Registration Failed');
+            }
+            return data.ipn_id;
+        };
+
+        // --- Handlers ---
+
         if (action === 'submit-order') {
             const { amount, donor_name, donor_email, message } = body;
+
+            if (!amount || !donor_name || !donor_email) {
+                return res.status(400).json({ error: 'Missing required fields (amount, name, email)' });
+            }
+
             const token = await getPesapalAuth();
             const ipnId = await registerIpn(token);
             const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
@@ -114,7 +128,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 status: 'pending'
             });
 
-            if (dbError) throw dbError;
+            if (dbError) {
+                console.error('DB Insert Error:', dbError);
+                throw new Error(`Database error: ${dbError.message}`);
+            }
 
             const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, '');
             const payload = {
@@ -148,9 +165,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             }
 
             // Update DB with order_tracking_id
-            await (supabase.from('donations') as any)
+            const { error: updateError } = await (supabase.from('donations') as any)
                 .update({ pesapal_order_tracking_id: data.order_tracking_id })
                 .eq('pesapal_merchant_reference', merchantReference);
+
+            if (updateError) {
+                console.error('DB Update Error:', updateError);
+            }
 
             return res.status(200).json(data);
         }
@@ -180,25 +201,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(200).json({ status: 'received' });
         }
 
-        return res.status(404).send('Not Found');
+        return res.status(404).json({ error: 'Action not found' });
+
     } catch (error: any) {
         console.error('Pesapal API Error:', error);
+
+        // Ensure headers are set for the error response
         setCors();
 
         let message = error.message || 'Internal Server Error';
 
-        // Specific check for SSL issues common in sandbox environments
+        // Specific check for SSL issues
         if (error.code === 'CERT_HAS_EXPIRED' || message.includes('certificate has expired')) {
             message = "Pesapal Sandbox SSL Certificate has expired. Please update PESAPAL_BASE_URL to 'https://cybqa.pesapal.com/pesapalv3' in Vercel settings.";
         } else if (message.includes('fetch failed')) {
             message = "Network error: Failed to reach Pesapal. Please check your PESAPAL_BASE_URL.";
         }
 
-        return res.status(error.status || 500).json({
+        return res.status(500).json({
             error: message,
+            details: error.stack,
             diagnostics: {
                 errorCode: error.code,
-                baseUrl: process.env.PESAPAL_BASE_URL
+                baseUrl: process.env.PESAPAL_BASE_URL,
+                siteUrl: process.env.SITE_URL
             }
         });
     }
