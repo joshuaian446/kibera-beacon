@@ -176,9 +176,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } catch (error: any) {
         console.error('Pesapal API Error:', error);
         setCors();
+
+        let message = error.message || 'Internal Server Error';
+
+        // Specific check for SSL issues common in sandbox environments
+        if (error.code === 'CERT_HAS_EXPIRED' || message.includes('certificate has expired')) {
+            message = "Pesapal Sandbox SSL Certificate has expired. Please update PESAPAL_BASE_URL to 'https://cybqa.pesapal.com/pesapalv3' in Vercel settings.";
+        } else if (message.includes('fetch failed')) {
+            message = "Network error: Failed to reach Pesapal. Please check your PESAPAL_BASE_URL.";
+        }
+
         return res.status(error.status || 500).json({
-            error: error.message || 'Internal Server Error',
-            trace: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            error: message,
+            diagnostics: {
+                errorCode: error.code,
+                baseUrl: process.env.PESAPAL_BASE_URL
+            }
         });
     }
 }
