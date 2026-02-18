@@ -83,7 +83,15 @@ const GetInvolved = () => {
         }),
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
+      let data: any;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("Non-JSON response from server:", responseText);
+        throw new Error(`Server returned HTML (Status ${response.status}). This usually means a 404 or a server crash. Check Vercel logs.`);
+      }
+
       if (!response.ok) throw new Error(data.error || "Failed to initiate donation");
 
       if (data?.redirect_url) {
