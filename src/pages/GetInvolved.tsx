@@ -67,6 +67,7 @@ const GetInvolved = () => {
       return;
     }
 
+    console.log("Donation flow version: 1.0.1 - Fetching from /api/pesapal");
     setIsSubmittingDonation(true);
     try {
       const response = await fetch('/api/pesapal', {
@@ -84,12 +85,14 @@ const GetInvolved = () => {
       });
 
       const responseText = await response.text();
+      console.log("Response text length:", responseText.length);
+
       let data: any;
       try {
         data = JSON.parse(responseText);
       } catch (e) {
-        console.error("Non-JSON response from server:", responseText);
-        throw new Error(`Server returned HTML (Status ${response.status}). This usually means a 404 or a server crash. Check Vercel logs.`);
+        console.error("CRITICAL: Server returned non-JSON response:", responseText.substring(0, 500));
+        throw new Error(`Server returned HTML (Status ${response.status}). This often means a 404 (Route not found) or a 500 (Crash). Check Vercel logs.`);
       }
 
       if (!response.ok) throw new Error(data.error || "Failed to initiate donation");
