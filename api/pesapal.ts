@@ -8,24 +8,39 @@ const supabase = createClient(
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    // CORS Headers
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-    );
+    // Standard CORS headers for all responses
+    const setCors = () => {
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+        );
+    };
+
+    setCors();
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
     if (req.method === 'GET') {
-        return res.status(200).json({ status: 'ok', message: 'Pesapal API is reachable' });
+        return res.status(200).json({
+            status: 'ok',
+            message: 'Pesapal API is reachable',
+            diagnostics: {
+                hasConsumerKey: !!process.env.PESAPAL_CONSUMER_KEY,
+                hasConsumerSecret: !!process.env.PESAPAL_CONSUMER_SECRET,
+                hasBaseUrl: !!process.env.PESAPAL_BASE_URL,
+                hasSiteUrl: !!process.env.SITE_URL,
+                hasSupabaseUrl: !!process.env.SUPABASE_URL,
+                hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+            }
+        });
     }
 
-    const { method, body, query } = req;
+    const { body, query } = req;
     const action = body?.path || query?.path;
 
     // --- Helpers ---
@@ -35,6 +50,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const consumerSecret = process.env.PESAPAL_CONSUMER_SECRET;
         const baseUrl = process.env.PESAPAL_BASE_URL;
 
+        if (!consumerKey || !consumerSecret || !baseUrl) {
+            throw new Error('Missing Pesapal configuration in Environment Variables');
+        }
+
         const response = await fetch(`${baseUrl}/api/Auth/RequestToken`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -42,13 +61,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
 
         const data = await response.json();
-        if (data.error) throw new Error(data.error.message || 'Pesapal Auth Failed');
+        if (data.error || !data.token) throw new Error(data.message || 'Pesapal Auth Failed');
         return data.token;
     }
 
     async function registerIpn(token: string) {
         const baseUrl = process.env.PESAPAL_BASE_URL;
-        const siteUrl = process.env.SITE_URL;
+        const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, ''); // Remove trailing slash
         const ipnUrl = `${siteUrl}/api/pesapal?path=ipn`;
 
         const response = await fetch(`${baseUrl}/api/URLRegister/RegisterIPN`, {
@@ -64,13 +83,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.message || 'IPN Registration Failed');
         return data.ipn_id;
     }
 
     // --- Handlers ---
 
-    if (action === 'submit-order') {
-        try {
+    try {
+        if (action === 'submit-order') {
             const { amount, donor_name, donor_email, message } = body;
             const token = await getPesapalAuth();
             const ipnId = await registerIpn(token);
@@ -78,7 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const merchantReference = crypto.randomUUID();
 
             // Save to DB
-            const { error: dbError } = await supabase.from('donations').insert({
+            const { error: dbError } = await (supabase.from('donations') as any).insert({
                 donor_name,
                 donor_email,
                 amount,
@@ -89,12 +109,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
             if (dbError) throw dbError;
 
+            const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, '');
             const payload = {
                 id: merchantReference,
                 currency: 'KES',
                 amount: amount,
                 description: `Donation from ${donor_name}`,
-                callback_url: `${process.env.SITE_URL}/thank-you?merchant_reference=${merchantReference}`,
+                callback_url: `${siteUrl}/thank-you?merchant_reference=${merchantReference}`,
                 notification_id: ipnId,
                 billing_address: {
                     email_address: donor_email,
@@ -114,20 +135,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
             const data = await response.json();
 
+            if (!data.order_tracking_id) {
+                throw new Error(data.message || 'Failed to get order tracking ID from Pesapal');
+            }
+
             // Update DB with order_tracking_id
-            await supabase.from('donations')
+            await (supabase.from('donations') as any)
                 .update({ pesapal_order_tracking_id: data.order_tracking_id })
                 .eq('pesapal_merchant_reference', merchantReference);
 
             return res.status(200).json(data);
-        } catch (error: any) {
-            console.error('SubmitOrder Error:', error);
-            return res.status(400).json({ error: error.message });
         }
-    }
 
-    if (action === 'ipn') {
-        try {
+        if (action === 'ipn') {
             const { OrderTrackingId, MerchantReference, EventType } = body;
 
             if (EventType === 'TRANSACTION_COMPLETED') {
@@ -143,18 +163,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const data = await response.json();
 
                 if (data.payment_status_description === 'Completed') {
-                    await supabase.from('donations')
+                    await (supabase.from('donations') as any)
                         .update({ status: 'completed' })
                         .eq('pesapal_merchant_reference', MerchantReference);
                 }
             }
 
             return res.status(200).json({ status: 'received' });
-        } catch (error: any) {
-            console.error('IPN Error:', error);
-            return res.status(400).json({ error: error.message });
         }
-    }
 
-    return res.status(404).send('Not Found');
+        return res.status(404).send('Not Found');
+    } catch (error: any) {
+        console.error('Pesapal API Error:', error);
+        setCors();
+        return res.status(error.status || 500).json({
+            error: error.message || 'Internal Server Error',
+            trace: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
 }

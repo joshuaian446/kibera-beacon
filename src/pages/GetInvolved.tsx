@@ -93,8 +93,9 @@ const GetInvolved = () => {
         throw new Error("Failed to get payment redirect URL");
       }
     } catch (error: any) {
-      console.error("Donation error:", error);
-      toast.error(error.message || "An error occurred during donation. Please try again.");
+      console.error("Donation error details:", error);
+      const errorMessage = error instanceof Error ? error.message : "An error occurred during donation";
+      toast.error(`${errorMessage}. Please try again.`);
     } finally {
       setIsSubmittingDonation(false);
     }
