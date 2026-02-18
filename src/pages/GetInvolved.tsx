@@ -67,7 +67,7 @@ const GetInvolved = () => {
       return;
     }
 
-    console.log("Donation flow version: 1.0.1 - Fetching from /api/pesapal");
+    console.log("Donation flow version: 1.0.2 - Fetching from /api/pesapal");
     setIsSubmittingDonation(true);
     try {
       const response = await fetch('/api/pesapal', {

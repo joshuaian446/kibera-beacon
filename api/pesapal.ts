@@ -2,11 +2,6 @@ import { createClient } from "@supabase/supabase-js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import crypto from "crypto";
 
-const supabase = createClient(
-    process.env.SUPABASE_URL || "",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ""
-);
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Standard CORS headers for all responses
     const setCors = () => {
@@ -24,6 +19,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
+
+    // Initialize Supabase lazily inside handler to prevent top-level module crash
+    const supabase = createClient(
+        process.env.SUPABASE_URL || "",
+        process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+    );
 
     if (req.method === 'GET') {
         return res.status(200).json({
@@ -100,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const { amount, donor_name, donor_email, message } = body;
             const token = await getPesapalAuth();
             const ipnId = await registerIpn(token);
-            const baseUrl = process.env.PESAPAL_BASE_URL;
+            const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
             const merchantReference = crypto.randomUUID();
 
             // Save to DB
@@ -159,7 +160,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
             if (EventType === 'TRANSACTION_COMPLETED') {
                 const token = await getPesapalAuth();
-                const baseUrl = process.env.PESAPAL_BASE_URL;
+                const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
 
                 const response = await fetch(`${baseUrl}/api/Transactions/GetTransactionStatus?orderTrackingId=${OrderTrackingId}`, {
                     method: 'GET',
