@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     async function getPesapalAuth() {
         const consumerKey = process.env.PESAPAL_CONSUMER_KEY;
         const consumerSecret = process.env.PESAPAL_CONSUMER_SECRET;
-        const baseUrl = process.env.PESAPAL_BASE_URL;
+        const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
 
         if (!consumerKey || !consumerSecret || !baseUrl) {
             throw new Error('Missing Pesapal configuration in Environment Variables');
@@ -61,12 +61,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
 
         const data = await response.json();
-        if (data.error || !data.token) throw new Error(data.message || 'Pesapal Auth Failed');
+        if (data.error || !data.token) {
+            console.error('Pesapal Auth Response:', data);
+            throw new Error(data.message || data.error?.message || 'Pesapal Auth Failed: Check if keys match the environment (Sandbox vs Live)');
+        }
         return data.token;
     }
 
     async function registerIpn(token: string) {
-        const baseUrl = process.env.PESAPAL_BASE_URL;
+        const baseUrl = (process.env.PESAPAL_BASE_URL || '').replace(/\/$/, '');
         const siteUrl = (process.env.SITE_URL || '').replace(/\/$/, ''); // Remove trailing slash
         const ipnUrl = `${siteUrl}/api/pesapal?path=ipn`;
 
@@ -83,7 +86,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
 
         const data = await response.json();
-        if (data.error) throw new Error(data.message || 'IPN Registration Failed');
+        if (data.error) {
+            console.error('IPN Registration Response:', data);
+            throw new Error(data.message || 'IPN Registration Failed');
+        }
         return data.ipn_id;
     }
 
@@ -136,7 +142,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const data = await response.json();
 
             if (!data.order_tracking_id) {
-                throw new Error(data.message || 'Failed to get order tracking ID from Pesapal');
+                console.error('SubmitOrder Response:', data);
+                throw new Error(data.message || data.error?.message || 'Failed to get order tracking ID from Pesapal');
             }
 
             // Update DB with order_tracking_id
