@@ -39,6 +39,7 @@ const GetInvolved = () => {
   const [customAmount, setCustomAmount] = useState("");
   const [donorName, setDonorName] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
+  const [donorPhone, setDonorPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -62,52 +63,78 @@ const GetInvolved = () => {
       toast.error("Please select or enter a donation amount");
       return;
     }
-    if (!donorName || !donorEmail) {
-      toast.error("Please fill in your name and email");
+    if (!donorName) {
+      toast.error("Please fill in your name");
+      return;
+    }
+    if (!donorPhone) {
+      toast.error("Please fill in your M-Pesa phone number");
       return;
     }
 
-    console.log("Donation flow version: 1.0.2 - Fetching from /api/pesapal");
     setIsSubmittingDonation(true);
     try {
-      const response = await fetch('/api/pesapal', {
+      const response = await fetch('/api/intasend', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           path: 'submit-order',
           amount: parseFloat(amount),
           donor_name: donorName,
-          donor_email: donorEmail,
+          donor_email: donorEmail || undefined,
+          phone_number: donorPhone,
           message: message,
         }),
       });
 
-      const responseText = await response.text();
-      console.log("Response text length:", responseText.length);
-
       let data: any;
       try {
-        data = JSON.parse(responseText);
+        data = await response.json();
       } catch (e) {
-        console.error("CRITICAL: Server returned non-JSON response:", responseText.substring(0, 500));
-        throw new Error(`Server returned HTML (Status ${response.status}). This often means a 404 (Route not found) or a 500 (Crash). Check Vercel logs.`);
+        throw new Error(`Server error (Status ${response.status}). Check Vercel logs.`);
       }
 
-      if (!response.ok) throw new Error(data.error || "Failed to initiate donation");
+      if (!response.ok) throw new Error(data.error || "Failed to initiate STK Push");
 
-      if (data?.redirect_url) {
-        toast.success("Redirecting to secure payment page...");
-        window.location.href = data.redirect_url;
-      } else {
-        throw new Error("Failed to get payment redirect URL");
-      }
+      const invoiceId = data.invoice_id;
+      toast.success("📲 Check your phone for the M-Pesa prompt and enter your PIN!", { duration: 10000 });
+
+      // Poll Supabase every 5 seconds for up to 90 seconds
+      let attempts = 0;
+      const maxAttempts = 18;
+      const pollInterval = setInterval(async () => {
+        attempts++;
+        try {
+          const statusRes = await fetch('/api/intasend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: 'check-status', invoice_id: invoiceId }),
+          });
+          const statusData = await statusRes.json();
+
+          if (statusData.status === 'completed') {
+            clearInterval(pollInterval);
+            setIsSubmittingDonation(false);
+            toast.success("Payment confirmed! Thank you! 🎉");
+            navigate(`/thank-you?invoice_id=${invoiceId}`);
+          } else if (statusData.status === 'failed') {
+            clearInterval(pollInterval);
+            setIsSubmittingDonation(false);
+            toast.error("Payment was not completed. Please try again.");
+          } else if (attempts >= maxAttempts) {
+            clearInterval(pollInterval);
+            setIsSubmittingDonation(false);
+            // Still navigate — webhook will confirm asynchronously
+            navigate(`/thank-you?invoice_id=${invoiceId}`);
+          }
+        } catch {
+          // Silently continue polling
+        }
+      }, 5000);
+
     } catch (error: any) {
-      console.error("Donation error details:", error);
-      const errorMessage = error instanceof Error ? error.message : "An error occurred during donation";
-      toast.error(`${errorMessage}. Please try again.`);
-    } finally {
+      console.error("Donation error:", error);
+      toast.error(error.message || "An error occurred. Please try again.");
       setIsSubmittingDonation(false);
     }
   };
@@ -287,16 +314,31 @@ const GetInvolved = () => {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="donorEmail" className="text-sm font-bold">Your Email *</Label>
+                            <Label htmlFor="donorEmail" className="text-sm font-bold">Email (Optional)</Label>
                             <Input
                               id="donorEmail"
                               type="email"
                               value={donorEmail}
                               onChange={(e) => setDonorEmail(e.target.value)}
-                              required
                               className="h-12 rounded-xl"
+                              placeholder="you@example.com"
                             />
                           </div>
+                        </div>
+
+                        {/* M-Pesa Phone */}
+                        <div className="space-y-2">
+                          <Label htmlFor="donorPhone" className="text-sm font-bold">M-Pesa Phone Number *</Label>
+                          <Input
+                            id="donorPhone"
+                            type="tel"
+                            value={donorPhone}
+                            onChange={(e) => setDonorPhone(e.target.value)}
+                            required
+                            placeholder="07XXXXXXXX or 254XXXXXXXXX"
+                            className="h-12 rounded-xl"
+                          />
+                          <p className="text-xs text-muted-foreground">You will receive an M-Pesa prompt on this number</p>
                         </div>
 
                         <div className="space-y-2">
@@ -320,12 +362,12 @@ const GetInvolved = () => {
                           {isSubmittingDonation ? (
                             <>
                               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                              Processing...
+                              Waiting for M-Pesa PIN...
                             </>
                           ) : (
                             <>
                               <Heart className="w-6 h-6 mr-2 animate-pulse" />
-                              Donate via Pesapal
+                              Donate via M-Pesa
                             </>
                           )}
                         </Button>

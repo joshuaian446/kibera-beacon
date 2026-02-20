@@ -12,22 +12,20 @@ import { supabase } from "@/integrations/supabase/client";
 const ThankYou = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const merchantReference = searchParams.get("merchant_reference");
+    const invoiceId = searchParams.get("invoice_id");
     const [showContent, setShowContent] = useState(false);
     const [donationStatus, setDonationStatus] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(!!merchantReference);
+    const [isLoading, setIsLoading] = useState(!!invoiceId);
 
     useEffect(() => {
         // Trigger animation after component mounts
         setTimeout(() => setShowContent(true), 100);
 
-        if (merchantReference) {
+        if (invoiceId) {
             const checkStatus = async () => {
-                // Use 'any' type cast to skip strictly typed table check as the DB migration
-                // might not have been reflected in the generated types yet.
-                const { data, error } = await (supabase.from("donations") as any)
+                const { data } = await (supabase.from("donations") as any)
                     .select("status")
-                    .eq("pesapal_merchant_reference", merchantReference)
+                    .eq("invoice_id", invoiceId)
                     .single();
 
                 if (data) {
@@ -37,7 +35,7 @@ const ThankYou = () => {
             };
             checkStatus();
         }
-    }, [merchantReference]);
+    }, [invoiceId]);
 
     return (
         <div className="min-h-screen">
@@ -77,8 +75,8 @@ const ThankYou = () => {
                                         </span>
                                     ) : donationStatus === 'completed' ? (
                                         "Your donation has been successfully processed. Thank you for making a difference!"
-                                    ) : merchantReference ? (
-                                        "We've received your donation request. It will be processed shortly."
+                                    ) : invoiceId ? (
+                                        "We've received your donation and sent an M-Pesa prompt to your phone. It will be confirmed shortly."
                                     ) : (
                                         "Your contribution will make a real difference in the lives of children at COPA Centre."
                                     )}
