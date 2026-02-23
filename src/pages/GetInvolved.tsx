@@ -1,27 +1,17 @@
 ﻿import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, Users, Calendar, Gift, CheckCircle, ArrowRight } from "lucide-react";
+import { Heart, Users, Calendar, Gift, ArrowRight, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { storageImages } from "@/lib/storage";
 import ScrollReveal from "@/components/ScrollReveal";
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy } from "lucide-react";
-
-const donationOptions = [
-  { amount: "1000", label: "KSh 1,000", description: "Provides meals for a child for one week" },
-  { amount: "30000", label: "KSh 30,000", description: "School supplies for one month" },
-  { amount: "5000", label: "KSh 5,000", description: "Sponsor a child for one month" },
-  { amount: "50000", label: "KSh 50,000", description: "Covers the school's utilities for one month" },
-];
+import { cn } from "@/lib/utils";
 
 const needs = [
   { item: "Teacher Salaries", priority: "Immediate" },
@@ -33,13 +23,7 @@ const needs = [
 ];
 
 const GetInvolved = () => {
-  const navigate = useNavigate();
-  const [selectedAmount, setSelectedAmount] = useState("");
-  const [customAmount, setCustomAmount] = useState("");
-  const [donorName, setDonorName] = useState("");
-  const [donorEmail, setDonorEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeMethod, setActiveMethod] = useState<string | null>(null);
 
   const [volunteerName, setVolunteerName] = useState("");
   const [volunteerEmail, setVolunteerEmail] = useState("");
@@ -50,16 +34,6 @@ const GetInvolved = () => {
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
-  };
-
-  const handleDonationSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const amount = customAmount || selectedAmount;
-    if (!amount) {
-      toast.error("Please select or enter a donation amount");
-      return;
-    }
-    setIsModalOpen(true);
   };
 
   const handleVolunteerSubmit = async (e: React.FormEvent) => {
@@ -138,7 +112,7 @@ const GetInvolved = () => {
           <div className="absolute top-1/4 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-float" />
         </section>
 
-        {/* Ways to Help */}
+        {/* Ways to Help Highlights */}
         <section className="py-24 md:py-32 bg-background relative overflow-hidden">
           <div className="absolute top-1/2 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="container mx-auto px-4">
@@ -166,7 +140,7 @@ const GetInvolved = () => {
           </div>
         </section>
 
-        {/* Donation Form */}
+        {/* Ways to Give Section */}
         <section className="py-24 md:py-32 bg-gradient-warm relative overflow-hidden" id="donate">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50" />
           <div className="container mx-auto px-4 relative">
@@ -175,213 +149,158 @@ const GetInvolved = () => {
                 <div>
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-widest mb-4">
                     <Heart className="w-3 h-3" />
-                    Make a Donation
+                    Ways to Support
                   </span>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-8 font-['Poppins',sans-serif] leading-tight tracking-tight">
-                    Your Gift <span className="text-primary italic">Changes Lives</span>
+                    Your Support <span className="text-primary italic">Transforms Lives</span>
                   </h2>
                   <p className="text-lg text-muted-foreground/90 mb-10 leading-relaxed font-['Open_Sans',sans-serif]">
-                    100% of your donation goes directly to supporting our students and programs. Every shilling counts towards a better future for Kibera.
+                    We now offer direct ways to contribute. Choose a payment method below to reveal our donation details. 100% of your contribution directly supports our 330+ students.
                   </p>
 
-                  <Card className="border-none bg-white shadow-2xl rounded-[2.5rem] overflow-hidden">
-                    <CardContent className="p-8 md:p-10">
-                      <form onSubmit={handleDonationSubmit} className="space-y-8">
-                        {/* Preset Amounts */}
-                        <div>
-                          <Label className="text-sm font-black text-foreground uppercase tracking-widest mb-4 block">Select Amount</Label>
-                          <div className="grid grid-cols-2 gap-4">
-                            {donationOptions.map((option) => (
-                              <button
-                                key={option.amount}
-                                type="button"
-                                onClick={() => { setSelectedAmount(option.amount); setCustomAmount(""); }}
-                                className={`p-6 rounded-2xl border-2 text-left transition-all duration-300 ${selectedAmount === option.amount
-                                  ? "border-secondary bg-secondary/10 shadow-soft"
-                                  : "border-border hover:border-secondary/50 hover:bg-secondary/5"
-                                  }`}
-                              >
-                                <div className="font-black text-xl text-foreground font-['Poppins',sans-serif]">{option.label}</div>
-                                <div className="text-xs font-medium text-muted-foreground mt-1">{option.description}</div>
-                              </button>
-                            ))}
+                  <div className="space-y-6">
+                    {/* PayPal Card */}
+                    <div
+                      className={cn(
+                        "group relative bg-white rounded-[2rem] p-8 border-2 transition-all duration-500 overflow-hidden cursor-pointer",
+                        activeMethod === 'paypal' ? "border-[#0070ba] shadow-xl" : "border-transparent hover:border-[#0070ba]/20 shadow-soft"
+                      )}
+                      onClick={() => setActiveMethod(activeMethod === 'paypal' ? null : 'paypal')}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-[#0070ba]/10 rounded-2xl flex items-center justify-center">
+                            <ArrowRight className="w-6 h-6 text-[#0070ba]" />
                           </div>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Pay via PayPal</h3>
                         </div>
-
-                        {/* Custom Amount */}
-                        <div>
-                          <Label htmlFor="customAmount" className="text-sm font-black text-foreground uppercase tracking-widest mb-3 block">Or Enter Custom Amount (KSh)</Label>
-                          <Input
-                            id="customAmount"
-                            type="number"
-                            placeholder="Enter amount"
-                            value={customAmount}
-                            onChange={(e) => { setCustomAmount(e.target.value); setSelectedAmount(""); }}
-                            className="h-14 rounded-xl border-2 focus-visible:ring-secondary"
-                          />
+                        <div className={cn("transition-transform duration-500", activeMethod === 'paypal' ? "rotate-180" : "")}>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground rotate-90" />
                         </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-0">Best for international donors and credit cards.</p>
 
-                        {/* Donor Info */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                          <div className="space-y-2">
-                            <Label htmlFor="donorName" className="text-sm font-bold">Your Name *</Label>
-                            <Input
-                              id="donorName"
-                              value={donorName}
-                              onChange={(e) => setDonorName(e.target.value)}
-                              required
-                              className="h-12 rounded-xl"
-                            />
+                      <div className={cn(
+                        "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
+                        activeMethod === 'paypal' ? "max-h-[200px] opacity-100 mt-6" : "max-h-0 opacity-0"
+                      )}>
+                        <Button
+                          className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-14 rounded-xl font-bold"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank");
+                          }}
+                        >
+                          Open PayPal Donation Page
+                          <ArrowRight className="w-5 h-5 ml-2" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* M-Pesa Card */}
+                    <div
+                      className={cn(
+                        "group relative bg-white rounded-[2rem] p-8 border-2 transition-all duration-500 overflow-hidden cursor-pointer",
+                        activeMethod === 'mpesa' ? "border-[#00a651] shadow-xl" : "border-transparent hover:border-[#00a651]/20 shadow-soft"
+                      )}
+                      onClick={() => setActiveMethod(activeMethod === 'mpesa' ? null : 'mpesa')}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-[#00a651]/10 rounded-2xl flex items-center justify-center">
+                            <div className="w-5 h-5 bg-[#00a651] rounded-full scale-90" />
                           </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="donorEmail" className="text-sm font-bold">Your Email *</Label>
-                            <Input
-                              id="donorEmail"
-                              type="email"
-                              value={donorEmail}
-                              onChange={(e) => setDonorEmail(e.target.value)}
-                              required
-                              className="h-12 rounded-xl"
-                            />
-                          </div>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa</h3>
                         </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="message" className="text-sm font-bold">Message (Optional)</Label>
-                          <Textarea
-                            id="message"
-                            placeholder="Share why you're donating..."
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            className="rounded-xl min-h-[100px]"
-                          />
+                        <div className={cn("transition-transform duration-500", activeMethod === 'mpesa' ? "rotate-180" : "")}>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground rotate-90" />
                         </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-0">Local mobile money payments in Kenya.</p>
 
-                        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                          <DialogTrigger asChild>
-                            <Button variant="hope" size="xl" type="submit" className="w-full shadow-glow py-8 text-lg">
-                              <Heart className="w-6 h-6 mr-2 animate-pulse" />
-                              Proceed to Donation
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="w-[95vw] sm:max-w-2xl rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl max-h-[90vh] flex flex-col">
-                            <DialogHeader className="bg-primary p-6 md:p-10 text-white relative overflow-hidden flex-shrink-0">
-                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
-                              <DialogTitle className="text-2xl md:text-3xl font-black font-['Poppins',sans-serif] mb-1 md:mb-2">Choose Payment Method</DialogTitle>
-                              <DialogDescription className="text-primary-foreground/80 text-sm md:text-lg italic">
-                                Thank you, {donorName.split(' ')[0]}! Your donation of KSh {(customAmount || selectedAmount).toLocaleString()} will make a massive impact.
-                              </DialogDescription>
-                            </DialogHeader>
-
-                            <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar">
-                              <Tabs defaultValue="paypal" className="w-full">
-                                <TabsList className="grid grid-cols-3 h-12 md:h-14 bg-muted/50 rounded-xl p-1 mb-6 md:mb-8">
-                                  <TabsTrigger value="paypal" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">PayPal</TabsTrigger>
-                                  <TabsTrigger value="bank" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bank</TabsTrigger>
-                                  <TabsTrigger value="mpesa" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">M-Pesa</TabsTrigger>
-                                </TabsList>
-
-                                <div className="min-h-[400px] md:min-h-[450px]">
-                                  <TabsContent value="paypal" className="animate-fade-in-up m-0">
-                                    <div className="group relative bg-[#0070ba]/5 border-2 border-[#0070ba]/10 hover:border-[#0070ba]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070ba]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                      <div className="relative text-center">
-                                        <div className="w-16 h-16 bg-[#0070ba] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_10px_30px_rgba(0,112,186,0.3)]">
-                                          <ArrowRight className="w-8 h-8 text-white" />
-                                        </div>
-                                        <h3 className="text-[#0070ba] font-black text-xl md:text-2xl mb-4 font-['Poppins',sans-serif]">International Support</h3>
-                                        <p className="text-sm md:text-base text-muted-foreground mb-8 leading-relaxed">
-                                          Fast, secure, and supports all major credit cards globally. Best for donors outside Kenya.
-                                        </p>
-                                        <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-14 md:h-16 rounded-2xl font-black text-base md:text-lg shadow-xl hover:shadow-[#0070ba]/20 hover:-translate-y-1 transition-all" onClick={() => window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank")}>
-                                          Donate via PayPal
-                                          <ArrowRight className="h-5 h-5 ml-2" />
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  </TabsContent>
-
-                                  <TabsContent value="bank" className="animate-fade-in-up m-0">
-                                    <div className="group relative bg-secondary/5 border-2 border-secondary/10 hover:border-secondary/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                      <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                      <h3 className="text-secondary font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Equity Bank Wire</h3>
-                                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 relative">
-                                        <div className="space-y-4 md:space-y-6">
-                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Name</div>
-                                            <div className="font-bold text-foreground text-sm md:text-base">Community Pillars Alliance</div>
-                                          </div>
-                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10 group/item">
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
-                                            <div className="font-black text-lg md:text-xl text-foreground flex items-center justify-between gap-2">
-                                              1280185473337
-                                              <Button variant="ghost" size="icon" className="h-9 w-9 text-secondary hover:bg-secondary/10 rounded-xl flex-shrink-0" onClick={() => copyToClipboard("1280185473337", "Account Number")}>
-                                                <Copy className="h-4 w-4" />
-                                              </Button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="space-y-4 md:space-y-6">
-                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">SWIFT Code</div>
-                                            <div className="font-bold text-foreground text-sm md:text-base">EQBLKENA</div>
-                                          </div>
-                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
-                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Branch</div>
-                                            <div className="font-bold text-foreground text-sm md:text-base">Nairobi West (128)</div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <p className="mt-6 md:mt-8 text-center text-[10px] md:text-xs text-muted-foreground font-medium italic">
-                                        Include <span className="text-secondary font-bold">COPA Donation</span> in the transfer description.
-                                      </p>
-                                    </div>
-                                  </TabsContent>
-
-                                  <TabsContent value="mpesa" className="animate-fade-in-up m-0">
-                                    <div className="group relative bg-[#00a651]/5 border-2 border-[#00a651]/10 hover:border-[#00a651]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
-                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00a651]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                                      <div className="relative">
-                                        <div className="text-[#00a651] font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Lipa na M-Pesa</div>
-                                        <div className="flex flex-col gap-4 md:gap-6">
-                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/paybill">
-                                            <div>
-                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Business Number</div>
-                                              <div className="text-2xl md:text-3xl font-black text-foreground">247247</div>
-                                            </div>
-                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("247247", "Paybill Number")}>
-                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
-                                            </Button>
-                                          </div>
-
-                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/acc">
-                                            <div>
-                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
-                                              <div className="text-2xl md:text-3xl font-black text-foreground">473337</div>
-                                            </div>
-                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("473337", "Account Number")}>
-                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
-                                            </Button>
-                                          </div>
-                                        </div>
-                                        <div className="mt-6 md:mt-8 text-center">
-                                          <div className="text-xs md:text-sm font-bold text-foreground">Name: <span className="text-[#00a651] italic">COPA</span></div>
-                                          <p className="mt-3 md:mt-4 text-[10px] md:text-xs text-muted-foreground leading-relaxed">
-                                            1. Paybill &gt; Business No. 247247<br />
-                                            2. Account No. 473337
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </TabsContent>
-                                </div>
-                              </Tabs>
+                      <div className={cn(
+                        "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-4",
+                        activeMethod === 'mpesa' ? "max-h-[300px] opacity-100 mt-6" : "max-h-0 opacity-0"
+                      )}>
+                        <div className="flex flex-col gap-3">
+                          <div className="bg-slate-50 p-4 rounded-xl flex items-center justify-between border border-slate-100">
+                            <div>
+                              <div className="text-[10px] font-black uppercase text-muted-foreground">Paybill Number</div>
+                              <div className="font-black text-xl text-foreground">247247</div>
                             </div>
-                          </DialogContent>
-                        </Dialog>
-                      </form>
-                    </CardContent>
-                  </Card>
+                            <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); copyToClipboard("247247", "Paybill Number"); }}>
+                              <Copy className="w-4 h-4 text-[#00a651]" />
+                            </Button>
+                          </div>
+                          <div className="bg-slate-50 p-4 rounded-xl flex items-center justify-between border border-slate-100">
+                            <div>
+                              <div className="text-[10px] font-black uppercase text-muted-foreground">Account Number</div>
+                              <div className="font-black text-xl text-foreground">473337</div>
+                            </div>
+                            <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); copyToClipboard("473337", "Account Number"); }}>
+                              <Copy className="w-4 h-4 text-[#00a651]" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <span className="text-xs font-bold text-[#00a651]">Account Name: COPA</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bank Transfer Card */}
+                    <div
+                      className={cn(
+                        "group relative bg-white rounded-[2rem] p-8 border-2 transition-all duration-500 overflow-hidden cursor-pointer",
+                        activeMethod === 'bank' ? "border-primary shadow-xl" : "border-transparent hover:border-primary/20 shadow-soft"
+                      )}
+                      onClick={() => setActiveMethod(activeMethod === 'bank' ? null : 'bank')}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+                            <Gift className="w-6 h-6 text-primary" />
+                          </div>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Bank Transfer</h3>
+                        </div>
+                        <div className={cn("transition-transform duration-500", activeMethod === 'bank' ? "rotate-180" : "")}>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground rotate-90" />
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-0">Direct wire transfer to Equity Bank.</p>
+
+                      <div className={cn(
+                        "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-4",
+                        activeMethod === 'bank' ? "max-h-[400px] opacity-100 mt-6" : "max-h-0 opacity-0"
+                      )}>
+                        <div className="bg-slate-50 p-5 rounded-2xl space-y-4 border border-slate-100 text-left">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <div className="text-[10px] font-black uppercase text-muted-foreground">Bank Name</div>
+                              <div className="text-xs font-bold text-foreground">Equity Bank</div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] font-black uppercase text-muted-foreground">SWIFT</div>
+                              <div className="text-xs font-bold text-foreground">EQBLKENA</div>
+                            </div>
+                          </div>
+                          <div className="pt-2 border-t border-slate-200">
+                            <div className="text-[10px] font-black uppercase text-muted-foreground mb-1">Account Number</div>
+                            <div className="flex items-center justify-between">
+                              <span className="font-black text-lg text-foreground">1280185473337</span>
+                              <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); copyToClipboard("1280185473337", "Account Number"); }}>
+                                <Copy className="w-4 h-4 text-primary" />
+                              </Button>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-black uppercase text-muted-foreground">Acc Name</div>
+                            <div className="text-xs font-bold text-foreground">Community Pillars Alliance</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </ScrollReveal>
 
@@ -389,14 +308,14 @@ const GetInvolved = () => {
               <ScrollReveal animation="slide-right">
                 <div className="lg:pt-12">
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
-                    Our Immediate Needs
+                    Our Needs
                   </span>
                   <h2 className="text-3xl font-bold text-foreground mb-8 font-['Poppins',sans-serif] tracking-tight">
                     Where Your Impact <span className="text-primary italic">Matters Most</span>
                   </h2>
 
                   <div className="space-y-4">
-                    {needs.map((need, idx) => (
+                    {needs.map((need) => (
                       <div key={need.item} className="p-6 bg-white rounded-2xl shadow-soft border border-transparent hover:border-primary/10 transition-all duration-300 flex items-center justify-between group">
                         <div className="flex items-center gap-4">
                           <div className={`w-3 h-3 rounded-full animate-pulse ${need.priority === "Immediate" ? "bg-destructive shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-secondary shadow-[0_0_10px_rgba(242,153,74,0.5)]"
@@ -437,7 +356,7 @@ const GetInvolved = () => {
           </div>
         </section>
 
-        {/* Volunteer Form */}
+        {/* Volunteer Form Section */}
         <section className="py-24 md:py-32 bg-background relative overflow-hidden" id="volunteer">
           <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="container mx-auto px-4 relative">
