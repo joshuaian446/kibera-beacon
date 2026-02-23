@@ -93,6 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const baseUrl = getIntaSendBaseUrl();
 
             // Save to Supabase as pending before calling IntaSend
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { error: dbError } = await (supabase.from("donations") as any).insert({
                 donor_name,
                 donor_email: donor_email || null,
@@ -130,6 +131,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             if (!stkResponse.ok || stkData.errors || (!stkData.id && !stkData.invoice)) {
                 console.error("STK Push error:", stkData);
                 // Clean up the pending record on failure
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await (supabase.from("donations") as any)
                     .delete()
                     .eq("invoice_id", invoiceId);
@@ -146,6 +148,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const intasendInvoiceId =
                 stkData?.invoice?.invoice_id || stkData?.id || invoiceId;
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             await (supabase.from("donations") as any)
                 .update({ invoice_id: intasendInvoiceId })
                 .eq("invoice_id", invoiceId);
@@ -166,6 +169,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 return res.status(400).json({ error: "Missing invoice_id" });
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { data, error } = await (supabase.from("donations") as any)
                 .select("status")
                 .eq("invoice_id", invoice_id)
@@ -207,6 +211,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 payload?.state;
 
             if (invoiceId && state === "COMPLETE") {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const { error: updateError } = await (supabase.from("donations") as any)
                     .update({ status: "completed" })
                     .eq("invoice_id", invoiceId);
@@ -215,6 +220,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     console.error("DB Update Error:", updateError);
                 }
             } else if (invoiceId && (state === "FAILED" || state === "CANCELLED")) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await (supabase.from("donations") as any)
                     .update({ status: "failed" })
                     .eq("invoice_id", invoiceId);
@@ -226,6 +232,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         return res.status(404).json({ error: `Unknown action: ${action}` });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error("IntaSend API Error:", error);
         setCors();

@@ -119,6 +119,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const merchantReference = crypto.randomUUID();
 
             // Save to DB
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { error: dbError } = await (supabase.from('donations') as any).insert({
                 donor_name,
                 donor_email,
@@ -165,6 +166,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             }
 
             // Update DB with order_tracking_id
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { error: updateError } = await (supabase.from('donations') as any)
                 .update({ pesapal_order_tracking_id: data.order_tracking_id })
                 .eq('pesapal_merchant_reference', merchantReference);
@@ -192,6 +194,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const data = await response.json();
 
                 if (data.payment_status_description === 'Completed') {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     await (supabase.from('donations') as any)
                         .update({ status: 'completed' })
                         .eq('pesapal_merchant_reference', MerchantReference);
@@ -203,6 +206,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         return res.status(404).json({ error: 'Action not found' });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error('Pesapal API Error:', error);
 

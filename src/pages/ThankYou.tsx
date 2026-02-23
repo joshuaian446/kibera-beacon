@@ -23,6 +23,7 @@ const ThankYou = () => {
 
         if (invoiceId) {
             const checkStatus = async () => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const { data } = await (supabase.from("donations") as any)
                     .select("status")
                     .eq("invoice_id", invoiceId)
@@ -59,7 +60,7 @@ const ThankYou = () => {
                         </div>
 
                         {/* Main Content Card */}
-                        <Card variant="elevated" className="text-center">
+                        <Card className="text-center shadow-2xl rounded-[2.5rem] overflow-hidden">
                             <CardContent className="p-8 md:p-12">
                                 <Heart className="w-16 h-16 text-destructive mx-auto mb-6 animate-pulse" />
 

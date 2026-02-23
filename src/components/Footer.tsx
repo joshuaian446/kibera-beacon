@@ -77,13 +77,20 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-lg font-['Poppins',sans-serif] mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["Home", "About Us", "Programs", "News", "Get Involved", "Contact"].map((link) => (
-                <li key={link}>
+              {([
+                { label: "Home", to: "/" },
+                { label: "About Us", to: "/about" },
+                { label: "Programs", to: "/programs" },
+                { label: "News", to: "/news" },
+                { label: "Get Involved", to: "/get-involved" },
+                { label: "Contact", to: "/contact" },
+              ] as { label: string; to: string }[]).map((link) => (
+                <li key={link.label}>
                   <Link
-                    to={link === "Home" ? "/" : `/${link.toLowerCase().replace(" ", "-").replace("us", "")}`}
+                    to={link.to}
                     className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth text-sm"
                   >
-                    {link}
+                    {link.label}
                   </Link>
                 </li>
               ))}
