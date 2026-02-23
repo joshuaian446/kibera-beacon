@@ -1,0 +1,157 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
+
+const INTASEND_BASE_URL = "https://payment.intasend.com";
+
+const normalisePhone = (phone: string): string => {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("254") && digits.length === 12) return digits;
+  if (digits.startsWith("0") && digits.length === 10) return `254${digits.slice(1)}`;
+  if (digits.length === 9) return `254${digits}`;
+  throw new Error("Invalid phone number. Use format 07XXXXXXXX or 254XXXXXXXXX.");
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    const secretKey = Deno.env.get("INTASEND_SECRET_KEY");
+    if (!secretKey) throw new Error("INTASEND_SECRET_KEY is not configured");
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    const body = await req.json();
+    const { action } = body;
+
+    // --- Submit Order (initiate STK Push) ---
+    if (action === "submit-order") {
+      const { amount, donor_name, donor_email, phone_number, message } = body;
+
+      if (!amount || !donor_name || !phone_number) {
+        return new Response(
+          JSON.stringify({ error: "Missing required fields: amount, donor_name, phone_number" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const normalisedPhone = normalisePhone(phone_number);
+      const invoiceId = crypto.randomUUID();
+
+      // Save pending donation
+      const { error: dbError } = await supabase.from("donations").insert({
+        donor_name,
+        donor_email: donor_email || null,
+        phone_number: normalisedPhone,
+        amount: parseFloat(amount),
+        message: message || null,
+        invoice_id: invoiceId,
+        status: "pending",
+        payment_gateway: "intasend",
+      });
+
+      if (dbError) {
+        console.error("DB Insert Error:", dbError);
+        throw new Error(`Database error: ${dbError.message}`);
+      }
+
+      // Initiate M-Pesa STK Push via IntaSend
+      const stkResponse = await fetch(`${INTASEND_BASE_URL}/api/v1/payment/mpesa-stk-push/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${secretKey}`,
+        },
+        body: JSON.stringify({
+          amount: parseFloat(amount),
+          phone_number: normalisedPhone,
+          currency: "KES",
+          api_ref: invoiceId,
+          narrative: `Donation from ${donor_name}`,
+        }),
+      });
+
+      const stkData = await stkResponse.json();
+      console.log("IntaSend STK Push response:", JSON.stringify(stkData));
+
+      if (!stkResponse.ok || stkData.errors || (!stkData.id && !stkData.invoice)) {
+        // Clean up pending record
+        await supabase.from("donations").delete().eq("invoice_id", invoiceId);
+        const errMsg =
+          stkData?.errors?.detail || stkData?.detail || stkData?.message ||
+          "Failed to initiate M-Pesa STK Push. Please try again.";
+        return new Response(
+          JSON.stringify({ error: errMsg }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      // Update with IntaSend tracking ID
+      const intasendInvoiceId = stkData?.invoice?.invoice_id || stkData?.id || invoiceId;
+      await supabase
+        .from("donations")
+        .update({ invoice_id: intasendInvoiceId, intasend_tracking_id: stkData?.id || null })
+        .eq("invoice_id", invoiceId);
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          invoice_id: intasendInvoiceId,
+          message: "STK Push sent. Please check your phone and enter your M-Pesa PIN.",
+          state: stkData?.invoice?.state || stkData?.state || "PENDING",
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // --- Check Status ---
+    if (action === "check-status") {
+      const { invoice_id } = body;
+      if (!invoice_id) {
+        return new Response(
+          JSON.stringify({ error: "Missing invoice_id" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const { data, error } = await supabase
+        .from("donations")
+        .select("status")
+        .eq("invoice_id", invoice_id)
+        .single();
+
+      if (error || !data) {
+        return new Response(
+          JSON.stringify({ error: "Donation not found" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ status: data.status }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ error: "Unknown action" }),
+      { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error("M-Pesa STK Error:", error);
+    const message = error instanceof Error ? error.message : "Internal Server Error";
+    return new Response(
+      JSON.stringify({ error: message }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+});
