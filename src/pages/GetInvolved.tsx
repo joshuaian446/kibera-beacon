@@ -1,5 +1,5 @@
-﻿import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, Users, Calendar, Gift, ArrowRight, Copy } from "lucide-react";
+import { Heart, Users, Calendar, Gift, ArrowRight, Copy, Loader2, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { storageImages } from "@/lib/storage";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 const needs = [
   { item: "Teacher Salaries", priority: "Immediate" },
@@ -23,13 +24,61 @@ const needs = [
 ];
 
 const GetInvolved = () => {
+  const navigate = useNavigate();
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
+
+  // STK Push donation form state
+  const [donorName, setDonorName] = useState("");
+  const [donorEmail, setDonorEmail] = useState("");
+  const [donorPhone, setDonorPhone] = useState("");
+  const [donorAmount, setDonorAmount] = useState("");
+  const [donorMessage, setDonorMessage] = useState("");
+  const [isSubmittingDonation, setIsSubmittingDonation] = useState(false);
 
   const [volunteerName, setVolunteerName] = useState("");
   const [volunteerEmail, setVolunteerEmail] = useState("");
   const [volunteerPhone, setVolunteerPhone] = useState("");
   const [volunteerSkills, setVolunteerSkills] = useState("");
   const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
+
+  const handleDonationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!donorName || !donorPhone || !donorAmount) {
+      toast.error("Please fill in your name, phone number, and amount");
+      return;
+    }
+
+    const amount = parseFloat(donorAmount);
+    if (isNaN(amount) || amount < 1) {
+      toast.error("Please enter a valid amount (minimum KES 1)");
+      return;
+    }
+
+    setIsSubmittingDonation(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("mpesa-stk-push", {
+        body: {
+          action: "submit-order",
+          amount: donorAmount,
+          donor_name: donorName,
+          donor_email: donorEmail,
+          phone_number: donorPhone,
+          message: donorMessage,
+        },
+      });
+
+      if (error) throw new Error(error.message);
+      if (data?.error) throw new Error(data.error);
+
+      toast.success("STK Push sent! Check your phone for the M-Pesa prompt.");
+      navigate(`/thank-you?invoice_id=${data.invoice_id}`);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Failed to initiate payment";
+      toast.error(msg);
+    } finally {
+      setIsSubmittingDonation(false);
+    }
+  };
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -197,53 +246,114 @@ const GetInvolved = () => {
                       </div>
                     </div>
 
-                    {/* M-Pesa Card */}
+                    {/* M-Pesa STK Push Card */}
                     <div
                       className={cn(
                         "group relative bg-white rounded-[2rem] p-8 border-2 transition-all duration-500 overflow-hidden cursor-pointer",
-                        activeMethod === 'mpesa' ? "border-[#00a651] shadow-xl" : "border-transparent hover:border-[#00a651]/20 shadow-soft"
+                        activeMethod === 'mpesa-stk' ? "border-secondary shadow-xl" : "border-transparent hover:border-secondary/20 shadow-soft"
+                      )}
+                      onClick={() => setActiveMethod(activeMethod === 'mpesa-stk' ? null : 'mpesa-stk')}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
+                            <Phone className="w-6 h-6 text-secondary" />
+                          </div>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">M-Pesa STK Push</h3>
+                        </div>
+                        <div className={cn("transition-transform duration-500", activeMethod === 'mpesa-stk' ? "rotate-180" : "")}>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground rotate-90" />
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-0">Instant payment prompt sent to your phone.</p>
+
+                      <div className={cn(
+                        "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
+                        activeMethod === 'mpesa-stk' ? "max-h-[600px] opacity-100 mt-6" : "max-h-0 opacity-0"
+                      )}>
+                        <form onSubmit={handleDonationSubmit} onClick={(e) => e.stopPropagation()} className="space-y-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <Label htmlFor="donorName" className="font-bold text-xs">Full Name *</Label>
+                              <Input id="donorName" value={donorName} onChange={(e) => setDonorName(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="John Doe" />
+                            </div>
+                            <div className="space-y-1">
+                              <Label htmlFor="donorPhone" className="font-bold text-xs">M-Pesa Phone *</Label>
+                              <Input id="donorPhone" type="tel" value={donorPhone} onChange={(e) => setDonorPhone(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="0712345678" />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <Label htmlFor="donorEmail" className="font-bold text-xs">Email (optional)</Label>
+                              <Input id="donorEmail" type="email" value={donorEmail} onChange={(e) => setDonorEmail(e.target.value)} className="h-11 rounded-xl border-2" placeholder="john@example.com" />
+                            </div>
+                            <div className="space-y-1">
+                              <Label htmlFor="donorAmount" className="font-bold text-xs">Amount (KES) *</Label>
+                              <Input id="donorAmount" type="number" min="1" value={donorAmount} onChange={(e) => setDonorAmount(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="500" />
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <Label htmlFor="donorMessage" className="font-bold text-xs">Message (optional)</Label>
+                            <Input id="donorMessage" value={donorMessage} onChange={(e) => setDonorMessage(e.target.value)} className="h-11 rounded-xl border-2" placeholder="A short note..." />
+                          </div>
+                          <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-secondary hover:bg-secondary/90 text-secondary-foreground" disabled={isSubmittingDonation}>
+                            {isSubmittingDonation ? (
+                              <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Sending STK Push...</span>
+                            ) : (
+                              <span className="flex items-center gap-2"><Phone className="w-4 h-4" /> Send M-Pesa Prompt</span>
+                            )}
+                          </Button>
+                        </form>
+                      </div>
+                    </div>
+
+                    {/* M-Pesa Manual Paybill Card */}
+                    <div
+                      className={cn(
+                        "group relative bg-white rounded-[2rem] p-8 border-2 transition-all duration-500 overflow-hidden cursor-pointer",
+                        activeMethod === 'mpesa' ? "border-secondary/50 shadow-xl" : "border-transparent hover:border-secondary/10 shadow-soft"
                       )}
                       onClick={() => setActiveMethod(activeMethod === 'mpesa' ? null : 'mpesa')}
                     >
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-[#00a651]/10 rounded-2xl flex items-center justify-center">
-                            <div className="w-5 h-5 bg-[#00a651] rounded-full scale-90" />
+                          <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
+                            <div className="w-5 h-5 bg-secondary rounded-full scale-90" />
                           </div>
-                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa</h3>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa (Manual)</h3>
                         </div>
                         <div className={cn("transition-transform duration-500", activeMethod === 'mpesa' ? "rotate-180" : "")}>
                           <ArrowRight className="w-5 h-5 text-muted-foreground rotate-90" />
                         </div>
                       </div>
-                      <p className="text-muted-foreground text-sm mb-0">Local mobile money payments in Kenya.</p>
+                      <p className="text-muted-foreground text-sm mb-0">Use Paybill manually from your M-Pesa menu.</p>
 
                       <div className={cn(
                         "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-4",
                         activeMethod === 'mpesa' ? "max-h-[300px] opacity-100 mt-6" : "max-h-0 opacity-0"
                       )}>
                         <div className="flex flex-col gap-3">
-                          <div className="bg-slate-50 p-4 rounded-xl flex items-center justify-between border border-slate-100">
+                          <div className="bg-muted/50 p-4 rounded-xl flex items-center justify-between border border-border">
                             <div>
                               <div className="text-[10px] font-black uppercase text-muted-foreground">Paybill Number</div>
                               <div className="font-black text-xl text-foreground">247247</div>
                             </div>
                             <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); copyToClipboard("247247", "Paybill Number"); }}>
-                              <Copy className="w-4 h-4 text-[#00a651]" />
+                              <Copy className="w-4 h-4 text-secondary" />
                             </Button>
                           </div>
-                          <div className="bg-slate-50 p-4 rounded-xl flex items-center justify-between border border-slate-100">
+                          <div className="bg-muted/50 p-4 rounded-xl flex items-center justify-between border border-border">
                             <div>
                               <div className="text-[10px] font-black uppercase text-muted-foreground">Account Number</div>
                               <div className="font-black text-xl text-foreground">473337</div>
                             </div>
                             <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); copyToClipboard("473337", "Account Number"); }}>
-                              <Copy className="w-4 h-4 text-[#00a651]" />
+                              <Copy className="w-4 h-4 text-secondary" />
                             </Button>
                           </div>
                         </div>
                         <div className="text-center">
-                          <span className="text-xs font-bold text-[#00a651]">Account Name: COPA</span>
+                          <span className="text-xs font-bold text-secondary">Account Name: COPA</span>
                         </div>
                       </div>
                     </div>
