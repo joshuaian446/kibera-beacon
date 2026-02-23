@@ -1,7 +1,6 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
-import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -39,7 +38,6 @@ const GetInvolved = () => {
   const [customAmount, setCustomAmount] = useState("");
   const [donorName, setDonorName] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
-  const [donorPhone, setDonorPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,89 +52,14 @@ const GetInvolved = () => {
     toast.success(`${label} copied to clipboard!`);
   };
 
-  const [isSubmittingDonation, setIsSubmittingDonation] = useState(false);
-
-  const handleDonationSubmit = async (e: React.FormEvent) => {
+  const handleDonationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const amount = customAmount || selectedAmount;
     if (!amount) {
       toast.error("Please select or enter a donation amount");
       return;
     }
-    if (!donorName) {
-      toast.error("Please fill in your name");
-      return;
-    }
-    if (!donorPhone) {
-      toast.error("Please fill in your M-Pesa phone number");
-      return;
-    }
-
-    setIsSubmittingDonation(true);
-    try {
-      const response = await fetch('/api/intasend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          path: 'submit-order',
-          amount: parseFloat(amount),
-          donor_name: donorName,
-          donor_email: donorEmail || undefined,
-          phone_number: donorPhone,
-          message: message,
-        }),
-      });
-
-      let data: any;
-      try {
-        data = await response.json();
-      } catch (e) {
-        throw new Error(`Server error (Status ${response.status}). Check Vercel logs.`);
-      }
-
-      if (!response.ok) throw new Error(data.error || "Failed to initiate STK Push");
-
-      const invoiceId = data.invoice_id;
-      toast.success("📲 Check your phone for the M-Pesa prompt and enter your PIN!", { duration: 10000 });
-
-      // Poll Supabase every 5 seconds for up to 90 seconds
-      let attempts = 0;
-      const maxAttempts = 18;
-      const pollInterval = setInterval(async () => {
-        attempts++;
-        try {
-          const statusRes = await fetch('/api/intasend', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ path: 'check-status', invoice_id: invoiceId }),
-          });
-          const statusData = await statusRes.json();
-
-          if (statusData.status === 'completed') {
-            clearInterval(pollInterval);
-            setIsSubmittingDonation(false);
-            toast.success("Payment confirmed! Thank you! 🎉");
-            navigate(`/thank-you?invoice_id=${invoiceId}`);
-          } else if (statusData.status === 'failed') {
-            clearInterval(pollInterval);
-            setIsSubmittingDonation(false);
-            toast.error("Payment was not completed. Please try again.");
-          } else if (attempts >= maxAttempts) {
-            clearInterval(pollInterval);
-            setIsSubmittingDonation(false);
-            // Still navigate — webhook will confirm asynchronously
-            navigate(`/thank-you?invoice_id=${invoiceId}`);
-          }
-        } catch {
-          // Silently continue polling
-        }
-      }, 5000);
-
-    } catch (error: any) {
-      console.error("Donation error:", error);
-      toast.error(error.message || "An error occurred. Please try again.");
-      setIsSubmittingDonation(false);
-    }
+    setIsModalOpen(true);
   };
 
   const handleVolunteerSubmit = async (e: React.FormEvent) => {
@@ -176,12 +99,9 @@ const GetInvolved = () => {
       setIsSubmittingVolunteer(false);
     }
   };
+
   return (
     <div className="min-h-screen">
-      <SEO
-        title="Get Involved | COPA Centre"
-        description="Join us in making a difference in Kibera. Donate, volunteer, or sponsor a child today and help transform lives through education."
-      />
       <Header />
       <main>
         {/* Hero Section */}
@@ -314,31 +234,16 @@ const GetInvolved = () => {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="donorEmail" className="text-sm font-bold">Email (Optional)</Label>
+                            <Label htmlFor="donorEmail" className="text-sm font-bold">Your Email *</Label>
                             <Input
                               id="donorEmail"
                               type="email"
                               value={donorEmail}
                               onChange={(e) => setDonorEmail(e.target.value)}
+                              required
                               className="h-12 rounded-xl"
-                              placeholder="you@example.com"
                             />
                           </div>
-                        </div>
-
-                        {/* M-Pesa Phone */}
-                        <div className="space-y-2">
-                          <Label htmlFor="donorPhone" className="text-sm font-bold">M-Pesa Phone Number *</Label>
-                          <Input
-                            id="donorPhone"
-                            type="tel"
-                            value={donorPhone}
-                            onChange={(e) => setDonorPhone(e.target.value)}
-                            required
-                            placeholder="07XXXXXXXX or 254XXXXXXXXX"
-                            className="h-12 rounded-xl"
-                          />
-                          <p className="text-xs text-muted-foreground">You will receive an M-Pesa prompt on this number</p>
                         </div>
 
                         <div className="space-y-2">
@@ -352,25 +257,128 @@ const GetInvolved = () => {
                           />
                         </div>
 
-                        <Button
-                          variant="hope"
-                          size="xl"
-                          type="submit"
-                          className="w-full shadow-glow py-8 text-lg"
-                          disabled={isSubmittingDonation}
-                        >
-                          {isSubmittingDonation ? (
-                            <>
-                              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                              Waiting for M-Pesa PIN...
-                            </>
-                          ) : (
-                            <>
+                        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                          <DialogTrigger asChild>
+                            <Button variant="hope" size="xl" type="submit" className="w-full shadow-glow py-8 text-lg">
                               <Heart className="w-6 h-6 mr-2 animate-pulse" />
-                              Donate via M-Pesa
-                            </>
-                          )}
-                        </Button>
+                              Proceed to Donation
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="w-[95vw] sm:max-w-2xl rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl max-h-[90vh] flex flex-col">
+                            <DialogHeader className="bg-primary p-6 md:p-10 text-white relative overflow-hidden flex-shrink-0">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
+                              <DialogTitle className="text-2xl md:text-3xl font-black font-['Poppins',sans-serif] mb-1 md:mb-2">Choose Payment Method</DialogTitle>
+                              <DialogDescription className="text-primary-foreground/80 text-sm md:text-lg italic">
+                                Thank you, {donorName.split(' ')[0]}! Your donation of KSh {(customAmount || selectedAmount).toLocaleString()} will make a massive impact.
+                              </DialogDescription>
+                            </DialogHeader>
+
+                            <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar">
+                              <Tabs defaultValue="paypal" className="w-full">
+                                <TabsList className="grid grid-cols-3 h-12 md:h-14 bg-muted/50 rounded-xl p-1 mb-6 md:mb-8">
+                                  <TabsTrigger value="paypal" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">PayPal</TabsTrigger>
+                                  <TabsTrigger value="bank" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bank</TabsTrigger>
+                                  <TabsTrigger value="mpesa" className="rounded-lg text-xs md:text-sm font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">M-Pesa</TabsTrigger>
+                                </TabsList>
+
+                                <div className="min-h-[400px] md:min-h-[450px]">
+                                  <TabsContent value="paypal" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-[#0070ba]/5 border-2 border-[#0070ba]/10 hover:border-[#0070ba]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070ba]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <div className="relative text-center">
+                                        <div className="w-16 h-16 bg-[#0070ba] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_10px_30px_rgba(0,112,186,0.3)]">
+                                          <ArrowRight className="w-8 h-8 text-white" />
+                                        </div>
+                                        <h3 className="text-[#0070ba] font-black text-xl md:text-2xl mb-4 font-['Poppins',sans-serif]">International Support</h3>
+                                        <p className="text-sm md:text-base text-muted-foreground mb-8 leading-relaxed">
+                                          Fast, secure, and supports all major credit cards globally. Best for donors outside Kenya.
+                                        </p>
+                                        <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white w-full h-14 md:h-16 rounded-2xl font-black text-base md:text-lg shadow-xl hover:shadow-[#0070ba]/20 hover:-translate-y-1 transition-all" onClick={() => window.open("https://www.paypal.com/donate/?hosted_button_id=DV8AFXD5XPRLE", "_blank")}>
+                                          Donate via PayPal
+                                          <ArrowRight className="h-5 h-5 ml-2" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  </TabsContent>
+
+                                  <TabsContent value="bank" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-secondary/5 border-2 border-secondary/10 hover:border-secondary/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <h3 className="text-secondary font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Equity Bank Wire</h3>
+                                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 relative">
+                                        <div className="space-y-4 md:space-y-6">
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Name</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">Community Pillars Alliance</div>
+                                          </div>
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10 group/item">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
+                                            <div className="font-black text-lg md:text-xl text-foreground flex items-center justify-between gap-2">
+                                              1280185473337
+                                              <Button variant="ghost" size="icon" className="h-9 w-9 text-secondary hover:bg-secondary/10 rounded-xl flex-shrink-0" onClick={() => copyToClipboard("1280185473337", "Account Number")}>
+                                                <Copy className="h-4 w-4" />
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="space-y-4 md:space-y-6">
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">SWIFT Code</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">EQBLKENA</div>
+                                          </div>
+                                          <div className="p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-secondary/10">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Branch</div>
+                                            <div className="font-bold text-foreground text-sm md:text-base">Nairobi West (128)</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <p className="mt-6 md:mt-8 text-center text-[10px] md:text-xs text-muted-foreground font-medium italic">
+                                        Include <span className="text-secondary font-bold">COPA Donation</span> in the transfer description.
+                                      </p>
+                                    </div>
+                                  </TabsContent>
+
+                                  <TabsContent value="mpesa" className="animate-fade-in-up m-0">
+                                    <div className="group relative bg-[#00a651]/5 border-2 border-[#00a651]/10 hover:border-[#00a651]/30 p-6 md:p-10 rounded-[2rem] transition-all duration-500 overflow-hidden">
+                                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00a651]/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+                                      <div className="relative">
+                                        <div className="text-[#00a651] font-black text-xl md:text-2xl mb-6 md:mb-8 font-['Poppins',sans-serif] text-center">Lipa na M-Pesa</div>
+                                        <div className="flex flex-col gap-4 md:gap-6">
+                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/paybill">
+                                            <div>
+                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Business Number</div>
+                                              <div className="text-2xl md:text-3xl font-black text-foreground">247247</div>
+                                            </div>
+                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("247247", "Paybill Number")}>
+                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
+                                            </Button>
+                                          </div>
+
+                                          <div className="bg-white/60 backdrop-blur-sm p-4 md:p-6 rounded-2xl border-2 border-[#00a651]/20 flex items-center justify-between group/acc">
+                                            <div>
+                                              <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Account Number</div>
+                                              <div className="text-2xl md:text-3xl font-black text-foreground">473337</div>
+                                            </div>
+                                            <Button variant="ghost" size="icon" className="h-10 w-10 md:h-12 md:w-12 text-[#00a651] hover:bg-[#00a651]/10 rounded-xl" onClick={() => copyToClipboard("473337", "Account Number")}>
+                                              <Copy className="h-5 w-5 md:h-6 md:w-6" />
+                                            </Button>
+                                          </div>
+                                        </div>
+                                        <div className="mt-6 md:mt-8 text-center">
+                                          <div className="text-xs md:text-sm font-bold text-foreground">Name: <span className="text-[#00a651] italic">COPA</span></div>
+                                          <p className="mt-3 md:mt-4 text-[10px] md:text-xs text-muted-foreground leading-relaxed">
+                                            1. Paybill &gt; Business No. 247247<br />
+                                            2. Account No. 473337
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </TabsContent>
+                                </div>
+                              </Tabs>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </form>
                     </CardContent>
                   </Card>
