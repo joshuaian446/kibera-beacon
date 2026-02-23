@@ -75,7 +75,7 @@ const TermsOfService = () => {
                                 <section>
                                     <h2 className="text-2xl font-bold text-foreground mb-4">8. Contact Information</h2>
                                     <p>
-                                        If you have questions about these Terms of Service, please contact us at <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">copacenter21@gmail.com</a>.
+                                        If you have questions about these Terms of Service, please contact us at <a href="mailto:admin@copacentre.org" className="text-primary hover:underline font-bold">admin@copacentre.org</a> or <a href="mailto:copacentre21@gmail.com" className="text-primary hover:underline">copacentre21@gmail.com</a>.
                                     </p>
                                 </section>
                             </div>

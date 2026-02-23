@@ -132,9 +132,14 @@ const Contact = () => {
                         <Mail className="w-7 h-7 text-secondary" />
                       </div>
                       <h3 className="font-black text-xl mb-3 font-['Poppins',sans-serif]">Email Us</h3>
-                      <a href="mailto:copacenter21@gmail.com" className="text-primary group-hover:text-white font-black underline decoration-2 underline-offset-4 decoration-primary/30 group-hover:decoration-white/50 transition-colors">
-                        copacenter21@gmail.com
-                      </a>
+                      <div className="flex flex-col gap-2">
+                        <a href="mailto:admin@copacentre.org" className="text-primary group-hover:text-white font-black underline decoration-2 underline-offset-4 decoration-primary/30 group-hover:decoration-white/50 transition-colors">
+                          admin@copacentre.org
+                        </a>
+                        <a href="mailto:copacentre21@gmail.com" className="text-secondary-foreground group-hover:text-white/80 font-medium text-sm underline decoration-1 underline-offset-4 transition-colors">
+                          copacentre21@gmail.com
+                        </a>
+                      </div>
                     </Card>
 
                     <Card className="p-8 border-none bg-primary/5 rounded-[2rem] hover:bg-primary hover:text-white transition-all duration-500 group shadow-soft hover:shadow-glow hover:-translate-y-2">

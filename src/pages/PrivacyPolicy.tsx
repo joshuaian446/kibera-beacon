@@ -71,9 +71,7 @@ const PrivacyPolicy = () => {
 
                                 <section>
                                     <h2 className="text-2xl font-bold text-foreground mb-4">6. Your Choices</h2>
-                                    <p>
-                                        You can unsubscribe from our mailing list at any time by clicking the "unsubscribe" link in our emails or by contacting us directly at <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">copacenter21@gmail.com</a>.
-                                    </p>
+                                    You can unsubscribe from our mailing list at any time by clicking the "unsubscribe" link in our emails or by contacting us directly at <a href="mailto:admin@copacentre.org" className="text-primary hover:underline font-bold">admin@copacentre.org</a> or <a href="mailto:copacentre21@gmail.com" className="text-primary hover:underline">copacentre21@gmail.com</a>.
                                 </section>
 
                                 <section>
@@ -81,11 +79,14 @@ const PrivacyPolicy = () => {
                                     <p>
                                         If you have any questions about this Privacy Policy, please contact us at:
                                     </p>
-                                    <address className="not-italic mt-2">
-                                        COPA Centre<br />
-                                        James Nderi Road, Laini-Saba, Kibera<br />
-                                        Nairobi, Kenya<br />
-                                        Email: <a href="mailto:copacenter21@gmail.com" className="text-primary hover:underline">copacenter21@gmail.com</a>
+                                    <address className="not-italic mt-2 flex flex-col gap-1">
+                                        <span>COPA Centre</span>
+                                        <span>James Nderi Road, Laini-Saba, Kibera</span>
+                                        <span>Nairobi, Kenya</span>
+                                        <div className="flex flex-col mt-2">
+                                            <span>Email (Primary): <a href="mailto:admin@copacentre.org" className="text-primary hover:underline font-bold">admin@copacentre.org</a></span>
+                                            <span>Email (Secondary): <a href="mailto:copacentre21@gmail.com" className="text-primary hover:underline">copacentre21@gmail.com</a></span>
+                                        </div>
                                     </address>
                                 </section>
                             </div>
