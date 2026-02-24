@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -45,6 +45,13 @@ const GetInvolved = () => {
   const [isAmountPrefilled, setIsAmountPrefilled] = useState(false);
   const [donorMessage, setDonorMessage] = useState("");
   const [isSubmittingDonation, setIsSubmittingDonation] = useState(false);
+  const [volunteerName, setVolunteerName] = useState("");
+  const [volunteerEmail, setVolunteerEmail] = useState("");
+  const [volunteerPhone, setVolunteerPhone] = useState("");
+  const [volunteerSkills, setVolunteerSkills] = useState("");
+  const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
+  const [isProcessingSTK, setIsProcessingSTK] = useState(false);
+  const [stkMessage, setStkMessage] = useState("");
 
   useEffect(() => {
     // Pre-fill user data if logged in
@@ -60,13 +67,6 @@ const GetInvolved = () => {
     getProfile();
   }, []);
 
-  const [volunteerName, setVolunteerName] = useState("");
-  const [volunteerEmail, setVolunteerEmail] = useState("");
-  const [volunteerPhone, setVolunteerPhone] = useState("");
-  const [volunteerSkills, setVolunteerSkills] = useState("");
-  const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
-  const [isProcessingSTK, setIsProcessingSTK] = useState(false);
-  const [stkMessage, setStkMessage] = useState("");
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
