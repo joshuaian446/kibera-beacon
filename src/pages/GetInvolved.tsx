@@ -226,67 +226,120 @@ const GetInvolved = () => {
                     Fill in your details and choose from multiple secure payment methods — M-Pesa, Card, PesaLink, and more. 100% of your contribution directly supports our 330+ students.
                   </p>
 
-                  {/* Primary: IntaSend Checkout Form */}
-                  <Card className="border-none bg-gradient-to-br from-white to-secondary/5 shadow-[0_20px_50px_rgba(242,153,74,0.15)] rounded-[2.5rem] overflow-hidden group/form border-2 border-secondary/20 scale-[1.02] transition-transform duration-500">
-                    <div className="bg-secondary p-6 text-center">
-                      <div className="flex items-center justify-center gap-2 text-white">
-                        <Heart className="w-6 h-6 animate-pulse" />
-                        <h3 className="text-xl font-black font-['Poppins',sans-serif] uppercase tracking-wider">Fast & Secure Donation</h3>
+                  <div className="relative">
+                    {/* Decorative Blobs */}
+                    <div className="absolute -top-10 -right-10 w-64 h-64 bg-secondary/20 rounded-full blur-3xl -z-10 animate-pulse-slow" />
+                    <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10 animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+                    {/* Primary: IntaSend Checkout Form */}
+                    <Card className="border-none bg-gradient-to-br from-white to-secondary/5 shadow-[0_30px_60px_rgba(242,153,74,0.2)] rounded-[2.5rem] overflow-hidden group/form border-2 border-secondary/10 scale-[1.02] transition-all duration-500 hover:shadow-[0_40px_80px_rgba(242,153,74,0.25)]">
+                      <div className="bg-secondary p-8 text-center relative overflow-hidden">
+                        {/* Animated Background Overlay */}
+                        <div className="absolute inset-0 bg-white/5 animate-pulse" />
+
+                        {/* Heart Icon Animation (Inspired by ThankYou page) */}
+                        <div className="flex justify-center mb-4 relative z-10">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-white/20 rounded-full animate-ping" />
+                            <div className="relative w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
+                              <Heart className="w-8 h-8 text-white animate-bounce-slow fill-white" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="relative z-10">
+                          <h3 className="text-2xl font-black text-white font-['Poppins',sans-serif] uppercase tracking-wider mb-1">Donate Now</h3>
+                          <div className="h-1 w-12 bg-white/30 mx-auto rounded-full" />
+                        </div>
                       </div>
-                    </div>
-                    <CardContent className="p-8 md:p-10 pt-8">
-                      <p className="text-center text-muted-foreground text-sm mb-8 font-['Open_Sans',sans-serif]">Your contribution directly empowers a student in Kibera</p>
-
-
-
-                      {/* Payment method badges */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {["M-Pesa", "Visa/Mastercard", "PesaLink", "Bank Transfer"].map((method) => (
-                          <span key={method} className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-xs font-bold text-muted-foreground border border-border">
-                            {method}
-                          </span>
-                        ))}
-                      </div>
-
-                      <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <Label htmlFor="donorName" className="font-bold text-xs">Full Name *</Label>
-                            <Input id="donorName" value={donorName} onChange={(e) => setDonorName(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="John Doe" />
-                          </div>
-                          <div className="space-y-1">
-                            <Label htmlFor="donorEmail" className="font-bold text-xs">Email (optional)</Label>
-                            <Input id="donorEmail" type="email" value={donorEmail} onChange={(e) => setDonorEmail(e.target.value)} className="h-11 rounded-xl border-2" placeholder="john@example.com" />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <Label htmlFor="donorPhone" className="font-bold text-xs">Phone (optional)</Label>
-                            <Input id="donorPhone" type="tel" value={donorPhone} onChange={(e) => setDonorPhone(e.target.value)} className="h-11 rounded-xl border-2" placeholder="0712345678" />
-                          </div>
-                          <div className="space-y-1">
-                            <Label htmlFor="donorAmount" className="font-bold text-xs">Amount (KES) *</Label>
-                            <Input id="donorAmount" type="number" min="10" value={donorAmount} onChange={(e) => setDonorAmount(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="500" />
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <Label htmlFor="donorMessage" className="font-bold text-xs">Message (optional)</Label>
-                          <Input id="donorMessage" value={donorMessage} onChange={(e) => setDonorMessage(e.target.value)} className="h-11 rounded-xl border-2" placeholder="A short note..." />
-                        </div>
-                        <Button type="submit" variant="cta" size="lg" className="w-full h-14 rounded-xl text-base bg-secondary hover:bg-secondary-dark shadow-glow-secondary animate-pulse-slow hover:animate-none" disabled={isSubmittingDonation}>
-                          {isSubmittingDonation ? (
-                            <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Processing...</span>
-                          ) : (
-                            <span className="flex items-center gap-2 font-black"><Heart className="w-5 h-5" /> COMPLETE DONATION</span>
-                          )}
-                        </Button>
-
-                        <p className="text-center text-xs text-muted-foreground">
-                          Secure payment powered by IntaSend. You'll choose your preferred method on the next page.
+                      <CardContent className="p-8 md:p-10 pt-10 text-center">
+                        <p className="text-muted-foreground text-sm mb-10 font-['Open_Sans',sans-serif] leading-relaxed max-w-[280px] mx-auto">
+                          Empower a student in Kibera with a life-changing donation
                         </p>
-                      </form>
-                    </CardContent>
-                  </Card>
+
+
+
+                        {/* Payment method badges */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {["M-Pesa", "Visa/Mastercard", "PesaLink", "Bank Transfer"].map((method) => (
+                            <span key={method} className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-xs font-bold text-muted-foreground border border-border">
+                              {method}
+                            </span>
+                          ))}
+                        </div>
+
+                        <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <Label htmlFor="donorName" className="font-bold text-xs">Full Name *</Label>
+                              <Input id="donorName" value={donorName} onChange={(e) => setDonorName(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="John Doe" />
+                            </div>
+                            <div className="space-y-1">
+                              <Label htmlFor="donorEmail" className="font-bold text-xs">Email (optional)</Label>
+                              <Input id="donorEmail" type="email" value={donorEmail} onChange={(e) => setDonorEmail(e.target.value)} className="h-11 rounded-xl border-2" placeholder="john@example.com" />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <Label htmlFor="donorPhone" className="font-bold text-xs">Phone (optional)</Label>
+                              <Input id="donorPhone" type="tel" value={donorPhone} onChange={(e) => setDonorPhone(e.target.value)} className="h-11 rounded-xl border-2" placeholder="0712345678" />
+                            </div>
+                            <div className="space-y-3">
+                              <Label htmlFor="donorAmount" className="font-bold text-xs">Amount (KES) *</Label>
+
+                              {/* Quick Select Amounts */}
+                              <div className="grid grid-cols-4 gap-2 mb-3">
+                                {[500, 1000, 2000, 5000].map((val) => (
+                                  <button
+                                    key={val}
+                                    type="button"
+                                    onClick={() => setDonorAmount(val.toString())}
+                                    className={cn(
+                                      "py-2 rounded-xl text-[10px] font-black transition-all duration-300 border-2",
+                                      donorAmount === val.toString()
+                                        ? "bg-secondary text-white border-secondary shadow-lg scale-105"
+                                        : "bg-secondary/5 text-secondary border-secondary/10 hover:border-secondary/30"
+                                    )}
+                                  >
+                                    {val}
+                                  </button>
+                                ))}
+                              </div>
+
+                              <div className="relative group/input">
+                                <Input
+                                  id="donorAmount"
+                                  type="number"
+                                  min="10"
+                                  value={donorAmount}
+                                  onChange={(e) => setDonorAmount(e.target.value)}
+                                  required
+                                  className="h-12 bg-muted/30 border-2 border-transparent focus:border-secondary/30 transition-all duration-300 rounded-xl font-bold text-lg"
+                                  placeholder="Other Amount"
+                                />
+                                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all duration-500 group-focus-within/input:w-full" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <Label htmlFor="donorMessage" className="font-bold text-xs">Message (optional)</Label>
+                            <Input id="donorMessage" value={donorMessage} onChange={(e) => setDonorMessage(e.target.value)} className="h-11 rounded-xl border-2" placeholder="A short note..." />
+                          </div>
+                          <Button type="submit" variant="cta" size="lg" className="w-full h-14 rounded-xl text-base bg-secondary hover:bg-secondary-dark shadow-glow-secondary animate-pulse-slow hover:animate-none" disabled={isSubmittingDonation}>
+                            {isSubmittingDonation ? (
+                              <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Processing...</span>
+                            ) : (
+                              <span className="flex items-center gap-2 font-black"><Heart className="w-5 h-5" /> COMPLETE DONATION</span>
+                            )}
+                          </Button>
+
+                          <p className="text-center text-xs text-muted-foreground">
+                            Secure payment powered by IntaSend. You'll choose your preferred method on the next page.
+                          </p>
+                        </form>
+                      </CardContent>
+                    </Card>
+                  </div>
 
                   {/* Secondary Payment Options */}
                   <div className="mt-8">
