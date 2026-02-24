@@ -14,6 +14,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import mpesaLogo from "@/assets/mpesa-logo.png";
+import bankLogo from "@/assets/bank-logo.png";
 
 
 const needs = [
@@ -307,7 +308,7 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1.5 overflow-hidden shadow-sm">
+                            <div className="w-20 h-12 bg-white rounded-lg border border-border flex items-center justify-center p-1.5 overflow-hidden shadow-sm">
                               <img
                                 src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
                                 alt="PayPal"
@@ -352,11 +353,11 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden shadow-sm">
+                            <div className="w-20 h-12 bg-white rounded-lg border border-border flex items-center justify-center overflow-hidden shadow-sm">
                               <img
                                 src={mpesaLogo}
                                 alt="M-Pesa"
-                                className="w-full h-full object-contain"
+                                className="w-full h-full object-cover"
                               />
                             </div>
                             <div>
@@ -409,11 +410,11 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden shadow-sm group-hover:border-[#A32323] transition-colors">
+                            <div className="w-20 h-12 bg-white rounded-lg border border-border flex items-center justify-center overflow-hidden shadow-sm group-hover:border-[#A32323] transition-colors">
                               <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Equity_Group_Logo.png"
-                                alt="Equity Bank"
-                                className="w-full h-full object-contain"
+                                src={bankLogo}
+                                alt="Bank Transfer"
+                                className="w-full h-full object-cover"
                               />
                             </div>
                             <div>
