@@ -13,6 +13,8 @@ import { storageImages } from "@/lib/storage";
 import ScrollReveal from "@/components/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import mpesaLogo from "@/assets/mpesa-logo.png";
+
 
 const needs = [
   { item: "Teacher Salaries", priority: "Immediate" },
@@ -224,17 +226,16 @@ const GetInvolved = () => {
                   </p>
 
                   {/* Primary: IntaSend Checkout Form */}
-                  <Card className="border-none bg-white shadow-xl rounded-[2.5rem] overflow-hidden group/form border-t-8 border-secondary">
-                    <CardContent className="p-8 md:p-10">
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover/form:rotate-12 transition-transform duration-500">
-                          <Heart className="w-6 h-6 text-secondary" />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Fast & Secure Donation</h3>
-                          <p className="text-muted-foreground text-sm">Empower a student in Kibera today</p>
-                        </div>
+                  <Card className="border-none bg-gradient-to-br from-white to-secondary/5 shadow-[0_20px_50px_rgba(242,153,74,0.15)] rounded-[2.5rem] overflow-hidden group/form border-2 border-secondary/20 scale-[1.02] transition-transform duration-500">
+                    <div className="bg-secondary p-6 text-center">
+                      <div className="flex items-center justify-center gap-2 text-white">
+                        <Heart className="w-6 h-6 animate-pulse" />
+                        <h3 className="text-xl font-black font-['Poppins',sans-serif] uppercase tracking-wider">Fast & Secure Donation</h3>
                       </div>
+                    </div>
+                    <CardContent className="p-8 md:p-10 pt-8">
+                      <p className="text-center text-muted-foreground text-sm mb-8 font-['Open_Sans',sans-serif]">Your contribution directly empowers a student in Kibera</p>
+
 
 
                       {/* Payment method badges */}
@@ -306,16 +307,19 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-14 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden">
-                              <div className="flex items-center font-black italic text-[#003087]">
-                                <span className="text-[#003087]">Pay</span><span className="text-[#009cde]">Pal</span>
-                              </div>
+                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1.5 overflow-hidden shadow-sm">
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                                alt="PayPal"
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                             <div>
-                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">International Donors</h4>
-                              <p className="text-muted-foreground text-xs leading-none">Credit Cards & PayPal Account</p>
+                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">PayPal</h4>
+                              <p className="text-muted-foreground text-xs leading-none">Credit Cards & International Donors</p>
                             </div>
                           </div>
+
 
                           <div className={cn("transition-transform duration-500", activeMethod === 'paypal' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
@@ -348,15 +352,19 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-14 h-10 bg-[#4baa24] rounded-lg flex flex-col items-center justify-center p-1 overflow-hidden leading-tight">
-                              <span className="text-[10px] font-black text-white">LIPA NA</span>
-                              <span className="text-[14px] font-black text-white">M-PESA</span>
+                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden shadow-sm">
+                              <img
+                                src={mpesaLogo}
+                                alt="M-Pesa"
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                             <div>
-                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">M-Pesa Paybill</h4>
-                              <p className="text-muted-foreground text-xs leading-none">Manual payment instructions</p>
+                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa</h4>
+                              <p className="text-muted-foreground text-xs leading-none">Manual payment instructions (Paybill)</p>
                             </div>
                           </div>
+
 
                           <div className={cn("transition-transform duration-500", activeMethod === 'mpesa' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
@@ -401,15 +409,19 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-14 h-10 bg-white rounded-lg border border-border flex flex-col items-center justify-center p-1 overflow-hidden group-hover:border-[#A32323] transition-colors">
-                              <div className="h-2 w-full bg-[#A32323] -mb-0.5 rounded-t-sm" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
-                              <span className="text-[9px] font-black text-black">EQUITY</span>
+                            <div className="w-16 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden shadow-sm group-hover:border-[#A32323] transition-colors">
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Equity_Group_Logo.png"
+                                alt="Equity Bank"
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                             <div>
                               <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">Bank Transfer</h4>
-                              <p className="text-muted-foreground text-xs leading-none">Local bank wire (Equity Bank)</p>
+                              <p className="text-muted-foreground text-xs leading-none">Direct wire to Equity Bank</p>
                             </div>
                           </div>
+
 
                           <div className={cn("transition-transform duration-500", activeMethod === 'bank' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
