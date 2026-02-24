@@ -207,6 +207,7 @@ const Contact = () => {
                             required
                             className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="John Doe"
+                            isPrefilled={!!name}
                           />
                         </div>
                         <div className="space-y-3">
@@ -219,6 +220,7 @@ const Contact = () => {
                             required
                             className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="john@example.com"
+                            isPrefilled={!!email}
                           />
                         </div>
                       </div>

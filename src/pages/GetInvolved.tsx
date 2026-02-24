@@ -42,8 +42,23 @@ const GetInvolved = () => {
   const [donorEmail, setDonorEmail] = useState("");
   const [donorPhone, setDonorPhone] = useState("");
   const [donorAmount, setDonorAmount] = useState("");
+  const [isAmountPrefilled, setIsAmountPrefilled] = useState(false);
   const [donorMessage, setDonorMessage] = useState("");
   const [isSubmittingDonation, setIsSubmittingDonation] = useState(false);
+
+  useEffect(() => {
+    // Pre-fill user data if logged in
+    const getProfile = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setDonorName(session.user.user_metadata?.full_name || "");
+        setDonorEmail(session.user.email || "");
+        setVolunteerName(session.user.user_metadata?.full_name || "");
+        setVolunteerEmail(session.user.email || "");
+      }
+    };
+    getProfile();
+  }, []);
 
   const [volunteerName, setVolunteerName] = useState("");
   const [volunteerEmail, setVolunteerEmail] = useState("");
@@ -369,11 +384,27 @@ const GetInvolved = () => {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-1">
                               <Label htmlFor="donorName" className="font-bold text-xs">Full Name *</Label>
-                              <Input id="donorName" value={donorName} onChange={(e) => setDonorName(e.target.value)} required className="h-11 rounded-xl border-2" placeholder="John Doe" />
+                              <Input
+                                id="donorName"
+                                value={donorName}
+                                onChange={(e) => setDonorName(e.target.value)}
+                                required
+                                className="h-11 rounded-xl border-2"
+                                placeholder="John Doe"
+                                isPrefilled={!!donorName}
+                              />
                             </div>
                             <div className="space-y-1">
                               <Label htmlFor="donorEmail" className="font-bold text-xs">Email (optional)</Label>
-                              <Input id="donorEmail" type="email" value={donorEmail} onChange={(e) => setDonorEmail(e.target.value)} className="h-11 rounded-xl border-2" placeholder="john@example.com" />
+                              <Input
+                                id="donorEmail"
+                                type="email"
+                                value={donorEmail}
+                                onChange={(e) => setDonorEmail(e.target.value)}
+                                className="h-11 rounded-xl border-2"
+                                placeholder="john@example.com"
+                                isPrefilled={!!donorEmail}
+                              />
                             </div>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -390,7 +421,10 @@ const GetInvolved = () => {
                                   <button
                                     key={val}
                                     type="button"
-                                    onClick={() => setDonorAmount(val.toString())}
+                                    onClick={() => {
+                                      setDonorAmount(val.toString());
+                                      setIsAmountPrefilled(true);
+                                    }}
                                     className={cn(
                                       "py-2 rounded-xl text-[10px] font-black transition-all duration-300 border-2",
                                       donorAmount === val.toString()
@@ -409,10 +443,14 @@ const GetInvolved = () => {
                                   type="number"
                                   min="10"
                                   value={donorAmount}
-                                  onChange={(e) => setDonorAmount(e.target.value)}
+                                  onChange={(e) => {
+                                    setDonorAmount(e.target.value);
+                                    setIsAmountPrefilled(false);
+                                  }}
                                   required
                                   className="h-12 bg-muted/30 border-2 border-transparent focus:border-secondary/30 transition-all duration-300 rounded-xl font-bold text-lg"
                                   placeholder="Other Amount"
+                                  isPrefilled={isAmountPrefilled}
                                 />
                                 <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary transition-all duration-500 group-focus-within/input:w-full" />
                               </div>
