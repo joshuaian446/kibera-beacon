@@ -14,7 +14,9 @@ import contactHeroImage from "../assets/contact-hero.jpg";
 
 const Contact = () => {
   const [name, setName] = useState("");
+  const [isNamePrefilled, setIsNamePrefilled] = useState(false);
   const [email, setEmail] = useState("");
+  const [isEmailPrefilled, setIsEmailPrefilled] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -203,11 +205,14 @@ const Contact = () => {
                           <Input
                             id="name"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                              setName(e.target.value);
+                              setIsNamePrefilled(false);
+                            }}
                             required
                             className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="John Doe"
-                            isPrefilled={!!name}
+                            isPrefilled={isNamePrefilled && !!name}
                           />
                         </div>
                         <div className="space-y-3">
@@ -216,11 +221,14 @@ const Contact = () => {
                             id="email"
                             type="email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                              setIsEmailPrefilled(false);
+                            }}
                             required
                             className="h-14 rounded-2xl bg-muted/50 border-transparent focus:bg-white focus:border-primary/30 transition-all font-medium px-6"
                             placeholder="john@example.com"
-                            isPrefilled={!!email}
+                            isPrefilled={isEmailPrefilled && !!email}
                           />
                         </div>
                       </div>

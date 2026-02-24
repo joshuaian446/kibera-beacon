@@ -39,14 +39,19 @@ const GetInvolved = () => {
 
   // Checkout donation form state
   const [donorName, setDonorName] = useState("");
+  const [isNamePrefilled, setIsNamePrefilled] = useState(false);
   const [donorEmail, setDonorEmail] = useState("");
+  const [isEmailPrefilled, setIsEmailPrefilled] = useState(false);
   const [donorPhone, setDonorPhone] = useState("");
+  const [isPhonePrefilled, setIsPhonePrefilled] = useState(false);
   const [donorAmount, setDonorAmount] = useState("");
   const [isAmountPrefilled, setIsAmountPrefilled] = useState(false);
   const [donorMessage, setDonorMessage] = useState("");
   const [isSubmittingDonation, setIsSubmittingDonation] = useState(false);
   const [volunteerName, setVolunteerName] = useState("");
+  const [isVolunteerNamePrefilled, setIsVolunteerNamePrefilled] = useState(false);
   const [volunteerEmail, setVolunteerEmail] = useState("");
+  const [isVolunteerEmailPrefilled, setIsVolunteerEmailPrefilled] = useState(false);
   const [volunteerPhone, setVolunteerPhone] = useState("");
   const [volunteerSkills, setVolunteerSkills] = useState("");
   const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
@@ -58,10 +63,21 @@ const GetInvolved = () => {
     const getProfile = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
-        setDonorName(session.user.user_metadata?.full_name || "");
-        setDonorEmail(session.user.email || "");
-        setVolunteerName(session.user.user_metadata?.full_name || "");
-        setVolunteerEmail(session.user.email || "");
+        const fullName = session.user.user_metadata?.full_name || "";
+        const email = session.user.email || "";
+
+        if (fullName) {
+          setDonorName(fullName);
+          setIsNamePrefilled(true);
+          setVolunteerName(fullName);
+          setIsVolunteerNamePrefilled(true);
+        }
+        if (email) {
+          setDonorEmail(email);
+          setIsEmailPrefilled(true);
+          setVolunteerEmail(email);
+          setIsVolunteerEmailPrefilled(true);
+        }
       }
     };
     getProfile();
@@ -387,11 +403,14 @@ const GetInvolved = () => {
                               <Input
                                 id="donorName"
                                 value={donorName}
-                                onChange={(e) => setDonorName(e.target.value)}
+                                onChange={(e) => {
+                                  setDonorName(e.target.value);
+                                  setIsNamePrefilled(false);
+                                }}
                                 required
                                 className="h-11 rounded-xl border-2"
                                 placeholder="John Doe"
-                                isPrefilled={!!donorName}
+                                isPrefilled={isNamePrefilled && !!donorName}
                               />
                             </div>
                             <div className="space-y-1">
@@ -400,17 +419,31 @@ const GetInvolved = () => {
                                 id="donorEmail"
                                 type="email"
                                 value={donorEmail}
-                                onChange={(e) => setDonorEmail(e.target.value)}
+                                onChange={(e) => {
+                                  setDonorEmail(e.target.value);
+                                  setIsEmailPrefilled(false);
+                                }}
                                 className="h-11 rounded-xl border-2"
                                 placeholder="john@example.com"
-                                isPrefilled={!!donorEmail}
+                                isPrefilled={isEmailPrefilled && !!donorEmail}
                               />
                             </div>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-1">
                               <Label htmlFor="donorPhone" className="font-bold text-xs">Phone (optional)</Label>
-                              <Input id="donorPhone" type="tel" value={donorPhone} onChange={(e) => setDonorPhone(e.target.value)} className="h-11 rounded-xl border-2" placeholder="0712345678" />
+                              <Input
+                                id="donorPhone"
+                                type="tel"
+                                value={donorPhone}
+                                onChange={(e) => {
+                                  setDonorPhone(e.target.value);
+                                  setIsPhonePrefilled(false);
+                                }}
+                                className="h-11 rounded-xl border-2"
+                                placeholder="0712345678"
+                                isPrefilled={isPhonePrefilled && !!donorPhone}
+                              />
                             </div>
                             <div className="space-y-3">
                               <Label htmlFor="donorAmount" className="font-bold text-xs">Amount (KES) *</Label>
@@ -578,11 +611,14 @@ const GetInvolved = () => {
                                 <Input
                                   id="mpesaName"
                                   value={donorName}
-                                  onChange={(e) => setDonorName(e.target.value)}
+                                  onChange={(e) => {
+                                    setDonorName(e.target.value);
+                                    setIsNamePrefilled(false);
+                                  }}
                                   required
                                   className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
                                   placeholder="John Doe"
-                                  isPrefilled={!!donorName}
+                                  isPrefilled={isNamePrefilled && !!donorName}
                                 />
                               </div>
                               <div className="space-y-1">
@@ -591,11 +627,14 @@ const GetInvolved = () => {
                                   id="mpesaPhone"
                                   type="tel"
                                   value={donorPhone}
-                                  onChange={(e) => setDonorPhone(e.target.value)}
+                                  onChange={(e) => {
+                                    setDonorPhone(e.target.value);
+                                    setIsPhonePrefilled(false);
+                                  }}
                                   required
                                   className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
                                   placeholder="0712345678"
-                                  isPrefilled={!!donorPhone}
+                                  isPrefilled={isPhonePrefilled && !!donorPhone}
                                 />
                               </div>
 
@@ -818,10 +857,13 @@ const GetInvolved = () => {
                         <Input
                           id="volunteerName"
                           value={volunteerName}
-                          onChange={(e) => setVolunteerName(e.target.value)}
+                          onChange={(e) => {
+                            setVolunteerName(e.target.value);
+                            setIsVolunteerNamePrefilled(false);
+                          }}
                           required
                           className="h-12 rounded-xl border-2"
-                          isPrefilled={!!volunteerName}
+                          isPrefilled={isVolunteerNamePrefilled && !!volunteerName}
                         />
                       </div>
                       <div className="space-y-2">
@@ -830,10 +872,13 @@ const GetInvolved = () => {
                           id="volunteerEmail"
                           type="email"
                           value={volunteerEmail}
-                          onChange={(e) => setVolunteerEmail(e.target.value)}
+                          onChange={(e) => {
+                            setVolunteerEmail(e.target.value);
+                            setIsVolunteerEmailPrefilled(false);
+                          }}
                           required
                           className="h-12 rounded-xl border-2"
-                          isPrefilled={!!volunteerEmail}
+                          isPrefilled={isVolunteerEmailPrefilled && !!volunteerEmail}
                         />
                       </div>
                     </div>
