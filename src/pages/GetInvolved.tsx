@@ -50,6 +50,8 @@ const GetInvolved = () => {
   const [volunteerPhone, setVolunteerPhone] = useState("");
   const [volunteerSkills, setVolunteerSkills] = useState("");
   const [isSubmittingVolunteer, setIsSubmittingVolunteer] = useState(false);
+  const [isProcessingSTK, setIsProcessingSTK] = useState(false);
+  const [stkMessage, setStkMessage] = useState("");
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +101,55 @@ const GetInvolved = () => {
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
+  };
+
+  const handleMpesaSTKPush = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const amount = parseFloat(donorAmount);
+    if (isNaN(amount) || amount < 10) {
+      toast.error("Please enter a valid amount (minimum KES 10)");
+      return;
+    }
+
+    if (!donorName || !donorPhone) {
+      toast.error("Please provide your name and phone number");
+      return;
+    }
+
+    setIsProcessingSTK(true);
+    setStkMessage("Initiating STK Push...");
+
+    try {
+      setStkMessage("Preparing secure connection...");
+      const { data, error } = await supabase.functions.invoke("mpesa-stk-push", {
+        body: {
+          action: "submit-order",
+          amount: donorAmount,
+          donor_name: donorName,
+          donor_email: donorEmail || undefined,
+          phone_number: donorPhone,
+          message: donorMessage || undefined,
+        },
+      });
+
+      if (error) throw new Error(error.message);
+      if (data?.error) throw new Error(data.error);
+
+      if (data?.success && data?.invoice_id) {
+        setStkMessage("STK Push sent! Please check your phone...");
+        // Wait a small moment for UX before redirecting
+        setTimeout(() => {
+          navigate(`/thank-you?invoice_id=${data.invoice_id}`);
+        }, 3000);
+      } else {
+        throw new Error("Failed to initiate STK Push");
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Failed to initiate M-Pesa payment";
+      toast.error(msg);
+      setIsProcessingSTK(false);
+    }
   };
 
   const handleVolunteerSubmit = async (e: React.FormEvent) => {
@@ -426,9 +477,84 @@ const GetInvolved = () => {
                         </div>
 
                         <div className={cn(
-                          "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-3",
-                          activeMethod === 'mpesa' ? "max-h-[250px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                          "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-4",
+                          activeMethod === 'mpesa' ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
                         )}>
+                          <div className="bg-secondary/5 p-6 rounded-2xl border border-secondary/10 space-y-4">
+                            <div className="text-center space-y-1">
+                              <h5 className="font-black text-secondary uppercase tracking-wider text-xs">Automated Secure Payment</h5>
+                              <p className="text-[10px] text-muted-foreground">An STK Push request will be sent to your phone</p>
+                            </div>
+
+                            <form onSubmit={handleMpesaSTKPush} className="space-y-3">
+                              <div className="space-y-1">
+                                <Label htmlFor="mpesaName" className="font-bold text-[10px] uppercase text-muted-foreground">Full Name *</Label>
+                                <Input
+                                  id="mpesaName"
+                                  value={donorName}
+                                  onChange={(e) => setDonorName(e.target.value)}
+                                  required
+                                  className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
+                                  placeholder="John Doe"
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <Label htmlFor="mpesaPhone" className="font-bold text-[10px] uppercase text-muted-foreground">M-Pesa Number *</Label>
+                                <Input
+                                  id="mpesaPhone"
+                                  type="tel"
+                                  value={donorPhone}
+                                  onChange={(e) => setDonorPhone(e.target.value)}
+                                  required
+                                  className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
+                                  placeholder="0712345678"
+                                />
+                              </div>
+
+                              <div className="space-y-1">
+                                <Label className="font-bold text-[10px] uppercase text-muted-foreground">Donation Amount (KES)</Label>
+                                <Input
+                                  type="number"
+                                  value={donorAmount}
+                                  onChange={(e) => setDonorAmount(e.target.value)}
+                                  required
+                                  className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold text-center"
+                                />
+                              </div>
+
+                              <Button type="submit" className="w-full bg-[#4baa24] hover:bg-[#3d8b1d] text-white h-12 rounded-xl font-black shadow-lg shadow-green-500/20 mt-2">
+                                <span className="flex items-center gap-2">SEND STK PUSH <ArrowRight className="w-4 h-4" /></span>
+                              </Button>
+                            </form>
+
+                            <div className="pt-4 border-t border-secondary/10">
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); setActiveMethod('mpesa-manual'); }}
+                                className="text-[10px] font-bold text-secondary/60 hover:text-secondary uppercase tracking-widest block mx-auto underline-offset-4 hover:underline"
+                              >
+                                View Manual Instructions instead
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Manual M-Pesa Instructions (Hidden by default) */}
+                      <div
+                        className={cn(
+                          "transition-all duration-500 overflow-hidden",
+                          activeMethod === 'mpesa-manual' ? "max-h-[400px] opacity-100 mt-2" : "max-h-0 opacity-0"
+                        )}
+                      >
+                        <div className="bg-white rounded-2xl p-6 border-2 border-dashed border-secondary/20 space-y-3">
+                          <button
+                            type="button"
+                            onClick={() => setActiveMethod('mpesa')}
+                            className="text-[10px] font-bold text-secondary mb-2 flex items-center gap-1 uppercase tracking-widest"
+                          >
+                            <ArrowRight className="w-3 h-3 rotate-180" /> Back to Automated
+                          </button>
                           <div className="bg-muted/50 p-4 rounded-xl flex items-center justify-between border border-border">
                             <div>
                               <div className="text-[10px] font-black uppercase text-muted-foreground">Paybill Number</div>
