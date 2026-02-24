@@ -113,6 +113,88 @@ serve(async (req) => {
       );
     }
 
+    // --- Create Checkout (all payment methods) ---
+    if (action === "create-checkout") {
+      const { amount, donor_name, donor_email, phone_number, message } = body;
+
+      if (!amount || !donor_name) {
+        return new Response(
+          JSON.stringify({ error: "Missing required fields: amount, donor_name" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const invoiceId = crypto.randomUUID();
+      const publishableKey = Deno.env.get("INTASEND_PUBLISHABLE_KEY");
+      if (!publishableKey) throw new Error("INTASEND_PUBLISHABLE_KEY is not configured");
+
+      // Save pending donation
+      const { error: dbError } = await supabase.from("donations").insert({
+        donor_name,
+        donor_email: donor_email || null,
+        phone_number: phone_number || null,
+        amount: parseFloat(amount),
+        message: message || null,
+        invoice_id: invoiceId,
+        status: "pending",
+        payment_gateway: "intasend",
+      });
+
+      if (dbError) {
+        console.error("DB Insert Error:", dbError);
+        throw new Error(`Database error: ${dbError.message}`);
+      }
+
+      // Create checkout via IntaSend API
+      const checkoutResponse = await fetch(`${INTASEND_BASE_URL}/api/v1/checkout/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${secretKey}`,
+        },
+        body: JSON.stringify({
+          public_key: publishableKey,
+          amount: parseFloat(amount),
+          currency: "KES",
+          api_ref: invoiceId,
+          first_name: donor_name.split(" ")[0],
+          last_name: donor_name.split(" ").slice(1).join(" ") || "-",
+          email: donor_email || undefined,
+          phone_number: phone_number || undefined,
+          comment: message || `Donation from ${donor_name}`,
+          redirect_url: body.redirect_url || undefined,
+        }),
+      });
+
+      const checkoutData = await checkoutResponse.json();
+      console.log("IntaSend Checkout response:", JSON.stringify(checkoutData));
+
+      if (!checkoutResponse.ok || !checkoutData.url) {
+        await supabase.from("donations").delete().eq("invoice_id", invoiceId);
+        const errMsg = checkoutData?.detail || checkoutData?.message || "Failed to create checkout session.";
+        return new Response(
+          JSON.stringify({ error: errMsg }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      // Update with IntaSend checkout ID
+      await supabase
+        .from("donations")
+        .update({ intasend_tracking_id: checkoutData.id || null })
+        .eq("invoice_id", invoiceId);
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          invoice_id: invoiceId,
+          checkout_url: checkoutData.url,
+          checkout_id: checkoutData.id,
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // --- Check Status ---
     if (action === "check-status") {
       const { invoice_id } = body;
