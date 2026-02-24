@@ -582,6 +582,7 @@ const GetInvolved = () => {
                                   required
                                   className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
                                   placeholder="John Doe"
+                                  isPrefilled={!!donorName}
                                 />
                               </div>
                               <div className="space-y-1">
@@ -594,6 +595,7 @@ const GetInvolved = () => {
                                   required
                                   className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold"
                                   placeholder="0712345678"
+                                  isPrefilled={!!donorPhone}
                                 />
                               </div>
 
@@ -602,9 +604,13 @@ const GetInvolved = () => {
                                 <Input
                                   type="number"
                                   value={donorAmount}
-                                  onChange={(e) => setDonorAmount(e.target.value)}
+                                  onChange={(e) => {
+                                    setDonorAmount(e.target.value);
+                                    setIsAmountPrefilled(false);
+                                  }}
                                   required
                                   className="h-10 rounded-xl border-secondary/20 bg-white focus:border-secondary/50 transition-all font-bold text-center"
+                                  isPrefilled={isAmountPrefilled}
                                 />
                               </div>
 
@@ -809,11 +815,26 @@ const GetInvolved = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="volunteerName" className="font-bold">Full Name *</Label>
-                        <Input id="volunteerName" value={volunteerName} onChange={(e) => setVolunteerName(e.target.value)} required className="h-12 rounded-xl border-2" />
+                        <Input
+                          id="volunteerName"
+                          value={volunteerName}
+                          onChange={(e) => setVolunteerName(e.target.value)}
+                          required
+                          className="h-12 rounded-xl border-2"
+                          isPrefilled={!!volunteerName}
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="volunteerEmail" className="font-bold">Email *</Label>
-                        <Input id="volunteerEmail" type="email" value={volunteerEmail} onChange={(e) => setVolunteerEmail(e.target.value)} required className="h-12 rounded-xl border-2" />
+                        <Input
+                          id="volunteerEmail"
+                          type="email"
+                          value={volunteerEmail}
+                          onChange={(e) => setVolunteerEmail(e.target.value)}
+                          required
+                          className="h-12 rounded-xl border-2"
+                          isPrefilled={!!volunteerEmail}
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
