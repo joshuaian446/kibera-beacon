@@ -26,6 +26,13 @@ const needs = [
 const GetInvolved = () => {
   const navigate = useNavigate();
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
 
   // Checkout donation form state
   const [donorName, setDonorName] = useState("");
@@ -165,17 +172,22 @@ const GetInvolved = () => {
         </section>
 
         {/* Ways to Help Highlights */}
-        <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-background relative overflow-hidden">
+
           <div className="absolute top-1/2 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-16">
               {[
-                { icon: Heart, title: "Donate", description: "Support our programs with a financial contribution that goes 100% to our students.", color: "bg-primary" },
-                { icon: Users, title: "Volunteer", description: "Share your time and skills with our community through teaching or mentorship.", color: "bg-secondary" },
-                { icon: Calendar, title: "Sponsor", description: "Sponsor a child's education for a full year and witness a life transformed.", color: "bg-primary" },
+                { icon: Heart, title: "Donate", description: "Support our programs with a financial contribution that goes 100% to our students.", color: "bg-primary", target: "donate" },
+                { icon: Users, title: "Volunteer", description: "Share your time and skills with our community through teaching or mentorship.", color: "bg-secondary", target: "volunteer" },
+                { icon: Calendar, title: "Sponsor", description: "Sponsor a child's education for a full year and witness a life transformed.", color: "bg-primary", target: "donate" },
               ].map((item, index) => (
                 <ScrollReveal key={item.title} animation="fade-up" delay={index * 100}>
-                  <Card className="text-center h-full hover:shadow-hover hover:-translate-y-2 transition-all duration-500 border-none bg-white p-2 group rounded-[2.5rem] overflow-hidden">
+                  <Card
+                    className="text-center h-full hover:shadow-hover hover:-translate-y-2 transition-all duration-500 border-none bg-white p-2 group rounded-[2.5rem] overflow-hidden cursor-pointer"
+                    onClick={() => scrollToSection(item.target)}
+                  >
+
                     <CardContent className="p-10">
                       <div className={`w-20 h-20 ${item.color} rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-card transform rotate-6 group-hover:rotate-12 transition-transform duration-500`}>
                         <div className="transform -rotate-6 group-hover:-rotate-12 transition-transform duration-500">
@@ -193,7 +205,8 @@ const GetInvolved = () => {
         </section>
 
         {/* Donate Section */}
-        <section className="py-24 md:py-32 bg-gradient-warm relative overflow-hidden" id="donate">
+        <section className="py-16 md:py-24 bg-gradient-warm relative overflow-hidden" id="donate">
+
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50" />
           <div className="container mx-auto px-4 relative">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
@@ -211,17 +224,18 @@ const GetInvolved = () => {
                   </p>
 
                   {/* Primary: IntaSend Checkout Form */}
-                  <Card className="border-none bg-white shadow-xl rounded-[2.5rem] overflow-hidden">
+                  <Card className="border-none bg-white shadow-xl rounded-[2.5rem] overflow-hidden group/form border-t-8 border-secondary">
                     <CardContent className="p-8 md:p-10">
                       <div className="flex items-center gap-3 mb-6">
-                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
-                          <CreditCard className="w-6 h-6 text-primary" />
+                        <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover/form:rotate-12 transition-transform duration-500">
+                          <Heart className="w-6 h-6 text-secondary" />
                         </div>
                         <div>
-                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Make a Donation</h3>
-                          <p className="text-muted-foreground text-sm">M-Pesa • Card • PesaLink • Bank</p>
+                          <h3 className="text-xl font-black text-foreground font-['Poppins',sans-serif]">Fast & Secure Donation</h3>
+                          <p className="text-muted-foreground text-sm">Empower a student in Kibera today</p>
                         </div>
                       </div>
+
 
                       {/* Payment method badges */}
                       <div className="flex flex-wrap gap-2 mb-6">
@@ -257,13 +271,14 @@ const GetInvolved = () => {
                           <Label htmlFor="donorMessage" className="font-bold text-xs">Message (optional)</Label>
                           <Input id="donorMessage" value={donorMessage} onChange={(e) => setDonorMessage(e.target.value)} className="h-11 rounded-xl border-2" placeholder="A short note..." />
                         </div>
-                        <Button type="submit" variant="cta" size="lg" className="w-full h-14 rounded-xl text-base" disabled={isSubmittingDonation}>
+                        <Button type="submit" variant="cta" size="lg" className="w-full h-14 rounded-xl text-base bg-secondary hover:bg-secondary-dark shadow-glow-secondary animate-pulse-slow hover:animate-none" disabled={isSubmittingDonation}>
                           {isSubmittingDonation ? (
                             <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Processing...</span>
                           ) : (
-                            <span className="flex items-center gap-2"><Heart className="w-5 h-5" /> Donate Now</span>
+                            <span className="flex items-center gap-2 font-black"><Heart className="w-5 h-5" /> COMPLETE DONATION</span>
                           )}
                         </Button>
+
                         <p className="text-center text-xs text-muted-foreground">
                           Secure payment powered by IntaSend. You'll choose your preferred method on the next page.
                         </p>
@@ -273,8 +288,13 @@ const GetInvolved = () => {
 
                   {/* Secondary Payment Options */}
                   <div className="mt-8">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Other Ways to Give</h3>
-                    <div className="space-y-4">
+                    <h3 className="text-sm font-black uppercase tracking-widest text-secondary mb-6 flex items-center gap-2">
+                      <span className="w-8 h-px bg-secondary/30" />
+                      Other Payment Options
+                      <span className="w-8 h-px bg-secondary/30" />
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
+
 
                       {/* PayPal */}
                       <div
@@ -286,14 +306,17 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-[#0070ba]/10 rounded-xl flex items-center justify-center">
-                              <Wallet className="w-5 h-5 text-[#0070ba]" />
+                            <div className="w-14 h-10 bg-white rounded-lg border border-border flex items-center justify-center p-1 overflow-hidden">
+                              <div className="flex items-center font-black italic text-[#003087]">
+                                <span className="text-[#003087]">Pay</span><span className="text-[#009cde]">Pal</span>
+                              </div>
                             </div>
                             <div>
-                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">PayPal</h4>
-                              <p className="text-muted-foreground text-xs">International donors & credit cards</p>
+                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">International Donors</h4>
+                              <p className="text-muted-foreground text-xs leading-none">Credit Cards & PayPal Account</p>
                             </div>
                           </div>
+
                           <div className={cn("transition-transform duration-500", activeMethod === 'paypal' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
                           </div>
@@ -325,14 +348,16 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
-                              <div className="w-4 h-4 bg-secondary rounded-full" />
+                            <div className="w-14 h-10 bg-[#4baa24] rounded-lg flex flex-col items-center justify-center p-1 overflow-hidden leading-tight">
+                              <span className="text-[10px] font-black text-white">LIPA NA</span>
+                              <span className="text-[14px] font-black text-white">M-PESA</span>
                             </div>
                             <div>
-                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa (Manual)</h4>
-                              <p className="text-muted-foreground text-xs">Use Paybill from your M-Pesa menu</p>
+                              <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">M-Pesa Paybill</h4>
+                              <p className="text-muted-foreground text-xs leading-none">Manual payment instructions</p>
                             </div>
                           </div>
+
                           <div className={cn("transition-transform duration-500", activeMethod === 'mpesa' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
                           </div>
@@ -376,14 +401,16 @@ const GetInvolved = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                              <Landmark className="w-5 h-5 text-primary" />
+                            <div className="w-14 h-10 bg-white rounded-lg border border-border flex flex-col items-center justify-center p-1 overflow-hidden group-hover:border-[#A32323] transition-colors">
+                              <div className="h-2 w-full bg-[#A32323] -mb-0.5 rounded-t-sm" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
+                              <span className="text-[9px] font-black text-black">EQUITY</span>
                             </div>
                             <div>
                               <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">Bank Transfer</h4>
-                              <p className="text-muted-foreground text-xs">Direct wire to Equity Bank</p>
+                              <p className="text-muted-foreground text-xs leading-none">Local bank wire (Equity Bank)</p>
                             </div>
                           </div>
+
                           <div className={cn("transition-transform duration-500", activeMethod === 'bank' ? "rotate-180" : "")}>
                             <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
                           </div>
@@ -425,36 +452,16 @@ const GetInvolved = () => {
                 </div>
               </ScrollReveal>
 
-              {/* Needs List */}
+              {/* Needs List & In-kind */}
               <ScrollReveal animation="slide-right">
-                <div className="lg:pt-12">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
-                    Our Needs
-                  </span>
-                  <h2 className="text-3xl font-bold text-foreground mb-8 font-['Poppins',sans-serif] tracking-tight">
-                    Where Your Impact <span className="text-primary italic">Matters Most</span>
-                  </h2>
-
-                  <div className="space-y-4">
-                    {needs.map((need) => (
-                      <div key={need.item} className="p-6 bg-white rounded-2xl shadow-soft border border-transparent hover:border-primary/10 transition-all duration-300 flex items-center justify-between group">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-3 h-3 rounded-full animate-pulse ${need.priority === "Immediate" ? "bg-destructive shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-secondary shadow-[0_0_10px_rgba(242,153,74,0.5)]"}`} />
-                          <div className="font-bold text-foreground group-hover:text-primary transition-colors">{need.item}</div>
-                        </div>
-                        <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${need.priority === "Immediate" ? "bg-destructive/10 text-destructive" : "bg-secondary/10 text-secondary"}`}>
-                          {need.priority}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Card className="mt-12 bg-primary text-white border-none shadow-glow rounded-[2.5rem] overflow-hidden group">
+                <div className="lg:pt-12 flex flex-col">
+                  {/* Donations in Kind Card - Now first on mobile */}
+                  <Card className="mb-12 bg-primary text-white border-none shadow-glow rounded-[2.5rem] overflow-hidden group order-1 md:order-2">
                     <CardContent className="p-10 relative">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
                       <Gift className="w-12 h-12 text-secondary mb-6 transform group-hover:rotate-12 transition-transform" />
                       <h3 className="text-2xl font-black mb-4 font-['Poppins',sans-serif]">
-                        Other Ways to Give
+                        Donations in Kind
                       </h3>
                       <p className="text-primary-foreground/90 text-base mb-8 leading-relaxed italic">
                         "We also accept in-kind donations such as books, school supplies, sports equipment, and food items to directly support the children's daily needs."
@@ -467,6 +474,30 @@ const GetInvolved = () => {
                       </Button>
                     </CardContent>
                   </Card>
+
+                  {/* Impact/Needs List */}
+                  <div className="order-2 md:order-1 mb-12">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
+                      Our Needs
+                    </span>
+                    <h2 className="text-3xl font-bold text-foreground mb-8 font-['Poppins',sans-serif] tracking-tight">
+                      Where Your Impact <span className="text-primary italic">Matters Most</span>
+                    </h2>
+
+                    <div className="space-y-4">
+                      {needs.map((need) => (
+                        <div key={need.item} className="p-6 bg-white rounded-2xl shadow-soft border border-transparent hover:border-primary/10 transition-all duration-300 flex items-center justify-between group">
+                          <div className="flex items-center gap-4">
+                            <div className={`w-3 h-3 rounded-full animate-pulse ${need.priority === "Immediate" ? "bg-destructive shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-secondary shadow-[0_0_10px_rgba(242,153,74,0.5)]"}`} />
+                            <div className="font-bold text-foreground group-hover:text-primary transition-colors">{need.item}</div>
+                          </div>
+                          <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${need.priority === "Immediate" ? "bg-destructive/10 text-destructive" : "bg-secondary/10 text-secondary"}`}>
+                            {need.priority}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </ScrollReveal>
             </div>
@@ -474,7 +505,8 @@ const GetInvolved = () => {
         </section>
 
         {/* Volunteer Form Section */}
-        <section className="py-24 md:py-32 bg-background relative overflow-hidden" id="volunteer">
+        <section className="py-16 md:py-24 bg-background relative overflow-hidden" id="volunteer">
+
           <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="container mx-auto px-4 relative">
             <ScrollReveal animation="fade-up">
