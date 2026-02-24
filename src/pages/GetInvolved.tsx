@@ -512,7 +512,7 @@ const GetInvolved = () => {
                             </div>
                             <div>
                               <h4 className="text-base font-bold text-foreground font-['Poppins',sans-serif]">Lipa na M-Pesa</h4>
-                              <p className="text-muted-foreground text-xs leading-none">Manual payment instructions (Paybill)</p>
+                              <p className="text-muted-foreground text-xs leading-none">Mobile Money Payment</p>
                             </div>
                           </div>
 
@@ -525,7 +525,9 @@ const GetInvolved = () => {
                         <div className={cn(
                           "transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden space-y-4",
                           activeMethod === 'mpesa' ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
-                        )}>
+                        )}
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <div className="bg-secondary/5 p-6 rounded-2xl border border-secondary/10 space-y-4">
                             <div className="text-center space-y-1">
                               <h5 className="font-black text-secondary uppercase tracking-wider text-xs">Automated Secure Payment</h5>
