@@ -145,12 +145,12 @@ serve(async (req) => {
         throw new Error(`Database error: ${dbError.message}`);
       }
 
-      // Create checkout via IntaSend API
-      const checkoutResponse = await fetch(`${INTASEND_BASE_URL}/api/v1/checkout/`, {
+      // Create checkout via IntaSend API (uses publishable key auth)
+      const checkoutResponse = await fetch("https://api.intasend.com/api/v1/checkout/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${secretKey}`,
+          "X-IntaSend-Public-API-Key": publishableKey,
         },
         body: JSON.stringify({
           public_key: publishableKey,
