@@ -191,6 +191,52 @@ const GetInvolved = () => {
   return (
     <div className="min-h-screen">
       <Header />
+      {/* M-Pesa STK Processing Overlay */}
+      {isProcessingSTK && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-secondary/20 backdrop-blur-xl" />
+
+          <div className="relative w-full max-w-md bg-white rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.1)] overflow-hidden p-10 border-4 border-secondary/10">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#4baa24] via-secondary to-[#4baa24] animate-shimmer-fast" />
+
+            <div className="flex flex-col items-center text-center space-y-8">
+              {/* Visual Radar Animation */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-[#4baa24]/20 rounded-full animate-ping" />
+                <div className="absolute inset-0 bg-[#4baa24]/10 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
+                <div className="relative w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-[#4baa24]/10">
+                  <img src={mpesaLogo} alt="M-Pesa" className="w-20 h-auto object-contain animate-bounce-slow" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-2xl font-black text-foreground font-['Poppins',sans-serif] uppercase tracking-wider">Processing...</h3>
+                <div className="space-y-2">
+                  <div className="bg-[#4baa24]/10 text-[#4baa24] text-xs font-black px-4 py-2 rounded-full inline-block uppercase tracking-widest animate-pulse">
+                    {stkMessage}
+                  </div>
+                  <p className="text-muted-foreground text-sm max-w-[240px] mx-auto font-['Open_Sans',sans-serif]">
+                    An M-Pesa prompt has been sent to <span className="font-black text-foreground">{donorPhone}</span>. Please enter your PIN.
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full bg-muted/30 p-6 rounded-2xl border border-border">
+                <div className="flex justify-between items-center text-sm font-bold">
+                  <span className="text-muted-foreground uppercase tracking-widest text-[10px]">Amount</span>
+                  <span className="text-foreground text-xl">KES {donorAmount}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-secondary" />
+                Secure Transaction
+                <span className="w-2 h-2 rounded-full bg-secondary" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <main>
         {/* Hero Section */}
         <section className="relative pt-32 pb-24 overflow-hidden">
