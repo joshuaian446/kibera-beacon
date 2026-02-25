@@ -65,7 +65,7 @@ serve(async (req) => {
       }
 
       // Initiate M-Pesa STK Push via IntaSend
-      const stkResponse = await fetch(`${INTASEND_BASE_URL}/api/v1/payment/mpesa-stk-push/`, {
+      const stkResponse = await fetch(`https://api.intasend.com/api/v1/payment/mpesa-stk-push/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,15 +80,20 @@ serve(async (req) => {
         }),
       });
 
-      const stkData = await stkResponse.json();
-      console.log("IntaSend STK Push response:", JSON.stringify(stkData));
+      const stkText = await stkResponse.text();
+      console.log("IntaSend STK Push raw response:", stkResponse.status, stkText);
+      
+      let stkData: any;
+      try { stkData = JSON.parse(stkText); } catch { stkData = { raw: stkText }; }
 
       if (!stkResponse.ok || stkData.errors || (!stkData.id && !stkData.invoice)) {
         // Clean up pending record
         await supabase.from("donations").delete().eq("invoice_id", invoiceId);
         const errMsg =
           stkData?.errors?.detail || stkData?.detail || stkData?.message ||
+          JSON.stringify(stkData) ||
           "Failed to initiate M-Pesa STK Push. Please try again.";
+        console.error("STK Push failed:", errMsg);
         return new Response(
           JSON.stringify({ error: errMsg }),
           { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
