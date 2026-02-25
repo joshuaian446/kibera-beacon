@@ -65,7 +65,7 @@ serve(async (req) => {
       }
 
       // Initiate M-Pesa STK Push via IntaSend
-      const stkResponse = await fetch(`https://api.intasend.com/api/v1/payment/mpesa-stk-push/`, {
+      const stkResponse = await fetch(`${INTASEND_BASE_URL}/api/v1/payment/mpesa-stk-push/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
