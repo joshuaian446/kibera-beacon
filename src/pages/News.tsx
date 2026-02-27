@@ -10,16 +10,20 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { newsArticles, categories } from "@/lib/newsData";
 import newsHeroV4Image from "../assets/news-hero-v4.jpg";
 
+const INITIAL_COUNT = 3;
+
 const News = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
   const filteredArticles = activeCategory === "All"
     ? newsArticles
     : newsArticles.filter(article => article.category === activeCategory);
 
   const featuredArticle = filteredArticles[0];
-  const gridArticles = filteredArticles.slice(1);
+  const gridArticles = filteredArticles.slice(1, visibleCount);
+  const hasMore = filteredArticles.length > visibleCount;
 
   return (
     <div className="min-h-screen">
@@ -71,7 +75,7 @@ const News = () => {
                 <Button
                   key={category}
                   variant={activeCategory === category ? "hope" : "outline"}
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => { setActiveCategory(category); setVisibleCount(INITIAL_COUNT); }}
                   className={`rounded-full px-6 py-3 h-auto text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeCategory === category ? "shadow-glow" : "hover:border-primary/50 hover:bg-primary/5"
                     }`}
                 >
@@ -217,6 +221,19 @@ const News = () => {
                 </ScrollReveal>
               ))}
             </div>
+            {hasMore && (
+              <div className="text-center mt-16">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full px-12 border-2 border-primary/20 hover:border-primary hover:bg-primary/5 transition-all"
+                  onClick={() => setVisibleCount(prev => prev + 3)}
+                >
+                  Load More Stories
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            )}
           </div>
         </section>
 
