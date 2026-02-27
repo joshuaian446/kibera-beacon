@@ -154,6 +154,25 @@ const NewsArticle = () => {
                   </div>
                 </div>
 
+                {/* Photo Gallery */}
+                {article.gallery && article.gallery.length > 0 && (
+                  <div className="mt-12">
+                    <h3 className="text-2xl font-bold text-foreground mb-6 font-['Poppins',sans-serif]">Photo Gallery</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {article.gallery.map((photo, index) => (
+                        <div key={index} className="relative aspect-[4/3] rounded-2xl overflow-hidden group">
+                          <img
+                            src={photo.src}
+                            alt={photo.alt}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            loading="lazy"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Share Section */}
                 <div className="mt-12 pt-8 border-t border-border">
                   <div className="flex items-center gap-4">
