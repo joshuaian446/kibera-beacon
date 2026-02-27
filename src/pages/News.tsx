@@ -10,7 +10,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { newsArticles, categories } from "@/lib/newsData";
 import newsHeroV4Image from "../assets/news-hero-v4.jpg";
 
-const INITIAL_COUNT = 3;
+const INITIAL_COUNT = 4;
 
 const News = () => {
   const navigate = useNavigate();
