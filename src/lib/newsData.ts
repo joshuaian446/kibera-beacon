@@ -1,6 +1,12 @@
 import { storageImages } from "@/lib/storage";
 import paradeImage from "@/assets/parade-new-school-year.jpg";
 import partnerVisitImage from "@/assets/partner-visit-featured.jpg";
+import directorCornerImage from "@/assets/director-corner-featured.jpg";
+import galleryCalebChess from "@/assets/gallery-caleb-chess.jpeg";
+import galleryChristineCert from "@/assets/gallery-christine-cert.jpeg";
+import galleryOtienoCert from "@/assets/gallery-otieno-cert.jpeg";
+import galleryParade from "@/assets/gallery-parade.jpeg";
+import galleryPraiseChess from "@/assets/gallery-praise-chess.jpeg";
 
 export interface NewsArticle {
   id: string;
@@ -9,6 +15,7 @@ export interface NewsArticle {
   excerpt: string;
   content: string;
   image: string;
+  gallery?: { src: string; alt: string }[];
   date: string;
   author: string;
   category: string;
@@ -16,6 +23,65 @@ export interface NewsArticle {
 }
 
 export const newsArticles: NewsArticle[] = [
+  {
+    id: "5",
+    slug: "directors-corner-reflections-2026",
+    title: "Director's Corner – Reflections on 2026 So Far",
+    excerpt: "As we move through 2026, Director Clement Ombati reflects on COPA's journey—strengthening education, building character through chess and co-curriculars, and deepening community partnerships.",
+    content: `
+## A Message from the Director
+
+As we move through 2026, I find myself reflecting with deep gratitude on the journey of the Community Pillars Alliance Centre (COPA). Each new year brings fresh challenges, renewed hope, and opportunities to strengthen our commitment to the children and families we serve in Kibera.
+
+### Strengthening Our Educational Foundation
+
+This year, we have continued to prioritize academic excellence while remaining grounded in our mission—to provide holistic, values-based education to children from disadvantaged backgrounds. Our classrooms are not just spaces of instruction; they are spaces of transformation.
+
+We have placed renewed focus on improving literacy, numeracy, and digital skills across all grade levels. Technology integration remains a key pillar of our development strategy. From structured computer lessons to the use of digital tools in daily teaching, we are preparing our learners not just for exams, but for a rapidly evolving world.
+
+### Character, Confidence, and Co-Curricular Growth
+
+Beyond academics, 2026 has reminded us that education must shape character. Our chess program continues to sharpen critical thinking and discipline among our learners. Watching our children sit confidently across the board—strategizing, calculating, and believing in themselves—is a powerful reminder of why exposure matters.
+
+We have also expanded opportunities in public speaking, creative arts, and leadership development. These platforms are helping our students discover their voices and build the confidence to express themselves boldly and respectfully.
+
+### Community and Partnerships
+
+COPA has always believed that real change happens through collaboration. This year, we have strengthened relationships with partners, volunteers, and well-wishers who share in our vision. Whether through mentorship, resource support, or strategic collaboration, each partnership moves us closer to sustainability and impact.
+
+We are especially encouraged by the growing community around our work—parents who are more engaged, alumni who remain connected, and supporters who continue to believe in our mission.
+
+### Financial Sustainability and Innovation
+
+As a community-based institution, sustainability remains both a challenge and a responsibility. In 2026, we have taken intentional steps to strengthen our operational structures and explore innovative ways to support our programs. Transparency, accountability, and prudent stewardship remain at the core of our leadership approach.
+
+Every contribution—whether financial, material, or professional—translates directly into opportunity for a child.
+
+### Looking Ahead
+
+The second half of the year calls us to remain focused, strategic, and prayerful. Our vision is not simply to educate, but to raise a generation of leaders grounded in integrity, resilience, and service.
+
+To our staff, students, parents, partners, and friends of COPA: thank you for walking this journey with us. The progress we celebrate today is a collective achievement.
+
+2026 is far from over, and we move forward with faith, determination, and the unshakable belief that every child deserves a chance.
+
+*Together, we continue building pillars of hope.*
+
+**CTA**: [Support COPA's mission today](/get-involved) and help us continue building pillars of hope for every child in Kibera.
+    `,
+    image: directorCornerImage,
+    gallery: [
+      { src: galleryCalebChess, alt: "Caleb focused during a chess match at COPA Centre" },
+      { src: galleryChristineCert, alt: "Christine receiving her certificate of participation" },
+      { src: galleryOtienoCert, alt: "Brighten Otieno receiving his chess championship certificate" },
+      { src: galleryParade, alt: "COPA students assembled in their red uniforms" },
+      { src: galleryPraiseChess, alt: "Young Kibera Knights player at the chess board" },
+    ],
+    date: "February 27, 2026",
+    author: "Clement Ombati",
+    category: "School News",
+    readTime: "6 min read",
+  },
   {
     id: "4",
     slug: "crossing-thresholds-partner-visit",
