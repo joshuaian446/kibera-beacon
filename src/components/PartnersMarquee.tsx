@@ -1,5 +1,5 @@
 import crossingThresholdsLogo from "@/assets/partners/crossing-thresholds.png";
-import kiberaKnightsLogo from "@/assets/partners/kibera-knights.jpg";
+import kiberaKnightsLogo from "@/assets/partners/kibera-knights.png";
 import scoolSoundsLogo from "@/assets/partners/scool-sounds.png";
 import chezaChezaLogo from "@/assets/partners/cheza-cheza.png";
 
